@@ -98,7 +98,7 @@ var LZString={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<!-- UUID://277E920D-BECE-4796-A59D-C892911819DC// --><tw-storydata name="Free Cities: Origins" startnode="105" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="277E920D-BECE-4796-A59D-C892911819DC" zoom="1" format="SugarCube" format-version="2.36.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "notify.min.css" */
+	<!-- UUID://277E920D-BECE-4796-A59D-C892911819DC// --><tw-storydata name="Free Cities: Origins" startnode="114" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="277E920D-BECE-4796-A59D-C892911819DC" zoom="1" format="SugarCube" format-version="2.36.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "notify.min.css" */
 /* notify.min.css, by chapel; for use with notify.js; v1.0.0 */
 #notify{position:fixed;display:block;width:16em;right:-20em;top:2em;padding:.5em;background-color:#fff;color:#000;-webkit-transition:right .3s;-moz-transition:right .3s;-o-transition:right .3s;transition:right .3s}#notify.open{right:0}
 /* end notify.min.css */
@@ -200,7 +200,11 @@ area.noaccess:hover {
 }
 
 #background.paper_border {
-    background-image:url('resources/images/backgrounds/paper_border.jpg');
+    background-image:url('resources/images/backgrounds/paper_border.png');
+}
+
+#background.city_border {
+    background-image:url('resources/images/backgrounds/city_border.png');
 }
 
 #background.bluewood {
@@ -320,6 +324,19 @@ area.noaccess:hover {
 .buttonfiller.fiveQuarters {
     min-width: 200px;
 }
+
+.equipButton {
+    position: absolute;
+    height: 42px;
+    width: 42px;
+}
+.equipButton button {
+    height: 42px;
+    width: 42px;
+    max-height: 42px;
+    max-width: 42px;
+    position: absolute;
+}
 /* twine-user-stylesheet #10: "charactermenu.css" */
 .charside {
     position: absolute;
@@ -359,8 +376,25 @@ area.noaccess:hover {
     margin-bottom: 20px;
 }
 
+#playerMenuImage {
+    height: 459px;
+    width: 406.6667px;
+    background-size: contain;
+    margin-left: -5px;
+    margin-bottom: 20px;
+}
+
 .centerDetails {
     grid-column: 1 / span 2;
+}
+
+.equipOverlay {
+    height: 459px;
+    width: 406.6667px;
+    z-index: 5;
+    position: relative;
+    border-color: #5b0d00;
+    border-width: 2px;
 }
 /* twine-user-stylesheet #11: "commodityLog.css" */
 /* Style for the main text panel */
@@ -384,6 +418,9 @@ area.noaccess:hover {
 .container.twoCol {
     column-gap: 10%;
     grid-template-columns: 45% 45%;
+}
+.list.container.twoCol {
+    grid-template-columns: 70% 20%;
 }
 .container.threeCol {
     column-gap: 5%;
@@ -607,14 +644,126 @@ ul {
 
 * {
     scrollbar-width: thin;
-    -webkit-user-select: text; 
-    user-select: text;
+    /*-webkit-user-select: text; 
+    user-select: text;*/
 }
-/* twine-user-stylesheet #14: "finalization.css" */
+
+.list {
+    font-weight: normal;
+}
+/* twine-user-stylesheet #14: "equip.css" */
+#head.equipButton {
+    top: 14px;
+    left: 110px;
+}
+#headLine {
+    position: absolute;
+    top: 33px;
+    left: 152.5px;
+    height: 2px;
+    width: 40px;
+    background-color: black;
+}
+
+#chest.equipButton {
+    top: 94px;
+    left: 70px;
+}
+#chestLine {
+    position: absolute;
+    top: 113px;
+    left: 112px;
+    height: 2px;
+    width: 45px;
+    background-color: black;
+}
+
+#legs.equipButton {
+    top: 204px;
+    left: 70px;
+}
+#legsLine {
+    position: absolute;
+    top: 223px;
+    left: 112px;
+    height: 2px;
+    width: 55px;
+    background-color: black;
+}
+
+#feet.equipButton {
+    top: 404px;
+    left: 90px;
+}
+#feetLine {
+    position: absolute;
+    top: 423px;
+    left: 132px;
+    height: 2px;
+    width: 40px;
+    background-color: black;
+}
+
+#neck.equipButton {
+    top: 54px;
+    left: 280px;
+}
+#neckLine {
+    position: absolute;
+    top: 73px;
+    left: 210px;
+    height: 2px;
+    width: 70px;
+    background-color: black;
+}
+
+#weapon1.equipButton {
+    top: 154px;
+    left: 300px;
+}
+#weapon2.equipButton {
+    top: 154px;
+    left: 350px;
+}
+#weaponLine {
+    position: absolute;
+    top: 195px;
+    left: 250px;
+    height: 47px;
+    width: 70px;
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+    border-top: none;
+    border-left: none;
+}
+
+#groin1.equipButton {
+    top: 284px;
+    left: 270px;
+}
+#groin2.equipButton {
+    top: 284px;
+    left: 320px;
+}
+#groinLine {
+    position: absolute;
+    top: 246px;
+    left: 203px;
+    height: 2px;
+    width: 66px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    height: 58px;
+    border-top: none;
+    border-right: none;
+}
+/* twine-user-stylesheet #15: "finalization.css" */
 #finalization_summary {
     overflow-y: scroll;
 }
-/* twine-user-stylesheet #15: "logo.css" */
+/* twine-user-stylesheet #16: "logo.css" */
 
 img.logo {
     height: 60vh;
@@ -650,7 +799,7 @@ p.license.title {
     left: 135px;
     top: -22px;
 }
-/* twine-user-stylesheet #16: "mainLog.css" */
+/* twine-user-stylesheet #17: "mainLog.css" */
 /* Style for the main text panel */
 .mainLog {
     box-sizing: border-box;
@@ -701,7 +850,7 @@ p.license.title {
 .mainLog.hidden {
     display: none;
 }
-/* twine-user-stylesheet #17: "map.css" */
+/* twine-user-stylesheet #18: "map.css" */
 .mapside {
     position: absolute;
     height:830px;
@@ -731,7 +880,7 @@ p.license.title {
 .mapside .buttonfiller {
     margin: 2.5px
 }
-/* twine-user-stylesheet #18: "menubar.css" */
+/* twine-user-stylesheet #19: "menubar.css" */
 .menubar {
     width: 100%;
     margin-top: 5px;
@@ -745,7 +894,7 @@ p.license.title {
     border: 1px solid #651A1A;
     font-size: smaller;
 }
-/* twine-user-stylesheet #19: "message.css" */
+/* twine-user-stylesheet #20: "message.css" */
 .message-text {
     font-weight: normal;
 }
@@ -753,7 +902,7 @@ p.license.title {
 .message-text a {
     font-weight: bold;
 }
-/* twine-user-stylesheet #20: "saves.css" */
+/* twine-user-stylesheet #21: "saves.css" */
 .saves button {
     margin-right: 2px auto;
     display: inline;
@@ -813,7 +962,7 @@ p.license.title {
 #ui-dialog-body.saves tbody {
     color: #651A1A;
 }
-/* twine-user-stylesheet #21: "slider.css" */
+/* twine-user-stylesheet #22: "slider.css" */
 input[type=range] {
     width: 100%;
     margin: 4.3px 0;
@@ -922,7 +1071,7 @@ how to remove the virtical space around the range input in IE*/
     position:relative; 
     left: -9px;
 }
-/* twine-user-stylesheet #22: "tooltips.css" */
+/* twine-user-stylesheet #23: "tooltips.css" */
 /* Tooltip container */
 .tooltip {
     position: relative;
@@ -987,8 +1136,19 @@ how to remove the virtical space around the range input in IE*/
 /* Show the tooltip text when you mouse over the tooltip container */
 .tooltip:hover .tooltiptext {
     visibility: visible;
+}
+
+.tool {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted #651A1A;
+    margin-top: 2px;
+}
+
+.tool:hover {
+    cursor: pointer;
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "CONSTANTS.js" */
-setup.VERSION = "0.0.1.3"
+setup.VERSION = "0.0.1.4"
 setup.LARI = "¤";
 setup.STATS = ['dexterity', 'intelligence', 'manipulation', 'strength', 'tact'];
 setup.CONDITIONS = ['health', 'stamina'];
@@ -1099,7 +1259,58 @@ setup.DESCRIPTORS = {
         80: "scholar",
         90: "scholar well versed in the ways of the world"
     },
-    'default': {
+    'intelligence': {
+        0: "potato",
+        15: "very dumb",
+        30: "dumb",
+        40: "below average",
+        50: "average",
+        60: "above average",
+        70: "smart",
+        80: "very smart",
+        90: "brillian",
+        95: "peerless"
+    },
+    'dexterity': {
+        0: "hazard",
+        15: "accident prone",
+        30: "very clumsy",
+        40: "clumsy",
+        50: "average",
+        60: "above average",
+        70: "flexible",
+        80: "bendy",
+        90: "assassin"
+    }, 
+    'manipulation': {
+        0: "socially inept",
+        15: "naive",
+        40: "below average",
+        50: "average",
+        60: "above average",
+        80: "socially skilled",
+        90: "strategist"
+    }, 
+    'strength' : {
+        0: "very nimble",
+        15: "nimble",
+        30: "very weak",
+        40: "weak",
+        50: "average",
+        60: "strong",
+        70: "very strong",
+        90: "muscular"
+    }, 
+    'tact': {
+        0: "socially inept",
+        15: "naive",
+        40: "below average",
+        50: "average",
+        60: "above average",
+        80: "socially skilled",
+        90: "strategist"
+    },
+    'default_pref': {
         "-100": "hates",
         "-75": "highly dislikes",
         "-50": "dislikes",
@@ -1109,6 +1320,14 @@ setup.DESCRIPTORS = {
         50: "likes",
         75: "highly likes",
         90: "loves"
+    },
+    'default_skill': {
+        0: "none",
+        10: "novice",
+        25: "apprentice",
+        50: "adept",
+        75: "expert",
+        90: "master"
     }
 };
 
@@ -1251,6 +1470,15 @@ setup.Character = function(key, randomize=true, cap=20) {
         }
     }
 
+    if (randomize) {
+        this.is_virgin = (parseInt(dice(1, 2)) == 1);
+        this.is_anal_virgin = (parseInt(dice(1, 2)) == 1);
+    } else {
+        this.is_virgin = true;
+        this.is_anal_virgin = true;
+    }
+
+
     this.sex_fetishes = {};
     for (const sex_fetish of setup.SEX_FETISHES) {
         this.sex_fetishes[sex_fetish] += parseInt(dice(1, cap) / 2);
@@ -1281,6 +1509,19 @@ setup.Character = function(key, randomize=true, cap=20) {
         "amount": "regular",
         "additives": "none"
     };
+
+    // Equipment
+    this.equipment = {
+        "head": "none",
+        "chest": "none",
+        "legs": "none",
+        "feet": "none",
+        "neck": "none",
+        "weapon1": "none",
+        "weapon2": "none",
+        "groin1": "none",
+        "groin2": "none"
+    }
 
     if (key instanceof String || typeof key === 'string') {
         this.key = key;
@@ -1392,8 +1633,10 @@ Object.defineProperty(setup.Character.prototype, "get_status_prop", {
 
 Object.defineProperty(setup.Character.prototype, "get_descriptor", {
     enumerable: false,
-    value: function(key) {
-        var val = setup.get(this, key);
+    value: function(key, val=null) {
+        if (val == null) {
+            val = setup.get(this, key);
+        }
         if (val == null) {
             return null;
         }
@@ -1433,6 +1676,9 @@ Object.defineProperty(setup.Character.prototype, "toString", {
         }
         if (verbose) {
             ret += "<br><br>";
+            ret += setup.titleCase(setup.PRONOUNS[g]["?he"]) + " is " + 
+                this.get_descriptor("education_flavor_text", this.skills.education) + ". ";
+
             if (this.sex_prefs_known) {
             } else {
                 ret += setup.titleCase(setup.PRONOUNS[g]["?his"]) + " sexual preferences are " +
@@ -1547,6 +1793,18 @@ Object.defineProperty(setup.Character.prototype, "sex_value", {
             value += this.sex_fetishes[sex_fetish] / 5;
         }
         return value;
+    }
+});
+
+Object.defineProperty(setup.Character.prototype, "has_equipped", {
+    enumerable: false,
+    value: function(item) {
+        for (let key in this.equipment) {
+            if (this.equipment[key] == item) {
+                return key;
+            }
+        }
+        return "none";
     }
 });
 /* twine-user-script #3: "LocationNode.js" */
@@ -14118,7 +14376,7 @@ UInvObject.prototype = (function () {
 				plural: "tetris",
 				size: 0,
 				description : "The main currency used in Nipon. There is 100 tetri to a lari."
-			}
+			};
 
 			Items.gold = {
 				name: "Gold Ingot",
@@ -14127,7 +14385,7 @@ UInvObject.prototype = (function () {
 				plural : "gold ingots",
 				size: 1,
 				description: "A common commodity for trade."
-			}
+			};
 
 			Items.silver = {
 				name: "Silver Ingot",
@@ -14136,7 +14394,7 @@ UInvObject.prototype = (function () {
 				plural : "silver ingots",
 				size: 1,
 				description: "A common commodity for trade."
-			}
+			};
 
 			Items.iron = {
 				name: "Iron Ingot",
@@ -14145,7 +14403,50 @@ UInvObject.prototype = (function () {
 				plural : "silver ingots",
 				size: 1,
 				description: "A common commodity for trade."
-			}
+			};
+
+			Items.hiroyuki_book = {
+				name: "Hiroyuki Family Registry",
+				type: ["quest_item"],
+				size: 0,
+				description: "An old tattered book containing the complete family tree of the \
+					Hiroyuki household."
+			};
+			Items.nipon_transaction_log = {
+				name: "Nipon Transaction Log",
+				type: ["quest_item"],
+				size: 0,
+				description: "A stack of papers containing various hard-to-understand tables, graphs \
+					and charts. Seems to be related to trade import and export repots."
+			};
+
+			Items.hironaka_amulet = {
+				name: "Hironaka Amulet",
+				type: ["accessory"],
+				place: "neck",
+				description: "A necklace that can only be unlocked with a key given to all the slaves in the \
+					Hiroyuki household."
+			};
+
+			Items.strap_on = { 
+				name: "Strap On",
+				type: ["accessory"], 
+				singular: "a strap on", 
+				plural: "strap ons", 
+				place: "groin", 
+				size: 2, 
+				description: "A makeshift strap-on penis made of soft silicon."
+			};
+
+			Items.leather_chestplate = {
+				name: "Leather Chestplate",
+				type: ["armor", "leather"],
+				place: "chest",
+				singular: "a leather chestplate",
+				plural: "leather chestplates",
+				size: 10,
+				description: "A standard leather chestplate for protection against arrows and swords."
+			};
 
 		/* End of example static items. */
 
@@ -14878,11 +15179,11 @@ setup.locations.get("shintaniHome").music = "bgm_shintaniHome";
 // volume slider, by chapel; for sugarcube 2
 !function(){function e(e){"number"!=typeof e&&(e=+e),(Number.isNaN(e)||0>e)&&(e=0),e>1&&(e=1)
 try{if(!SimpleAudio)throw Error("Cannot access audio API.")
-"function"==typeof SimpleAudio.volume?SimpleAudio.volume(e):SimpleAudio.volume=e}catch(t){console.error(t.message,t),$.wiki("<<masteraudio volume "+e+">>")}finally{return e}}function t(){var t=settings.volume/a.rangeMax
+"function"==typeof SimpleAudio.volume?SimpleAudio.volume(e):SimpleAudio.volume=e}catch(t){console.error(t.message,t),$.wiki("<<masteraudio volume "+e+">>")}finally{State.variables.volume=e;return e}}function t(){var t=settings.volume/a.rangeMax
 a.current=t.toFixed(2),e(a.current)}var n={},a={current:100,rangeMax:100,step:1,setting:!0}
-n.last=a.current,n.start=n.last/a.rangeMax,postdisplay["volume-task"]=function(t){delete postdisplay[t],e(n.start.toFixed(2))},$(document).on("input","input[name=volume]",function(){var t=$("input[name=volume]").val(),o=t/a.rangeMax
+n.last=a.current,n.start=n.last/a.rangeMax,postdisplay["volume-task"]=function(t){delete postdisplay[t],e(State.variables.volume.toFixed(2))},$(document).on("input","input[name=volume]",function(){var t=$("input[name=volume]").val(),o=t/a.rangeMax
 a.current=o.toFixed(2),e(a.current),n.last=t}),Macro.add("volume",{handler:function(){var e=$(document.createElement("span")),t=$(document.createElement("input")),o="macro-"+this.name
-t.attr({id:"volume-control",type:"range",name:"volume",min:"0",max:a.rangeMax,step:a.step,value:n.last}),e.append(t).addClass(o).appendTo(this.output)}}),a.setting&&(Setting&&Setting.addRange&&"function"==typeof Setting.addRange?Setting.addRange("volume",{label:"Volume: ",min:0,max:a.rangeMax,step:a.step,"default":a.current,onInit:t,onChange:t}):console.error("This version of SugarCube does not include the `Settings.addRange()` method; please try updating to the latest version of SugarCube."))}()
+t.attr({id:"volume-control",type:"range",name:"volume",min:"0",max:a.rangeMax,step:a.step,value:parseInt(a.rangeMax*State.variables.volume)}),e.append(t).addClass(o).appendTo(this.output)}}),a.setting&&(Setting&&Setting.addRange&&"function"==typeof Setting.addRange?Setting.addRange("volume",{label:"Volume: ",min:0,max:a.rangeMax,step:a.step,"default":a.current,onInit:t,onChange:t}):console.error("This version of SugarCube does not include the `Settings.addRange()` method; please try updating to the latest version of SugarCube."))}()
 // end volume slider
 /* twine-user-script #35: "math.js" */
 // Samples random integer from a to b
@@ -14987,8 +15288,11 @@ setup.quests = {
             should investigate this as it may be the key to your freedom.",
         "stages": [
             "Meet Lia in her tower in Central Nipon after she gets off work.",
-            "Search Shintani\'s room for documents, or inform Shintani about Lia\'s plans.",
-            "Bring the documents to Lia in her tower."
+            "Search Shintani\'s library for the Hiroyuki family registry, or inform Shintani about Lia\'s plans (betray Lia).",
+            "Search Shintani\'s room for documents, or inform Shintani about Lia\'s plans (betray Lia).",
+            "Bring the documents to Lia in her tower.",
+            "Wear the Hiroyuki family crest in front of Emily",
+            "Visit Emily at her house in the slums"
         ]
     }
 };
@@ -15201,7 +15505,7 @@ setup.show_change = function(before, after) {
 }
 
 // Displays change from two values in an HTML string with colors
-setup.show_change_html = function(before, after, positive=true) {
+setup.show_change_html = function(before, after, positive=true, text=false) {
     var ret = "<span class=";
     if (after > before) {
         if (positive) {
@@ -15209,14 +15513,22 @@ setup.show_change_html = function(before, after, positive=true) {
         } else {
             ret += "\"fail\">";
         }
-        return ret + "+" + setup.round2(after - before).toString() + "</span>";
+        if (text) {
+            return ret + "increased</span>";
+        } else {
+            return ret + "+" + setup.round2(after - before).toString() + "</span>";
+        }
     } else {
         if (positive) {
             ret += "\"fail\">";
         } else {
             ret += "\"success\">";
         }
-        return ret + setup.round2(after - before).toString() + "</span>";
+        if (text) {
+            return ret + "decreased</span>";
+        } else {
+            return ret + setup.round2(after - before).toString() + "</span>";
+        }
     }
 }
 
@@ -15601,7 +15913,40 @@ setup.mergeDeep = function(...objects) {
 }
 
 // Changes a string into camel case
-setup.camelize = (str) =>  str.toLowerCase().replace(/[^a-zA-Z ]/g, "").replace(/(?:^\w|[A-Z]|\b\w)/g, (ltr, idx) => idx === 0 ? ltr.toLowerCase() : ltr.toUpperCase()).replace(/\s+/g, '');</script><tw-passagedata pid="1" name="audioEngine" tags="" position="100,100" size="100,100">&lt;&lt;nobr&gt;&gt;
+setup.camelize = (str) =>  str.toLowerCase().replace(/[^a-zA-Z ]/g, "").replace(/(?:^\w|[A-Z]|\b\w)/g, (ltr, idx) => idx === 0 ? ltr.toLowerCase() : ltr.toUpperCase()).replace(/\s+/g, '');
+
+setup.project_stamina_change = function(minutes, include_rand=false, is_working=null, is_outside=null) {
+    let _v = State.variables;
+    let _t = State.temporary;
+    let player = _v.player;
+    let difficulty = _v.difficulty;
+    let time_awake = _v.time_awake;
+    let mult = 1;
+    let delta_stamina = 0;
+
+    if ((is_working != null && is_working) || player.is_working) {
+        mult = 3;
+    }
+    if ((is_outside != null && is_outside) || player.is_outside) {
+        mult *= 2;
+    }
+
+    if (_t.is_molesting !== "undefined" && _t.is_molesting) {
+        mult *= 5;
+    }
+
+    if (difficulty > -1 && include_rand) {
+        mult *= (1 + setup.randn_bm() / 10 * (difficulty + 1));
+    }
+
+    if (!player.is_sleeping) {
+        let C = 200 / 1440;
+        delta_stamina = mult * minutes * ((3/10 * player.stats.strength - C * time_awake) - C * minutes / 2) / 1440;
+    } else {
+        delta_stamina = mult * 3 * 50 / 1440 * minutes;
+    }
+    return delta_stamina;
+}</script><tw-passagedata pid="1" name="audioEngine" tags="" position="100,100" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;set _cur_location = passage()&gt;&gt;
 &lt;&lt;set _temp = setup.locations.get_recur_attrib(_cur_location, &quot;music&quot;)&gt;&gt;
@@ -16335,7 +16680,7 @@ setup.camelize = (str) =>  str.toLowerCase().replace(/[^a-zA-Z ]/g, "").replace(
                      _molest_state.cum == &quot;face&quot; || 
                      _molest_state.cum == &quot;lips&quot; || 
                      _molest_state.cum == &quot;in_mouth&quot;&gt;&gt;
-                    &lt;&lt;set $_temp_to_log += &quot;Despite leaving evidence behind, your cum close to &quot; + 
+                    &lt;&lt;set $_temp_to_log += &quot;Despite leaving evidence behind, with your cum close to &quot; + 
                         setup.titleCase(_char.first_name) + &quot;\&#39;s nose, &quot; + setup.PRONOUNS[_char.gender][&quot;?he&quot;] + 
                         &quot; unconsciously grows more fond of your cum (&quot; + setup.titleCase(_char.first_name) + 
                         &quot;\&#39;s Affection &quot; + setup.show_change_html(0, 1) + &quot;, Cum Fetish &quot; + 
@@ -16628,6 +16973,12 @@ setup.camelize = (str) =>  str.toLowerCase().replace(/[^a-zA-Z ]/g, "").replace(
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="12" name="molestEngine" tags="" position="225,225" size="100,100">&lt;&lt;nobr&gt;&gt;
 
+/* Cock for male, strap-on for female */
+&lt;&lt;set _cock = &quot;cock&quot;&gt;&gt;
+&lt;&lt;if $player.gender == 1&gt;&gt;
+    &lt;&lt;set _cock = &quot;strap-on&quot;&gt;&gt;
+&lt;&lt;/if&gt;&gt;
+
 /* For ease of access */
 &lt;&lt;set _char = $characters[$selected]&gt;&gt;
 &lt;&lt;set _higher_status = ($player.get_status(&quot;nipon&quot;) == &quot;slave&quot; &amp;&amp; _char.status == &quot;low_slave&quot;) ||
@@ -16692,12 +17043,6 @@ setup.camelize = (str) =>  str.toLowerCase().replace(/[^a-zA-Z ]/g, "").replace(
     setup.mainLog_append(div);
 &lt;&lt;/script&gt;&gt;
 
-/* Change options if character is male */
-&lt;&lt;if _char.gender == 0&gt;&gt;
-    &lt;&lt;run $(&quot;#molest5 button&quot;).html(&quot;Stroke cock&quot;)&gt;&gt;
-    &lt;&lt;run $(&quot;#molest7 button&quot;).html(&quot;Suck cock&quot;)&gt;&gt;
-&lt;&lt;/if&gt;&gt;
-
 /* Show molest ui and atune to character */
 &lt;&lt;removeclass &quot;#molest_actions&quot; &quot;hidden&quot;&gt;&gt;
 &lt;&lt;run $(&quot;#molest_info_name&quot;).html(setup.titleCase(_char.first_name))&gt;&gt;
@@ -16707,6 +17052,17 @@ setup.camelize = (str) =>  str.toLowerCase().replace(/[^a-zA-Z ]/g, "").replace(
 &quot;)&gt;&gt;
 &lt;&lt;run $(&quot;#molest_time&quot;).html(_molest_time)&gt;&gt;
 &lt;&lt;removeclass &quot;#molest_info&quot; &quot;hidden&quot;&gt;&gt;
+
+/* Change button text depending on character of molest target */
+&lt;&lt;script&gt;&gt;
+    let char = State.temporary.char;
+    if (char.gender == 0) {
+        $(&quot;#molest4 button&quot;).html(&quot;Caress chest&quot;);
+        $(&quot;#molest5 button&quot;).html(&quot;Stroke cock&quot;);
+        $(&quot;#molest7 button&quot;).html(&quot;Suck cock&quot;);
+        $(&quot;#molest11 button&quot;).html(&quot;Ride cock&quot;);
+    }
+&lt;&lt;/script&gt;&gt;
 
 /* Allow back and leave buttons */
 &lt;&lt;removeclass &quot;#events_actions_back&quot; &quot;hidden&quot;&gt;&gt;
@@ -16736,7 +17092,8 @@ as changing the images based on the state
             &lt;&lt;run $(&quot;#molest2 button&quot;).prop(&quot;disabled&quot;, false)&gt;&gt;
             &lt;&lt;removeclass &quot;#molest3 button&quot; &quot;disabled&quot;&gt;&gt;
             &lt;&lt;run $(&quot;#molest3 button&quot;).prop(&quot;disabled&quot;, false)&gt;&gt;
-            &lt;&lt;if !_molest_state.came &amp;&amp; $player.gender == 0&gt;&gt;
+            &lt;&lt;if (!_molest_state.came &amp;&amp; $player.gender == 0) ||
+                 (!_molest_state.came &amp;&amp; $player.gender == 1 &amp;&amp; $player.has_equipped(&quot;strap_on&quot;) != &quot;none&quot;)&gt;&gt;
                 /* Enalble feet, mouth and self*/
                 &lt;&lt;removeclass &quot;#molest8 button&quot; &quot;disabled&quot;&gt;&gt;
                 &lt;&lt;run $(&quot;#molest8 button&quot;).prop(&quot;disabled&quot;, false)&gt;&gt;
@@ -16780,16 +17137,23 @@ as changing the images based on the state
                 &lt;&lt;removeclass &quot;#molest7 button&quot; &quot;disabled&quot;&gt;&gt;
                 &lt;&lt;run $(&quot;#molest7 button&quot;).prop(&quot;disabled&quot;, false)&gt;&gt;
                 &lt;&lt;removeclass &quot;#molest11 button&quot; &quot;disabled&quot;&gt;&gt;
-                &lt;&lt;if !_molest_state.came&gt;&gt;
+                &lt;&lt;if !_molest_state.came &amp;&amp; $player.gender == 0&gt;&gt;
                     &lt;&lt;removeclass &quot;#molest11 button&quot; &quot;disabled&quot;&gt;&gt;
                     &lt;&lt;run $(&quot;#molest11 button&quot;).prop(&quot;disabled&quot;, false)&gt;&gt;
                     &lt;&lt;removeclass &quot;#molest12 button&quot; &quot;disabled&quot;&gt;&gt;
                     &lt;&lt;run $(&quot;#molest12 button&quot;).prop(&quot;disabled&quot;, false)&gt;&gt;
+                &lt;&lt;elseif !_molest_state.came &amp;&amp; $player.gender == 1&gt;&gt;
+                    &lt;&lt;removeclass &quot;#molest11 button&quot; &quot;disabled&quot;&gt;&gt;
+                    &lt;&lt;run $(&quot;#molest11 button&quot;).prop(&quot;disabled&quot;, false)&gt;&gt;
+                    &lt;&lt;if $player.has_equipped(&quot;strap_on&quot;) != &quot;none&quot;&gt;&gt;
+                        &lt;&lt;removeclass &quot;#molest12 button&quot; &quot;disabled&quot;&gt;&gt;
+                        &lt;&lt;run $(&quot;#molest12 button&quot;).prop(&quot;disabled&quot;, false)&gt;&gt;
+                    &lt;&lt;/if&gt;&gt;
                 &lt;&lt;else&gt;&gt;
                     &lt;&lt;addclass &quot;#molest11 button&quot; &quot;disabled&quot;&gt;&gt;
-                    &lt;&lt;run $(&quot;#molest11 button&quot;).prop(&quot;disabled&quot;, false)&gt;&gt;
+                    &lt;&lt;run $(&quot;#molest11 button&quot;).prop(&quot;disabled&quot;, true)&gt;&gt;
                     &lt;&lt;addclass &quot;#molest12 button&quot; &quot;disabled&quot;&gt;&gt;
-                    &lt;&lt;run $(&quot;#molest12 button&quot;).prop(&quot;disabled&quot;, false)&gt;&gt;
+                    &lt;&lt;run $(&quot;#molest12 button&quot;).prop(&quot;disabled&quot;, true)&gt;&gt;
                 &lt;&lt;/if&gt;&gt;
                 
             &lt;&lt;/if&gt;&gt;
@@ -16958,7 +17322,9 @@ as changing the images based on the state
                     You carefully insert your fingers into &quot; + setup.titleCase(_char.first_name) + 
                     &quot;\&#39;s pussy. Your fingers become slick with her juices&quot;&gt;&gt;
             &lt;&lt;else&gt;&gt;
-                /* TODO: Implement for male */
+                &lt;&lt;set _response = &quot;\
+                    You carefully start stroking &quot; + setup.titleCase(_char.first_name) + 
+                    &quot;\&#39;s cock. Your hand become slick with his precum&quot;&gt;&gt;
             &lt;&lt;/if&gt;&gt;
             &lt;&lt;if _roll gt 30 || _molest_state.aware&gt;&gt;
                 &lt;&lt;set _response += &quot;.&quot;&gt;&gt;
@@ -16994,7 +17360,10 @@ as changing the images based on the state
                     &quot;\&#39;s legs and start licking her pussy. You can taste her juices as they slowly \
                     leak into your mouth&quot;&gt;&gt;
             &lt;&lt;else&gt;&gt;
-                /* TODO: Implement for male */
+                &lt;&lt;set _response = &quot;\
+                    You lower your head in between &quot; + setup.titleCase(_char.first_name) + 
+                    &quot;\&#39;s legs and start sucking his cock. You can taste his precum as they slowly \
+                    leak into your mouth&quot;&gt;&gt;
             &lt;&lt;/if&gt;&gt;
             &lt;&lt;if _roll gt 40 || _molest_state.aware&gt;&gt;
                 &lt;&lt;set _response += &quot;.&quot;&gt;&gt;
@@ -17026,7 +17395,8 @@ as changing the images based on the state
         &lt;&lt;case 9&gt;&gt;
             &lt;&lt;set _response = &quot;\
                 You grab &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s soft &quot; + _char.physical_traits.skin_color + 
-                &quot; feet and start stroking your cock with it. You push your head gently between her toes \
+                &quot; feet and start stroking your &quot; + _cock + &quot; with it. You push your head gently between &quot; + 
+                setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; toes \
                 while licking &quot; + setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; other foot&quot;&gt;&gt;
             &lt;&lt;if _roll gt 25 || _molest_state.aware&gt;&gt;
                 &lt;&lt;set _response += &quot;.&quot;&gt;&gt;
@@ -17044,7 +17414,7 @@ as changing the images based on the state
         &lt;&lt;case 10&gt;&gt;
             &lt;&lt;set _response = &quot;\
                 You grab &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s head and slow insert your \
-                cock into &quot; + setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; mouth. You can feel &quot; +
+                &quot; + _cock + &quot; into &quot; + setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; mouth. You can feel &quot; +
                 setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; warm touch wrap around your member. You \
                 carefully slide in and out of &quot; + setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; throat&quot;&gt;&gt;
             &lt;&lt;if _roll gt 50 || _molest_state.aware&gt;&gt;
@@ -17063,11 +17433,14 @@ as changing the images based on the state
             &lt;&lt;if _char.gender == 1&gt;&gt;
                 &lt;&lt;set _response = &quot;\
                     You spread &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s legs and slowly insert your \
-                    cock into &quot; + setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; pussy. You can feel the warm \
+                    &quot; + _cock + &quot; into &quot; + setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; pussy. You can feel the warm \
                     insides of her vagina wrap around your penis, guiding it with its juices. The air is \
                     surrounded by a lewd smell of mixed bodily fluids&quot;&gt;&gt;
             &lt;&lt;else&gt;&gt;
-                /* TODO: Implement for male */
+                &lt;&lt;set _response = &quot;\
+                    You slowly get onto of&quot; + setup.titleCase(_char.first_name) + &quot; and slowly insert his \
+                    cock into your ass. You can feel the inside of your anus wrapping around his penis, \
+                    guiding it with its juices. The air is surrounded by a lewd smell of mixed bodily fluids&quot;&gt;&gt;
             &lt;&lt;/if&gt;&gt;
             &lt;&lt;if _roll gt 60 || _molest_state.aware&gt;&gt;
                 &lt;&lt;set _response += &quot;.&quot;&gt;&gt;
@@ -17084,7 +17457,7 @@ as changing the images based on the state
         &lt;&lt;case 12&gt;&gt;
             &lt;&lt;set _response = &quot;\
                 You spread &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s ass cheecks and slowly insert your \
-                cock into &quot; + setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; tight ass. &quot; + 
+                &quot; + _cock + &quot; into &quot; + setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; tight ass. &quot; + 
                 setup.titleCase(setup.PRONOUNS[_char.gender][&quot;?his&quot;]) + &quot; anus lets out some air, filling the \
                 room with a perverted aroma of bodily fluids and sweat&quot;&gt;&gt;
             &lt;&lt;if _roll gt 70&gt;&gt;
@@ -17167,7 +17540,8 @@ as changing the images based on the state
                 &lt;ol&gt;\
                     &lt;li&gt;Apologize.&lt;/li&gt;\
                     &lt;li&gt;Quickly dash out of the room.&lt;/li&gt;\
-                    &lt;li&gt;Force her down and rape her.&lt;/li&gt;\
+                    &lt;li&gt;Force &quot; + setup.PRONOUNS[_char.gender][&quot;?him&quot;] + &quot; down and rape &quot; + 
+                        setup.PRONOUNS[_char.gender][&quot;?him&quot;] + &quot;.&lt;/li&gt;\
                 &lt;/ol&gt;&quot;
             ]&gt;&gt;
             /* Trigger event engine */
@@ -17266,7 +17640,8 @@ as changing the images based on the state
                         &lt;&lt;if _roll - _char.stats.strength gte 15&gt;&gt;
                             &lt;&lt;set _responses = [
                                 setup.pass(&quot;strength&quot;),
-                                &quot;You hold &quot; + setup.titleCase(_char.first_name) + &quot; down and overpower her,&quot;,
+                                &quot;You hold &quot; + setup.titleCase(_char.first_name) + &quot; down and overpower &quot; + 
+                                setup.PRONOUNS[_char.gender][&quot;?him&quot;] + &quot;,&quot;,
                                 $player.dialogue(&quot;Shut the fuck up, and go back to bed. If I even doubt you\&#39;re \
                                     asleep for a single second, I\&#39;ll crush your windpipe.&quot;),
                                 setup.titleCase(_char.first_name) + &quot; lays back down with absolute fear (&quot; + 
@@ -17298,7 +17673,8 @@ as changing the images based on the state
                         &lt;&lt;elseif _higher_status&gt;&gt;
                             &lt;&lt;set _responses = [
                                 setup.pass(&quot;status&quot;),
-                                &quot;You hold &quot; + setup.titleCase(_char.first_name) + &quot; down and remind her of her \
+                                &quot;You hold &quot; + setup.titleCase(_char.first_name) + &quot; down and remind &quot; + 
+                                setup.PRONOUNS[_char.gender][&quot;?him&quot;] + &quot; of &quot; + setup.PRONOUNS[_char.gender][&quot;?him&quot;] + &quot; \
                                 place in this household,&quot;,
                                 $player.dialogue(&quot;Shut the fuck up, and go back to bed. If I even doubt you\&#39;re \
                                     asleep for a single second, I\&#39;ll crush your windpipe.&quot;),
@@ -17386,7 +17762,10 @@ as changing the images based on the state
                         setup.show_change_html(0, 1) + &quot;).&quot;&gt;&gt;
                     &lt;&lt;set _char.sex_prefs.vaginal += 1&gt;&gt;
                 &lt;&lt;else&gt;&gt;
-                    /* TODO: Implement for male */
+                    &lt;&lt;set _response += &quot; Making &quot; + setup.titleCase(_char.first_name) + &quot; orgasm \
+                        by direct contact with his cock increased his preference for sex \
+                        (&quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s Sex Drive &quot; + 
+                        setup.show_change_html(0, 1) + &quot;).&quot;&gt;&gt;
                 &lt;&lt;/if&gt;&gt;
             &lt;&lt;elseif _last_molest_action == 6 || 
                      _last_molest_action == 12&gt;&gt;
@@ -17594,6 +17973,29 @@ as changing the images based on the state
     &lt;&lt;set _to_round = _char.key&gt;&gt;
     &lt;&lt;include round&gt;&gt;
 
+    /* For quest &quot;power struggles&quot; */
+    &lt;&lt;if _char.key == &quot;shintani_hiroyuki&quot; &amp;&amp; $quests.power_struggles.stage lte 2 &amp;&amp;  _roll gte 25&gt;&gt;
+        &lt;&lt;if $quests.power_struggles.stage == 1&gt;&gt;
+            &lt;&lt;set $_temp_to_log += &quot;&lt;br&gt;You search through Shintani\&#39;s office and find a large stack of \
+                what seems to be transaction logs. Unfortunatly you have no idea which ones are the correct ones \
+                perhaps you should look for some clues in the library first.&quot;&gt;&gt;
+        &lt;&lt;elseif $quests.power_struggles.stage == 2&gt;&gt;
+            &lt;&lt;set $_temp_to_log += &quot;&lt;br&gt;You search through Shintani\&#39;s office and find a large stack of \
+                transaction logs. You quickly leaf through them to find one with a watermark matching the \
+                symbol on the inside of the Registry from the library. You quickly grab this and slip out.&lt;br&gt;\
+                &lt;span class=\&quot;success\&quot;&gt;(Acquired Nipon Transaction Logs)&lt;/span&gt;&quot;&gt;&gt;
+            &lt;&lt;run UInv.AddItem(&quot;inventory&quot;, &quot;nipon_transaction_log&quot;)&gt;&gt;
+            &lt;&lt;set $quests.power_struggles.stage == 3&gt;&gt;
+        &lt;&lt;/if&gt;&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    /* Attaining strap-on from Himari */
+    &lt;&lt;if _char.key == &quot;himari_hironaka&quot; &amp;&amp;  _roll gte 25 &amp;&amp; UInv.BagHasItem(&quot;inventory&quot;, &quot;strap_on&quot;) == 0&gt;&gt;
+        &lt;&lt;set $_temp_to_log += &quot;&lt;br&gt;You find in a tattered old box a large strap-on made of soft silicon.&lt;br&gt;\
+            &lt;span class=\&quot;success\&quot;&gt;(Acquired Strap On)&lt;/span&gt;&quot;&gt;&gt;
+        &lt;&lt;run UInv.AddItem(&quot;inventory&quot;, &quot;strap_on&quot;)&gt;&gt;
+    &lt;&lt;/if&gt;&gt;
+
     &lt;&lt;goto `passage()`&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="assignmentEngine" tags="" position="600,225" size="100,100">&lt;&lt;nobr&gt;&gt;
 
@@ -17616,7 +18018,7 @@ as changing the images based on the state
     &lt;&lt;set _char = $characters[_to_simulate]&gt;&gt;
     &lt;&lt;if _char.assignment == &quot;solBrothel&quot;&gt;&gt;
         &lt;&lt;set _sex_value = setup.round2(_char.sex_value().clamp(0, 1000))&gt;&gt;
-        &lt;&lt;set _slave_changes[_to_simulate].cost += 0.1 * _sex_value&gt;&gt;
+        &lt;&lt;set _slave_changes[_to_simulate].cost += 0.4 * _sex_value&gt;&gt;
         &lt;&lt;set _total_profit += 0.4 * _sex_value&gt;&gt;
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/for&gt;&gt;
@@ -18292,12 +18694,29 @@ as changing the images based on the state
             $.wiki(str);
         }
         SimpleAudio.stop();
+        try {
+            if (SimpleAudio) {
+                if (typeof SimpleAudio.volume === &#39;function&#39;) {
+                    SimpleAudio.volume(save.state.history[save.state.index].variables.volume);
+                } else {
+                    SimpleAudio.volume = save.state.history[save.state.index].variables.volume;
+                }
+            } else {
+                throw new Error(&#39;Cannot access audio API.&#39;);
+            }
+        } catch (err) {
+            // fall back to the wikifier if we have to
+            console.error(err.message, err);
+            $.wiki(&#39;&lt;&lt;masteraudio volume &#39; + save.state.history[save.state.index].variables.volume + &#39;&gt;&gt;&#39;);
+        }
     });
 &lt;&lt;/script&gt;&gt;
 
 &lt;&lt;preload &quot;resources/images/backgrounds/paper_border.jpg&quot;&gt;&gt;
 &lt;&lt;preload &quot;resources/images/backgrounds/blackwood.jpg&quot;&gt;&gt;
-&lt;&lt;character &quot;Shintani&quot; &quot;src/images/characters/47.png&quot;&gt;&gt;
+
+/* Master volume */
+&lt;&lt;set $volume = 100&gt;&gt;
 
 /* Difficulty */
 &lt;&lt;set $difficulty = 0&gt;&gt;
@@ -18451,12 +18870,12 @@ as changing the images based on the state
 /* Dynamic list of characters that need to be simulated day by day by sleep engine */
 &lt;&lt;set $to_simulate_day = new Set()&gt;&gt;
 
-&lt;&lt;set $characters = {&quot;shintani_hiroyuki&quot;: new setup.Character(&quot;shintani_hiroyuki&quot;),
-                     &quot;himari_hironaka&quot;: new setup.Character(&quot;himari_hironaka&quot;),
-                     &quot;mei_hironaka&quot;: new setup.Character(&quot;mei_hironaka&quot;),
-                     &quot;jae_hironaka&quot;: new setup.Character(&quot;jae_hironaka&quot;),
-                     &quot;lia_hiroyuki&quot;: new setup.Character(&quot;lia_hiroyuki&quot;),
-                     &quot;emily_namm&quot;: new setup.Character(&quot;emily_namm&quot;)}&gt;&gt;
+&lt;&lt;set $characters = {&quot;shintani_hiroyuki&quot;: new setup.Character(&quot;shintani_hiroyuki&quot;, true, 80),
+                     &quot;himari_hironaka&quot;: new setup.Character(&quot;himari_hironaka&quot;, true, 60),
+                     &quot;mei_hironaka&quot;: new setup.Character(&quot;mei_hironaka&quot;, true, 20),
+                     &quot;jae_hironaka&quot;: new setup.Character(&quot;jae_hironaka&quot;, true, 40),
+                     &quot;lia_hiroyuki&quot;: new setup.Character(&quot;lia_hiroyuki&quot;, true, 80),
+                     &quot;emily_namm&quot;: new setup.Character(&quot;emily_namm&quot;, true, 50)}&gt;&gt;
 
 /* Shintani */
 &lt;&lt;set $characters.shintani_hiroyuki.set_properties(
@@ -18871,6 +19290,9 @@ as changing the images based on the state
 /* Player slaves */
 &lt;&lt;set $player.slaves = []&gt;&gt;
 
+/* Player finance tracking */
+&lt;&lt;set $player.finances = {}&gt;&gt;
+
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="initQuests" tags="" position="350,475" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;set $quest_journal = {&quot;ongoing&quot;: [], &quot;completed&quot;: []}&gt;&gt;
@@ -18879,7 +19301,8 @@ as changing the images based on the state
 &lt;&lt;for _key, _val range setup.quests&gt;&gt;
     &lt;&lt;set $quests[_key] = {
         &quot;stage&quot;: 0,
-        &quot;added&quot;: false
+        &quot;added&quot;: false,
+        &quot;data&quot;: {}
     }&gt;&gt;
 &lt;&lt;/for&gt;&gt;
 
@@ -20223,7 +20646,6 @@ as changing the images based on the state
                     &lt;br&gt;
                 &lt;&lt;/for&gt;&gt;
             &lt;/div&gt;
-
             &lt;div style=&quot;text-align: right; margin-right: 20px&quot;&gt;
                 &lt;&lt;for _i = 0; _i lt setup.SKILLS.length; _i++&gt;&gt;
                     &lt;&lt;= setup.round2(_char.skills[setup.SKILLS[_i]]).toString().padStart(3, &#39;\u2000&#39;)&gt;&gt;
@@ -20231,6 +20653,8 @@ as changing the images based on the state
                 &lt;&lt;/for&gt;&gt;
             &lt;/div&gt;
         &lt;/div&gt;
+        &lt;hr&gt;
+        &lt;center&gt;&lt;h3&gt;Sex Skills&lt;/h3&gt;&lt;/center&gt;
         &lt;div class=&quot;container twoCol&quot;&gt;
             &lt;div style=&quot;text-align: left; margin-left: 20px&quot;&gt;
                 &lt;&lt;for _i = 0; _i lt setup.SEX_SKILLS.length; _i++&gt;&gt;
@@ -20279,7 +20703,7 @@ as changing the images based on the state
                 &lt;&lt;= _char.age()&gt;&gt; &lt;br&gt;
                 &lt;br&gt;
                 &lt;&lt;for _i = 0; _i lt setup.STATS.length; _i++&gt;&gt;
-                    &lt;&lt;= setup.round2(_char.stats[setup.STATS[_i]]).toString().padStart(3, &#39;\u2000&#39;)&gt;&gt;
+                    &lt;&lt;= setup.titleCase(_char.get_descriptor(setup.STATS[_i]))&gt;&gt;
                     &lt;br&gt;
                 &lt;&lt;/for&gt;&gt;
             &lt;/div&gt;
@@ -20333,62 +20757,465 @@ as changing the images based on the state
 
 &lt;&lt;include round&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="59" name="playerMenu" tags="black" position="1100,725" size="100,100">&lt;&lt;nobr&gt;&gt;
-&lt;div id=&quot;background&quot; class=&quot;paper_border notext&quot;&gt;
-&lt;div class=&quot;main container threeCol&quot; style=&quot;height: 100%; width: 100%;&quot;&gt;
-    &lt;div class=&quot;subbackground&quot;&gt;
-        &lt;hr&gt;
-        &lt;center&gt;&lt;h3&gt;Titles&lt;/h3&gt;
-            &lt;div id=&quot;titles&quot;&gt;&lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="59" name="playerMenuEquip" tags="" position="1100,725" size="100,100">&lt;&lt;nobr&gt;&gt;
 
-            /* Prints all titles and assigns a unique div id to them */
-            &lt;&lt;set $done_setup = false&gt;&gt;
-            &lt;&lt;script&gt;&gt;
-                setTimeout(function(){
-                    var html = &quot;&quot;;
-                    var titles = Array.from(State.variables.player.titles);
-                    for (var i = 0; i &lt; titles.length; i++) {
-                        html += (&quot;\
-                            &lt;div id=\&quot;char_&quot; + titles[i] + &quot;\&quot; class=\&quot;tooltip\&quot;&gt;&quot; +
-                                setup.titleCase(titles[i])
-                            + &quot;&lt;/div&gt;&lt;br&gt;\
-                        &quot;);
-                    }
-                    document.getElementById(&quot;titles&quot;).innerHTML = html;
+&lt;div id=&quot;equipOverlay&quot; class=&quot;hidden&quot; style=&quot;position: relative; width: 0; height: 0; margin-left: -5px&quot;&gt;
+    &lt;div class=&quot;equipOverlay&quot;&gt;
+        &lt;div id=&quot;armor&quot;&gt;
+            &lt;div id=&quot;headLine&quot;&gt;&lt;/div&gt;
+            &lt;div id=&quot;head&quot; class=&quot;equipButton&quot;&gt;
+                &lt;&lt;button &quot;&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;
+            &lt;/div&gt;
+            
+            &lt;div id=&quot;chestLine&quot;&gt;&lt;/div&gt;
+            &lt;div id=&quot;chest&quot; class=&quot;equipButton&quot;&gt;
+                &lt;&lt;button &quot;&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;
+            &lt;/div&gt;
 
-                    State.variables.done_setup = true;
-                }, 1);
-            &lt;&lt;/script&gt;&gt;
+            &lt;div id=&quot;legsLine&quot;&gt;&lt;/div&gt;
+            &lt;div id=&quot;legs&quot; class=&quot;equipButton&quot;&gt;
+                &lt;&lt;button &quot;&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;
+            &lt;/div&gt;
 
-            /* Creates artificial event-listener for setup of script above */
-            &lt;&lt;repeat 2ms&gt;&gt;
-                &lt;&lt;if $done_setup&gt;&gt;
-                    &lt;&lt;for _idx, _title range $player.titles&gt;&gt;
-                        &lt;&lt;capture _title&gt;&gt;
-                            &lt;&lt;script&gt;&gt;
-                                var title = State.temporary.title;
-                                $(&quot;#char_&quot; + title).click(
-                                    function(){
-                                        State.variables.selected_title = title;
-                                        $.wiki(&quot;&lt;&lt;popover&gt;&gt;&lt;&lt;include titleTutorial&gt;&gt;&lt;&lt;/popover&gt;&gt;&quot;)
-                                    }
-                                );
-                            &lt;&lt;/script&gt;&gt;
-                        &lt;&lt;/capture&gt;&gt;
-                    &lt;&lt;/for&gt;&gt;
-                    &lt;&lt;stop&gt;&gt;
-                &lt;&lt;/if&gt;&gt;
-            &lt;&lt;/repeat&gt;&gt;
-        &lt;/center&gt;
+            &lt;div id=&quot;feetLine&quot;&gt;&lt;/div&gt;
+            &lt;div id=&quot;feet&quot; class=&quot;equipButton&quot;&gt;
+                &lt;&lt;button &quot;&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;accessories&quot;&gt;
+            &lt;div id=&quot;neckLine&quot;&gt;&lt;/div&gt;
+            &lt;div id=&quot;neck&quot; class=&quot;equipButton&quot;&gt;
+                &lt;&lt;button &quot;&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;
+            &lt;/div&gt;
+
+            &lt;div id=&quot;weaponLine&quot;&gt;&lt;/div&gt;
+            &lt;div id=&quot;weapon1&quot; class=&quot;equipButton&quot;&gt;
+                &lt;&lt;button &quot;&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;
+            &lt;/div&gt;
+            &lt;div id=&quot;weapon2&quot; class=&quot;equipButton&quot;&gt;
+                &lt;&lt;button &quot;&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;
+            &lt;/div&gt;
+
+            &lt;div id=&quot;groinLine&quot;&gt;&lt;/div&gt;
+            &lt;div id=&quot;groin1&quot; class=&quot;equipButton&quot;&gt;
+                &lt;&lt;button &quot;&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;
+            &lt;/div&gt;
+            &lt;div id=&quot;groin2&quot; class=&quot;equipButton&quot;&gt;
+                &lt;&lt;button &quot;&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;&lt;timed 50ms&gt;&gt;&lt;&lt;silently&gt;&gt;&lt;&lt;script&gt;&gt;
+    let player = State.variables.player;
+    let equipButtons = $(&quot;.equipButton&quot;);
+    for (let _i = 0; _i &lt; equipButtons.length; _i++) {
+        let id = equipButtons[_i].id;
+        if (player.equipment[id] != &quot;none&quot;) {
+            $(equipButtons[_i]).find(&quot;button&quot;).html(&quot;E&quot;);
+        }
+        $(equipButtons[_i]).find(&quot;button&quot;).on(&quot;click&quot;, (event) =&gt; {
+            $(&quot;.equipButton button&quot;).removeClass(&quot;disabled&quot;);
+            $(&quot;.equipButton button&quot;).prop(&quot;disabled&quot;, false);
+            $(&quot;#equip_list&quot;).children().fadeOut(0.1);
+            if (player.is_slave) {
+                $(&quot;#neck button&quot;).addClass(&quot;disabled&quot;);
+                $(&quot;#neck button&quot;).prop(&quot;disabled&quot;, true);
+            }
+            let self = $(event.currentTarget);
+            self.addClass(&quot;disabled&quot;);
+            self.prop(&quot;disabled&quot;, true);
+            $(&quot;#default_list&quot;).fadeOut(0.1);
+            State.temporary.slot = id;
+            $(&quot;#&quot; + State.temporary.slot.replace(/[0-9]/g, &#39;&#39;) + &quot;_list&quot;).fadeIn(0.1);
+        });
+    }
+    if (player.is_slave) {
+        $(&quot;#neck button&quot;).addClass(&quot;disabled&quot;);
+        $(&quot;#neck button&quot;).prop(&quot;disabled&quot;, true);
+    }
+&lt;&lt;/script&gt;&gt;&lt;&lt;/silently&gt;&gt;&lt;&lt;/timed&gt;&gt;
+
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="60" name="playerMenuEquipment" tags="" position="1225,725" size="100,100">&lt;&lt;nobr&gt;&gt;
+    &lt;div id=&quot;equipment&quot; class=&quot;subbackground hidden&quot;&gt;
+        &lt;div id=&quot;default_list&quot;&gt;
+            &lt;hr&gt;
+            &lt;center&gt;&lt;h3 id=&quot;armors_title&quot; class=&quot;tool&quot;&gt;Armor&lt;/h3&gt;
+                &lt;&lt;set _armors = UInv.GetItemsArrayByItemTag(&quot;inventory&quot;, &quot;type&quot;, &quot;armor&quot;)&gt;&gt;
+                &lt;div id=&quot;armors_list&quot; class=&quot;list container twoCol&quot;&gt;
+                    &lt;div id=&quot;armors_list_names&quot; style=&quot;text-align: left; margin-left: 20px&quot;&gt;
+                    &lt;/div&gt;
+                    &lt;div style=&quot;text-align: right; margin-right: 20px; font-weight: normal&quot;&gt;
+                        &lt;&lt;for _i = 0; _i lt _armors.length; _i++&gt;&gt;
+                            &lt;&lt;= UInv.BagHasItem(&quot;inventory&quot;, _armors[_i])&gt;&gt;
+                            &lt;br&gt;
+                        &lt;&lt;/for&gt;&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/center&gt;
+            &lt;hr&gt;
+            &lt;center&gt;&lt;h3 id=&quot;weapons_title&quot; class=&quot;tool&quot;&gt;Weapons&lt;/h3&gt;
+                &lt;&lt;set _weapons = UInv.GetItemsArrayByItemTag(&quot;inventory&quot;, &quot;type&quot;, &quot;weapon&quot;)&gt;&gt;
+                &lt;div id=&quot;weapons_list&quot; class=&quot;list container twoCol&quot; style=&quot;font-weight: normal&quot;&gt;
+                    &lt;div id=&quot;weapons_list_names&quot; style=&quot;text-align: left; margin-left: 20px&quot;&gt;
+                    &lt;/div&gt;
+                    &lt;div style=&quot;text-align: right; margin-right: 20px; font-weight: normal&quot;&gt;
+                        &lt;&lt;for _i = 0; _i lt _weapons.length; _i++&gt;&gt;
+                            &lt;&lt;= UInv.BagHasItem(&quot;inventory&quot;, _weapons[_i])&gt;&gt;
+                            &lt;br&gt;
+                        &lt;&lt;/for&gt;&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/center&gt;
+            &lt;hr&gt;
+            &lt;center&gt;&lt;h3 id=&quot;accessories_title&quot; class=&quot;tool&quot;&gt;Accessories&lt;/h3&gt;
+                &lt;&lt;set _accessories = UInv.GetItemsArrayByItemTag(&quot;inventory&quot;, &quot;type&quot;, &quot;accessory&quot;)&gt;&gt;
+                &lt;div id=&quot;accessories_list&quot; class=&quot;list container twoCol&quot; style=&quot;font-weight: normal&quot;&gt;
+                    &lt;div id=&quot;accessories_list_names&quot; style=&quot;text-align: left; margin-left: 20px&quot;&gt;
+                    &lt;/div&gt;
+                    &lt;div style=&quot;text-align: right; margin-right: 20px; font-weight: normal&quot;&gt;
+                        &lt;&lt;for _i = 0; _i lt _accessories.length; _i++&gt;&gt;
+                            &lt;&lt;= UInv.BagHasItem(&quot;inventory&quot;, _accessories[_i])&gt;&gt;
+                            &lt;br&gt;
+                        &lt;&lt;/for&gt;&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/center&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;equip_list&quot;&gt;
+            &lt;center id=&quot;head_list&quot;&gt;&lt;hr&gt;&lt;h3&gt;Head&lt;/h3&gt;
+                &lt;div id=&quot;head_list_items&quot; style=&quot;text-align: left; margin-left: 20px; font-weight: normal;&quot;&gt;&lt;/div&gt;
+            &lt;/center&gt;
+            &lt;center id=&quot;chest_list&quot;&gt;&lt;hr&gt;&lt;h3&gt;Chest&lt;/h3&gt;
+                &lt;div id=&quot;chest_list_items&quot; style=&quot;text-align: left; margin-left: 20px; font-weight: normal;&quot;&gt;&lt;/div&gt;
+            &lt;/center&gt;
+            &lt;center id=&quot;legs_list&quot;&gt;&lt;hr&gt;&lt;h3&gt;Legs&lt;/h3&gt;
+                &lt;div id=&quot;legs_list_items&quot; style=&quot;text-align: left; margin-left: 20px; font-weight: normal;&quot;&gt;&lt;/div&gt;
+            &lt;/center&gt;
+            &lt;center id=&quot;feet_list&quot;&gt;&lt;hr&gt;&lt;h3&gt;Feet&lt;/h3&gt;
+                &lt;div id=&quot;feet_list_items&quot; style=&quot;text-align: left; margin-left: 20px; font-weight: normal;&quot;&gt;&lt;/div&gt;
+            &lt;/center&gt;
+            &lt;center id=&quot;neck_list&quot;&gt;&lt;hr&gt;&lt;h3&gt;Neck&lt;/h3&gt;
+                &lt;div id=&quot;neck_list_items&quot; style=&quot;text-align: left; margin-left: 20px; font-weight: normal;&quot;&gt;&lt;/div&gt;
+            &lt;/center&gt;
+            &lt;center id=&quot;weapon_list&quot;&gt;&lt;hr&gt;&lt;h3&gt;Weapons&lt;/h3&gt;
+                &lt;div id=&quot;weapon_list_items&quot; style=&quot;text-align: left; margin-left: 20px; font-weight: normal;&quot;&gt;&lt;/div&gt;
+            &lt;/center&gt;
+            &lt;center id=&quot;groin_list&quot;&gt;&lt;hr&gt;&lt;h3&gt;Groin&lt;/h3&gt;
+                &lt;div id=&quot;groin_list_items&quot; style=&quot;text-align: left; margin-left: 20px; font-weight: normal;&quot;&gt;&lt;/div&gt;
+            &lt;/center&gt;
+        &lt;/div&gt;
     &lt;/div&gt;
 
-    &lt;div class=&quot;subbackground&quot;&gt;
-        &lt;center&gt;&lt;h3&gt;$player.first_name Hironaka&lt;/h3&gt;&lt;/center&gt;
-        &lt;div style=&quot;margin-left: 30px; margin-right: 30px&quot;&gt;
-            &lt;&lt;showmeter &quot;player_health_bar&quot; `$player.conditions.health/$player.conditions.max_health`&gt;&gt;
-            &lt;&lt;showmeter &quot;player_stamina_bar&quot; `$player.conditions.stamina/$player.conditions.max_stamina`&gt;&gt;
+&lt;&lt;timed 50ms&gt;&gt;&lt;&lt;silently&gt;&gt;&lt;&lt;script&gt;&gt;
+    function refresh_list(place) {
+        let place_list = $(&quot;#&quot; + place + &quot;_list_items&quot;);
+        let item = $(&quot;&lt;div class=\&quot;tool\&quot;&gt;None&lt;/div&gt;&quot;);
+        item.on(&quot;click&quot;, (event) =&gt; {
+            let slot = State.temporary.slot;
+            player.equipment[slot] = &quot;none&quot;;
+            $(&quot;#&quot; + slot + &quot; button&quot;).html(&quot;&quot;);
+            $(&quot;#equip_list&quot;).children().fadeOut(0.1);
+            $(&quot;#default_list&quot;).fadeIn(0.1);
+            $(&quot;.equipButton button&quot;).removeClass(&quot;disabled&quot;);
+            $(&quot;.equipButton button&quot;).prop(&quot;disabled&quot;, false);
+            $(&quot;#equip_list&quot;).children().fadeOut(0.1);
+            if (player.is_slave) {
+                $(&quot;#neck button&quot;).addClass(&quot;disabled&quot;);
+                $(&quot;#neck button&quot;).prop(&quot;disabled&quot;, true);
+            }
+            place_list.empty();
+            refresh_list(place);
+        });
+        place_list.append(item);
+        place_list.append(&quot;&lt;br&gt;&quot;);
+        let items = UInv.GetItemsArrayByItemTag(&quot;inventory&quot;, &quot;place&quot;, place);
+        for (let x of items) {
+            let item_str = setup.titleCase(UInv.GetItemPropertyValue(&quot;inventory&quot;, x, &quot;name&quot;));
+            let equipped_slot = player.has_equipped(x);
+            if (equipped_slot != &quot;none&quot;) {
+                item_str += &quot; (E&quot; + equipped_slot.replace(/\D/g,&#39;&#39;) + &quot;)&quot;;
+            }
+            let item = $(&quot;&lt;div class=\&quot;tool\&quot; title=\&quot;&quot; + x + &quot;\&quot;&gt;&quot; + item_str + &quot;&lt;/div&gt;&quot;);
+            item.on(&quot;click&quot;, (event) =&gt; {
+                let slot = State.temporary.slot;
+                let self = $(event.currentTarget);
+                player.equipment[slot] = self.prop(&quot;title&quot;);
+                $(&quot;#&quot; + slot + &quot; button&quot;).html(&quot;E&quot;);
+                if (equipped_slot != &quot;none&quot;) {
+                    $(&quot;#&quot; + equipped_slot + &quot; button&quot;).html(&quot;&quot;);
+                    player.equipment[equipped_slot] = &quot;none&quot;;
+                }
+                $(&quot;#equip_list&quot;).children().fadeOut(0.1);
+                $(&quot;#default_list&quot;).fadeIn(0.1);
+                $(&quot;.equipButton button&quot;).removeClass(&quot;disabled&quot;);
+                $(&quot;.equipButton button&quot;).prop(&quot;disabled&quot;, false);
+                if (player.is_slave) {
+                    $(&quot;#neck button&quot;).addClass(&quot;disabled&quot;);
+                    $(&quot;#neck button&quot;).prop(&quot;disabled&quot;, true);
+                }
+                place_list.empty();
+                refresh_list(place);
+            });
+            place_list.append(item);
+            place_list.append(&quot;&lt;br&gt;&quot;);
+        }
+        let types = {&quot;armor&quot;: &quot;armors&quot;, &quot;weapon&quot;: &quot;weapons&quot;, &quot;accessory&quot;: &quot;accessories&quot;};
+        for (let type in types) {
+            let item_list = $(&quot;#&quot; + types[type] + &quot;_list_names&quot;);
+            item_list.empty();
+            let items = UInv.GetItemsArrayByItemTag(&quot;inventory&quot;, &quot;type&quot;, type);
+            for (let x of items) {
+                let item_str = setup.titleCase(UInv.GetItemPropertyValue(&quot;inventory&quot;, x, &quot;name&quot;));
+                let equipped_slot = player.has_equipped(x);
+                if (equipped_slot != &quot;none&quot;) {
+                    equipped_slot = equipped_slot.replace(/\D/g,&#39;&#39;);
+                    item_str += &quot; (E&quot; + equipped_slot + &quot;)&quot;;
+                }
+                let item = $(&quot;&lt;div class=\&quot;tool\&quot;&gt;&quot; + item_str + &quot;&lt;/div&gt;&quot;);
+                item.on(&quot;click&quot;, (event) =&gt; {
+                    $.wiki(&quot;\
+                        &lt;&lt;popover&gt;&gt;&quot; +
+                            &quot;&lt;h2&gt;&quot; + UInv.GetItemPropertyValue(&quot;inventory&quot;, x, &quot;name&quot;) + &quot;&lt;/h2&gt;&quot; + 
+                            UInv.GetItemPropertyValue(&quot;inventory&quot;, x, &quot;description&quot;) +
+                        &quot;&lt;&lt;/popover&gt;&gt;\
+                    &quot;);
+                });
+                item_list.append(item);
+                item_list.append(&quot;&lt;br&gt;&quot;);
+            }
+        }
+    }
+    let player = State.variables.player;
+    $(&quot;#armors_list&quot;).fadeOut(0.1);
+    $(&quot;#armors_title&quot;).on(&quot;click&quot;, (event) =&gt; {
+        $(&quot;#armors_list&quot;).fadeToggle(0.1);
+    });
+    $(&quot;#weapons_list&quot;).fadeOut(0.1);
+    $(&quot;#weapons_title&quot;).on(&quot;click&quot;, (event) =&gt; {
+        $(&quot;#weapons_list&quot;).fadeToggle(0.1);
+    });
+    $(&quot;#accessories_list&quot;).fadeOut(0.1);
+    $(&quot;#accessories_title&quot;).on(&quot;click&quot;, (event) =&gt; {
+        $(&quot;#accessories_list&quot;).fadeToggle(0.1);
+    });
+    $(&quot;#equip_list&quot;).children().fadeOut(0.1);
+
+    let places = [&quot;head&quot;, &quot;chest&quot;, &quot;legs&quot;, &quot;feet&quot;, &quot;neck&quot;, &quot;weapon&quot;, &quot;groin&quot;];
+    for (let place of places) {
+        refresh_list(place);
+    }
+&lt;&lt;/script&gt;&gt;&lt;&lt;/silently&gt;&gt;&lt;&lt;/timed&gt;&gt;
+
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="61" name="playerMenuInventory" tags="" position="100,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+    &lt;div id=&quot;inventory&quot; class=&quot;subbackground&quot;&gt;
+        &lt;hr&gt;
+        &lt;center&gt;&lt;h3&gt;Inventory&lt;/h3&gt;
+            &lt;&lt;set _items = UInv.GetItemsArrayWithoutAnyItemTags(&quot;inventory&quot;, &quot;type&quot;, 
+                [&quot;money&quot;, &quot;quest_item&quot;, &quot;armor&quot;, &quot;accessory&quot;])&gt;&gt;
+            &lt;div class=&quot;container twoCol&quot; style=&quot;font-weight: normal&quot;&gt;
+                &lt;div style=&quot;text-align: left; margin-left: 20px&quot;&gt;
+                    &lt;&lt;for _i = 0; _i lt _items.length; _i++&gt;&gt;
+                        &lt;&lt;= setup.titleCase(UInv.GetItemPropertyValue(&quot;inventory&quot;, _items[_i], &quot;name&quot;))&gt;&gt;
+                        &lt;br&gt;
+                    &lt;&lt;/for&gt;&gt;
+                &lt;/div&gt;
+                &lt;div style=&quot;text-align: right; margin-right: 20px; font-weight: normal&quot;&gt;
+                    &lt;&lt;for _i = 0; _i lt _items.length; _i++&gt;&gt;
+                            &lt;&lt;= UInv.BagHasItem(&quot;inventory&quot;, _items[_i])&gt;&gt;
+                            &lt;br&gt;
+                    &lt;&lt;/for&gt;&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/center&gt;
+        &lt;&lt;set _quest_items = UInv.GetItemsArrayByItemTag(&quot;inventory&quot;, &quot;type&quot;, &quot;quest_item&quot;)&gt;&gt;
+        &lt;hr&gt;
+        &lt;center&gt;&lt;h3&gt;Quest Items&lt;/h3&gt;
+            &lt;div style=&quot;text-align: left; margin-left: 20px; font-weight: normal&quot;&gt;
+                &lt;&lt;for _i = 0; _i lt _quest_items.length; _i++&gt;&gt;
+                    &lt;&lt;= setup.titleCase(UInv.GetItemPropertyValue(&quot;inventory&quot;, _quest_items[_i], &quot;name&quot;))&gt;&gt;
+                    &lt;br&gt;
+                &lt;&lt;/for&gt;&gt;
+            &lt;/div&gt;
+        &lt;/center&gt;
+    &lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="62" name="playerMenu" tags="paper" position="225,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+
+/* For updating versions */
+&lt;&lt;if $player.is_slave &amp;&amp; UInv.BagHasItem(&quot;hironaka_amulet&quot;) == 0&gt;&gt;
+    &lt;&lt;run UInv.AddItem(&quot;inventory&quot;, &quot;hironaka_amulet&quot;, 1)&gt;&gt;
+    &lt;&lt;set $player.equipment.neck = &quot;hironaka_amulet&quot;&gt;&gt;
+&lt;&lt;/if&gt;&gt;
+
+&lt;div class=&quot;charside left&quot;&gt;
+    &lt;div id=&quot;left_actions&quot; class=&quot;mapaction fiveQuarters smalltext&quot;&gt;
+        &lt;hr&gt;
+        &lt;&lt;disable&gt;&gt;
+            @@#stats_but;&lt;&lt;button &quot;Stats&quot;&gt;&gt;
+            &lt;&lt;/button&gt;&gt;@@
+        &lt;&lt;/disable&gt;&gt;
+        @@#skills_but;&lt;&lt;button &quot;Skills&quot;&gt;&gt;
+        &lt;&lt;/button&gt;&gt;@@
+        @@#titles_but;&lt;&lt;button &quot;Titles&quot;&gt;&gt;
+        &lt;&lt;/button&gt;&gt;@@
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;background&quot; class=&quot;paper_border notext&quot;&gt;
+    &lt;div class=&quot;main container threeCol&quot; style=&quot;height: 100%; width: 100%;&quot;&gt;
+        &lt;div id=&quot;playerMenuLeft&quot;&gt;
+            &lt;&lt;set _left_selection = &quot;stats&quot;&gt;&gt;
+            &lt;&lt;include playerMenuStats&gt;&gt;
+            &lt;&lt;include playerMenuSkills&gt;&gt;
+            &lt;&lt;include playerMenuTitles&gt;&gt;
         &lt;/div&gt;
-        &lt;br&gt;&lt;br&gt;
+
+        &lt;div id=&quot;playerMenuCenter&quot;&gt;
+            &lt;div class=&quot;subbackground&quot;&gt;
+                &lt;center&gt;&lt;h3&gt;$player.first_name
+                    &lt;&lt;if $player.is_slave&gt;&gt;
+                        Hironaka
+                    &lt;&lt;else&gt;&gt;
+                        $player.last_name
+                    &lt;&lt;/if&gt;&gt;
+                &lt;/h3&gt;&lt;/center&gt;
+                &lt;&lt;include playerMenuEquip&gt;&gt;
+
+                &lt;div id=&quot;playerMenuImage&quot;&gt;&lt;/div&gt;
+                &lt;&lt;timed 20ms&gt;&gt;
+                    &lt;&lt;run $(&quot;#playerMenuImage&quot;).css(&quot;background-image&quot;, &quot;url(resources/images/characters/player/&quot; + $player.gender + &quot;.png)&quot;)&gt;&gt;
+                &lt;&lt;/timed&gt;&gt;
+                &lt;div style=&quot;margin: 15px; margin-left: 30px; margin-right: 30px&quot;&gt;
+                    &lt;&lt;showmeter &quot;player_health_bar&quot; `$player.conditions.health/$player.conditions.max_health`&gt;&gt;
+                    &lt;&lt;showmeter &quot;player_stamina_bar&quot; `$player.conditions.stamina/$player.conditions.max_stamina`&gt;&gt;
+                &lt;/div&gt;
+                &lt;center class=&quot;twoThirds&quot;&gt;
+                &lt;&lt;button &quot;Back&quot;&gt;&gt;
+                    &lt;&lt;set $in_menu = false&gt;&gt;
+                    &lt;&lt;goto $last_visited&gt;&gt;
+                    &lt;&lt;set $last_visited = &quot;&quot;&gt;&gt; 
+                &lt;&lt;/button&gt;&gt;
+                &lt;/center&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div id=&quot;playerMenuRight&quot;&gt;
+            &lt;&lt;set _right_selection = &quot;inventory&quot;&gt;&gt;
+            &lt;&lt;include playerMenuInventory&gt;&gt;
+            &lt;&lt;include playerMenuEquipment&gt;&gt;
+        &lt;/div&gt;
+
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;charside right&quot;&gt;
+    &lt;div id=&quot;right_actions&quot; class=&quot;mapaction fiveQuarters smalltext&quot;&gt;
+        &lt;hr&gt;
+        &lt;&lt;disable&gt;&gt;
+            @@#inventory_but;&lt;&lt;button &quot;Inventory&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@
+        &lt;&lt;/disable&gt;&gt;
+        @@#equipment_but;&lt;&lt;button &quot;Equipment&quot;&gt;&gt;
+            &lt;&lt;timed 60ms&gt;&gt;
+                &lt;&lt;removeclass &quot;#equipOverlay&quot; &quot;hidden&quot;&gt;&gt;
+            &lt;&lt;/timed&gt;&gt;
+        &lt;&lt;/button&gt;&gt;@@
+        @@#finances_but;&lt;&lt;button &quot;Finances&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@        
+        &lt;&lt;set _right_selection = &quot;inventory&quot;&gt;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;mapaction fiveQuarters smalltext&quot;&gt;
+        @@#quests;&lt;&lt;button &quot;Quests&quot;&gt;&gt;
+            &lt;&lt;script&gt;&gt;Dialog.close();&lt;&lt;/script&gt;&gt;
+            &lt;&lt;popover&gt;&gt;
+                &lt;&lt;include questMenu&gt;&gt;
+            &lt;&lt;/popover&gt;&gt;
+        &lt;&lt;/button&gt;&gt;@@
+        @@#status;&lt;&lt;button &quot;Status&quot;&gt;&gt;
+            &lt;&lt;set _selected_status = $player.get_status($last_visited)&gt;&gt;
+            &lt;&lt;popover&gt;&gt;
+                &lt;&lt;include statusTutorial&gt;&gt;
+            &lt;&lt;/popover&gt;&gt;
+        &lt;&lt;/button&gt;&gt;@@
+    &lt;/div&gt;
+    
+&lt;/div&gt;
+
+&lt;&lt;timed 50ms&gt;&gt;&lt;&lt;silently&gt;&gt;&lt;&lt;script&gt;&gt;
+    $(&quot;#left_actions&quot;).find(&quot;button&quot;).on(&quot;click&quot;, (event) =&gt; {
+        $(&quot;#left_actions&quot;).find(&quot;button&quot;).removeClass(&quot;disabled&quot;);
+        $(&quot;#left_actions&quot;).find(&quot;button&quot;).prop(&quot;disabled&quot;, false);
+        var self = $(event.currentTarget);
+        self.addClass(&quot;disabled&quot;);
+        self.prop(&quot;disabled&quot;, true);
+        var desc = setup.camelize(self.html());
+        $(&quot;#&quot; + desc).removeClass(&quot;hidden&quot;);
+        $(&quot;#playerMenuLeft&quot;).removeClass(&quot;hidden&quot;);
+        $(&quot;#playerMenuCenter&quot;).removeClass(&quot;hidden&quot;);
+        $(&quot;#&quot; + State.temporary.left_selection).addClass(&quot;hidden&quot;);
+        State.temporary.left_selection = desc;
+        $(&quot;#playerMenuCenterDetails&quot;).addClass(&quot;hidden&quot;);
+    });
+    $(&quot;#right_actions&quot;).find(&quot;button&quot;).on(&quot;click&quot;, (event) =&gt; {
+        $(&quot;#right_actions&quot;).find(&quot;button&quot;).removeClass(&quot;disabled&quot;);
+        $(&quot;#right_actions&quot;).find(&quot;button&quot;).prop(&quot;disabled&quot;, false);
+        var self = $(event.currentTarget);
+        self.addClass(&quot;disabled&quot;);
+        self.prop(&quot;disabled&quot;, true);
+        var desc = setup.camelize(self.html());
+        $(&quot;#&quot; + desc).removeClass(&quot;hidden&quot;);
+        $(&quot;#playerMenuLeft&quot;).removeClass(&quot;hidden&quot;);
+        $(&quot;#playerMenuCenter&quot;).removeClass(&quot;hidden&quot;);
+        $(&quot;#&quot; + State.temporary.right_selection).addClass(&quot;hidden&quot;);
+        State.temporary.right_selection = desc;
+        $(&quot;#playerMenuCenterDetails&quot;).addClass(&quot;hidden&quot;);
+        $(&quot;#equipOverlay&quot;).addClass(&quot;hidden&quot;);
+    });
+&lt;&lt;/script&gt;&gt;&lt;&lt;/silently&gt;&gt;&lt;&lt;/timed&gt;&gt;
+
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="63" name="playerMenuSkills" tags="" position="350,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+
+&lt;div id=&quot;skills&quot; class=&quot;subbackground hidden&quot;&gt;
+    &lt;hr&gt;
+    &lt;center&gt;&lt;h3&gt;Skills&lt;/h3&gt;
+        &lt;div class=&quot;container twoCol&quot;&gt;
+            &lt;div style=&quot;text-align: left; margin-left: 20px&quot;&gt;
+                &lt;&lt;for _i = 0; _i lt setup.SKILLS.length; _i++&gt;&gt;
+                    &lt;&lt;= setup.titleCase(setup.SKILLS[_i])&gt;&gt;
+                    &lt;br&gt;
+                &lt;&lt;/for&gt;&gt;
+            &lt;/div&gt;
+            &lt;div style=&quot;text-align: right; margin-right: 20px&quot;&gt;
+                &lt;&lt;for _i = 0; _i lt setup.SKILLS.length; _i++&gt;&gt;
+                    &lt;&lt;= setup.round2($player.skills[setup.SKILLS[_i]]).toString().padStart(3, &#39;\u2000&#39;)&gt;&gt;
+                    &lt;br&gt;
+                &lt;&lt;/for&gt;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/center&gt;
+    &lt;hr&gt;
+    &lt;center&gt;&lt;h3&gt;Sex Skills&lt;/h3&gt;
+        &lt;div class=&quot;container twoCol&quot;&gt;
+            &lt;div style=&quot;text-align: left; margin-left: 20px&quot;&gt;
+                &lt;&lt;for _i = 0; _i lt setup.SEX_SKILLS.length; _i++&gt;&gt;
+                    &lt;&lt;= setup.titleCase(setup.SEX_SKILLS[_i])&gt;&gt;
+                    &lt;br&gt;
+                &lt;&lt;/for&gt;&gt;
+            &lt;/div&gt;
+
+            &lt;div style=&quot;text-align: right; margin-right: 20px&quot;&gt;
+                &lt;&lt;for _i = 0; _i lt setup.SEX_SKILLS.length; _i++&gt;&gt;
+                    &lt;&lt;= setup.round2($player.sex_skills[setup.SEX_SKILLS[_i]]).toString().padStart(3, &#39;\u2000&#39;)&gt;&gt;
+                    &lt;br&gt;
+                &lt;&lt;/for&gt;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/center&gt;
+&lt;/div&gt;
+
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="64" name="playerMenuStats" tags="" position="475,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div id=&quot;stats&quot; class=&quot;subbackground&quot;&gt;
+    &lt;hr&gt;
+    &lt;center&gt;&lt;h3&gt;Stats&lt;/h3&gt;
         &lt;div class=&quot;container twoCol&quot;&gt;
             &lt;div style=&quot;text-align: left; margin-left: 20px&quot;&gt;
                 Sex &lt;br&gt;
@@ -20414,44 +21241,55 @@ as changing the images based on the state
                 &lt;&lt;/for&gt;&gt;
             &lt;/div&gt;
         &lt;/div&gt;
-        &lt;br&gt;&lt;br&gt;&lt;br&gt;
-        &lt;center class=&quot;twoThirds&quot;&gt;
-        &lt;&lt;button &quot;Back&quot;&gt;&gt;
-            &lt;&lt;set $in_menu = false&gt;&gt;
-            &lt;&lt;goto $last_visited&gt;&gt;
-            &lt;&lt;set $last_visited = &quot;&quot;&gt;&gt; 
-        &lt;&lt;/button&gt;&gt;
-        &lt;/center&gt;
-    &lt;/div&gt;
-
-    &lt;div class=&quot;subbackground&quot;&gt;
-        &lt;hr&gt;
-        &lt;center&gt;&lt;h3&gt;Inventory&lt;/h3&gt;
-            &lt;div class=&quot;container twoCol&quot;&gt;
-                &lt;&lt;set _items = UInv.GetItemsArray(&quot;inventory&quot;)&gt;&gt;
-                &lt;div style=&quot;text-align: left; margin-left: 20px&quot;&gt;
-                    &lt;&lt;for _i = 0; _i lt _items.length; _i++&gt;&gt;
-                        &lt;&lt;if !UInv.GetItemPropertyValue(&quot;inventory&quot;, _items[_i], &quot;type&quot;).includes(&quot;money&quot;)&gt;&gt;
-                            &lt;&lt;= setup.titleCase(UInv.GetItemPropertyValue(&quot;inventory&quot;, _items[_i], &quot;name&quot;))&gt;&gt;
-                            &lt;br&gt;
-                        &lt;&lt;/if&gt;&gt;
-                    &lt;&lt;/for&gt;&gt;
-                &lt;/div&gt;
-                &lt;div style=&quot;text-align: right; margin-right: 20px&quot;&gt;
-                    &lt;&lt;for _i = 0; _i lt _items.length; _i++&gt;&gt;
-                        &lt;&lt;if !UInv.GetItemPropertyValue(&quot;inventory&quot;, _items[_i], &quot;type&quot;).includes(&quot;money&quot;)&gt;&gt;
-                            &lt;&lt;= UInv.BagHasItem(&quot;inventory&quot;, _items[_i])&gt;&gt;
-                            &lt;br&gt;
-                        &lt;&lt;/if&gt;&gt;
-                    &lt;&lt;/for&gt;&gt;
-                &lt;/div&gt;
-            &lt;/div&gt;
-        &lt;/center&gt;
-    &lt;/div&gt;
-
+    &lt;/center&gt;
 &lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="65" name="playerMenuTitles" tags="" position="600,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div id=&quot;titles&quot; class=&quot;subbackground hidden&quot;&gt;
+    &lt;hr&gt;
+    &lt;center&gt;&lt;h3&gt;Titles&lt;/h3&gt;
+        /* Prints all titles and assigns a unique div id to them */
+        &lt;div id=&quot;titles_body&quot;&gt;&lt;/div&gt;
+        &lt;&lt;set $done_setup = false&gt;&gt;
+        &lt;&lt;script&gt;&gt;
+            setTimeout(function(){
+                var html = &quot;&quot;;
+                var titles = Array.from(State.variables.player.titles);
+                for (var i = 0; i &lt; titles.length; i++) {
+                    html += (&quot;\
+                        &lt;div id=\&quot;char_&quot; + titles[i] + &quot;\&quot; class=\&quot;tooltip\&quot;&gt;&quot; +
+                            setup.titleCase(titles[i])
+                        + &quot;&lt;/div&gt;&lt;br&gt;\
+                    &quot;);
+                }
+                document.getElementById(&quot;titles_body&quot;).innerHTML = html;
+
+                State.variables.done_setup = true;
+            }, 1);
+        &lt;&lt;/script&gt;&gt;
+
+        /* Creates artificial event-listener for setup of script above */
+        &lt;&lt;repeat 20ms&gt;&gt;
+            &lt;&lt;if $done_setup&gt;&gt;
+                &lt;&lt;for _idx, _title range $player.titles&gt;&gt;
+                    &lt;&lt;capture _title&gt;&gt;
+                        &lt;&lt;script&gt;&gt;
+                            var title = State.temporary.title;
+                            $(&quot;#char_&quot; + title).click(
+                                function(){
+                                    State.variables.selected_title = title;
+                                    $.wiki(&quot;&lt;&lt;popover&gt;&gt;&lt;&lt;include titleTutorial&gt;&gt;&lt;&lt;/popover&gt;&gt;&quot;)
+                                }
+                            );
+                        &lt;&lt;/script&gt;&gt;
+                    &lt;&lt;/capture&gt;&gt;
+                &lt;&lt;/for&gt;&gt;
+                &lt;&lt;stop&gt;&gt;
+            &lt;&lt;/if&gt;&gt;
+        &lt;&lt;/repeat&gt;&gt;
+    &lt;/center&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="60" name="questMenu" tags="" position="1225,725" size="100,100">&lt;&lt;nobr&gt;&gt;
+
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="66" name="questMenu" tags="" position="725,850" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;Quest Journal&lt;/h2&gt;
 This is your quest journal and where you can view quests that are both ongoing and completed. 
@@ -20504,7 +21342,7 @@ of completing them (unless it is a direct request from another character).
 &lt;&lt;/for&gt;&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="61" name="settingsMenu" tags="black" position="100,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="67" name="settingsMenu" tags="black" position="850,850" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;background&quot; class=&quot;paper_border notext&quot;&gt;
     &lt;center&gt;&lt;h1&gt;Settings&lt;/h1&gt;&lt;/center&gt;
     &lt;div class=&quot;container threeCol&quot;&gt;
@@ -20680,7 +21518,7 @@ of completing them (unless it is a direct request from another character).
 &lt;&lt;/script&gt;&gt;&lt;&lt;/timed&gt;&gt;&lt;&lt;/silently&gt;&gt;
 
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="62" name="niponActions" tags="" position="225,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="68" name="niponActions" tags="" position="975,850" size="100,100">&lt;&lt;nobr&gt;&gt;
     &lt;div id=&quot;actions&quot; class=&quot;mapaction fiveQuarters smalltext&quot;&gt;
         &lt;hr&gt;
         &lt;&lt;set _added = 0&gt;&gt;
@@ -20736,12 +21574,38 @@ of completing them (unless it is a direct request from another character).
         &lt;/div&gt;
         &lt;hr&gt;
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="63" name="liasTowerActions" tags="" position="350,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="69" name="liasTowerActions" tags="" position="1100,850" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;actions&quot; class=&quot;action container row col longbutton fiveQuarters&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
-
+    &lt;&lt;set _queue_talk = false&gt;&gt;
     &lt;&lt;button &quot;Talk&quot;&gt;&gt;
+        &lt;&lt;if !_queue_talk&gt;&gt;
+            &lt;&lt;set _queue_talk = true&gt;&gt;
+            &lt;&lt;set _options = &quot;\
+                &lt;ol&gt;\
+                    &lt;li id=\&quot;li1\&quot;&gt;\&quot;Can you tell me more about Shintani?\&quot;&lt;/li&gt;\
+                    &lt;li id=\&quot;li2\&quot;&gt;\&quot;Can you tell me more about Nipon?\&quot;&lt;/li&gt;\
+                    &lt;li id=\&quot;li3\&quot;&gt;\&quot;Why doesn\&#39;t Shintani sell you off as well?\&quot;&lt;/li&gt;\
+                    &lt;li id=\&quot;li4\&quot;&gt;\&quot;Why are you still in Nipon?\&quot;&lt;/li&gt;\
+                    &lt;li id=\&quot;li5\&quot;&gt;\&quot;What do you want to see Nipon become?\&quot;&lt;/li&gt;\
+            &quot;&gt;&gt;
+            &lt;&lt;if $quests.power_struggles.stage == 1&gt;&gt;
+                &lt;&lt;set _options += &quot;&lt;li id=\&quot;li6\&quot;&gt;\&quot;What did you need me to do again?\&quot;&lt;/li&gt;&quot;&gt;&gt;
+            &lt;&lt;elseif $quests.power_struggles.stage == 3&gt;&gt;
+                &lt;&lt;set _options += &quot;&lt;li id=\&quot;li6\&quot;&gt;\&quot;I got the things you asked of me.\&quot;&lt;/li&gt;&quot;&gt;&gt;
+            &lt;&lt;/if&gt;&gt;
+            &lt;&lt;set _options = $(_options)&gt;&gt;
+            &lt;&lt;set _responses = [_options.clone()]&gt;&gt;
+            &lt;&lt;script&gt;&gt;
+                setup.mainLog_append_delayed(State.temporary.responses);
+            &lt;&lt;/script&gt;&gt;
+        &lt;&lt;/if&gt;&gt;
+
+        &lt;&lt;set _disable_buttons = false&gt;&gt;
+        &lt;&lt;disableactions _options&gt;&gt;
         
+        &lt;&lt;addclass &quot;#actions&quot; &quot;hidden&quot;&gt;&gt;
+        &lt;&lt;removeclass &quot;#events_actions&quot; &quot;hidden&quot;&gt;&gt;
     &lt;&lt;/button&gt;&gt;    
 
     &lt;div style=&quot;grid-row: 1; grid-column: 4&quot;&gt;&lt;/div&gt;
@@ -20755,8 +21619,11 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="64" name="liasTower" tags="black" position="475,850" size="100,100">&lt;&lt;nobr&gt;&gt;
-&lt;&lt;if !hasVisited(passage())&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="70" name="liasTower" tags="black" position="1225,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+
+&lt;&lt;set _lia = $characters.lia_hiroyuki&gt;&gt;
+
+&lt;&lt;if $quests.power_struggles.stage == 0&gt;&gt;
     /* Add tutorial */
     &lt;&lt;if tale.has(passage() + &quot;Tutorial&quot;)&gt;&gt;
         &lt;&lt;set $tutorials[passage()] = passage() + &quot;Tutorial&quot;&gt;&gt;
@@ -20764,6 +21631,7 @@ of completing them (unless it is a direct request from another character).
 
     /* Update quest */
     &lt;&lt;set $quests.power_struggles.stage = 1&gt;&gt;
+    &lt;&lt;set $quests.power_struggles.data.side = &quot;lia&quot;&gt;&gt;
 
     &lt;&lt;set $_to_log = &quot;
         &lt;div&gt;You enter Lia\&#39;s tower to find her sitting and staring into the horizon. \
@@ -20772,17 +21640,25 @@ of completing them (unless it is a direct request from another character).
             Oh, I didn\&#39;t think you would actually come. Normally I\&#39;m not allowed to have \
             any visitors, but since you are technically property of the Hiroyuki family, you \
             are an exception. Here, have a seat.\
-        &quot;)
+        &quot;) + 
+        &quot;&lt;ol&gt;\
+            &lt;li&gt;Take a seat.&lt;/li&gt;\
+        &lt;/ol&gt;&quot;
     &gt;&gt;
+    &lt;&lt;set _init_sequence = true&gt;&gt;
+    &lt;&lt;timed 50ms&gt;&gt;
+        &lt;&lt;removeclass &quot;#events_actions&quot; &quot;hidden&quot;&gt;&gt;
+        &lt;&lt;addclass &quot;#actions&quot; &quot;hidden&quot;&gt;&gt;
+        &lt;&lt;set _choices = 1&gt;&gt;
+        &lt;&lt;disableactions&gt;&gt;
+    &lt;&lt;/timed&gt;&gt;
 &lt;&lt;else&gt;&gt;
     &lt;&lt;set $_to_log = &quot;
         &lt;div&gt;You enter Lia\&#39;s tower to find her sitting and staring into the horizon. \
         She notices that you arrived and turns around to greet you.&lt;/div&gt;&lt;br&gt;&quot; + 
-        $characters.lia_hiroyuki.dialogue(&quot;You came to see my again?&quot;)
+        $characters.lia_hiroyuki.dialogue(&quot;You\&#39;re back.&quot;)
     &gt;&gt;
 &lt;&lt;/if&gt;&gt;
-
-&lt;&lt;set $_to_log += &quot;&lt;div&gt;MS: CURRENTLY UNDER CONSTRUCTION&lt;/div&gt;&quot;&gt;&gt;
 
 /* Load in any saved variables */
 &lt;&lt;loadVars&gt;&gt;
@@ -20807,13 +21683,279 @@ of completing them (unless it is a direct request from another character).
 
         &lt;div id=&quot;action_bar&quot; class=&quot;subbackground&quot; style=&quot;grid-row: 3 / span 1; grid-column: 1 / span 3&quot;&gt;
             &lt;&lt;include liasTowerActions&gt;&gt;
+            &lt;&lt;include liasTowerTalkOptions&gt;&gt;
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
 
 &lt;&lt;updatetime&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="65" name="niponBarracksActions" tags="" position="600,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="71" name="liasTowerTalkOptions" tags="" position="100,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+
+&lt;div id=&quot;events_actions&quot; class=&quot;action container row col hidden&quot;
+         style=&quot;--rows: 4; --cols: 5&quot;&gt;
+
+    @@#events1;.event_button;&lt;&lt;button &quot;1&quot;&gt;&gt;
+        &lt;&lt;if def _init_sequence &amp;&amp; _init_sequence&gt;&gt;
+            &lt;&lt;set _responses = [
+                &quot;You take a seat across from Lia,&quot;,
+                _lia.dialogue(&quot;\
+                    I\&#39;m assuming you don\&#39;t know who I am right? While I\&#39;m sure you have guessed by now that \
+                    I am Shin\&#39;s sister, my past is stained with blood as is the rest of our family. Shin has \
+                    dishonored the Hiroyuki family name by first selling off our parents many years ago.&quot;),
+                &quot;Lia pauses for a second to regain her composure,&quot;,
+                _lia.dialogue(&quot;Look, if you want out of your situation, go into Shin\&#39;s office at night and \
+                    bring me his transaction logs. I need everything you can find. Also I need you to go into \
+                    the library and get me our family history. It might be hidden away, but look for a crest like \
+                    this.&quot;),
+                &quot;Lia brings out a golden pendant which has a three leaves enclosed within a circle. It resembles \
+                the crest you know very well, but the entchings and geometry of one around your neck are pervertered \
+                beyond recognition. Lia sees the momentary weakness within your eyes, and puts her hand on your leg,&quot;,
+                _lia.dialogue(&quot;Trust me, I know your suffering better than you can imagine. Help me free you.&quot;)
+            ]&gt;&gt;
+            &lt;&lt;run $(&quot;.event_button button&quot;).addClass(&quot;hidden&quot;)&gt;&gt;
+            &lt;&lt;silently&gt;&gt;&lt;&lt;repeat 20ms&gt;&gt;&lt;&lt;if def _done_appending &amp;&amp; _done_appending&gt;&gt;
+                &lt;&lt;removeclass &quot;#events_actions_leave&quot; &quot;hidden&quot;&gt;&gt;
+                &lt;&lt;unset _done_appending&gt;&gt;
+                &lt;&lt;stop&gt;&gt;
+            &lt;&lt;/if&gt;&gt;&lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
+        &lt;&lt;elseif ndef _action&gt;&gt;
+            &lt;&lt;set _options.find(&quot;#li1&quot;).css(&quot;text-decoration&quot;, &quot;line-through&quot;)&gt;&gt;
+            &lt;&lt;set _action = 1&gt;&gt;
+            &lt;&lt;set _sub_options = $(&quot;&lt;ol&gt;\
+                    &lt;li id=\&quot;li1\&quot;&gt;\&quot;What was like Shintani when he was young?\&quot;&lt;/li&gt;\
+                    &lt;li id=\&quot;li2\&quot;&gt;\&quot;What are Shintani\&#39;s true goals?\&quot;&lt;/li&gt;\
+                    &lt;li id=\&quot;li3\&quot;&gt;\&quot;Nevermind\&quot;&lt;/li&gt;\
+                &lt;/ol&gt;&quot;)&gt;&gt;
+            &lt;&lt;set _responses = [
+                &quot;Lia lets out a long sigh,&quot;,
+                _lia.dialogue(&quot;Well... ask away, what did you want to know?&quot;),
+                _sub_options.clone()
+            ]&gt;&gt;
+            &lt;&lt;silently&gt;&gt;&lt;&lt;repeat 20ms&gt;&gt;&lt;&lt;if def _done_appending &amp;&amp; _done_appending&gt;&gt;
+                &lt;&lt;set _choices = 3&gt;&gt;
+                &lt;&lt;set _disable_buttons = false&gt;&gt;
+                &lt;&lt;disableactions&gt;&gt;
+                &lt;&lt;stop&gt;&gt;
+            &lt;&lt;/if&gt;&gt;&lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
+        &lt;&lt;elseif _action == 1&gt;&gt;
+            &lt;&lt;set _sub_options.find(&quot;#li1&quot;).css(&quot;text-decoration&quot;, &quot;line-through&quot;)&gt;&gt;
+            &lt;&lt;set _responses = [
+                &quot;Lia is visably puzzled at why you\&#39;d inquire about that, but she obliges&quot;,
+                _lia.dialogue(&quot;Being the only male heir in the Hiroyuki household, Shin was treated as royalty \
+                    since the day he was born. Our father especially had always told Shin that he was special and \
+                    above others. I think his many servants at the time led him to develop a control complex. When \
+                    one day he could no longer control the whims of our parents, he staged a coup, taking control \
+                    of Nipon, selling off our parents, and sending assassins for me. Since then he was obsessed \
+                    with slavery and controlling others. If only dad had known... Oh how we all loved Shin when he \
+                    was younger...&quot;),
+                &quot;You see Lia\&#39;s eyes slightly glaze over as her voice breaks off,&quot;,
+                _lia.dialogue(&quot;Sorry about that... anything else?&quot;),
+                _sub_options.clone()
+            ]&gt;&gt;
+        &lt;&lt;elseif _action == 2&gt;&gt;
+            &lt;&lt;set _sub_options.find(&quot;#li1&quot;).css(&quot;text-decoration&quot;, &quot;line-through&quot;)&gt;&gt;
+            &lt;&lt;set _responses = [
+                &quot;Lia sighs again&quot;,
+                _lia.dialogue(&quot;It is very unfortunate for all of us that Nipon is so successful. The analysts at the Union \
+                    have thought about this issue and our conclusion is that it\&#39;s due to Nipon great location. Because of \
+                    the East Great Desert, Nipon is completely isolated from the world by land. Furthermore, my parents \
+                    had the foresight to heavily invest in our docks, so we can be isolationist whilst still benefitting \
+                    from the trade routes of the Union. Shin is convinced that Nipons success is all due to him and his \
+                    increasingly concerning policies regarding slavery.&quot;),
+                _lia.dialogue(&quot;Is that all?&quot;),
+                _sub_options.clone()
+            ]&gt;&gt;
+        &lt;&lt;/if&gt;&gt;
+    &lt;&lt;/button&gt;&gt;@@
+    @@#events2;.event_button;&lt;&lt;button &quot;2&quot;&gt;&gt;
+        &lt;&lt;if ndef _action&gt;&gt;
+            &lt;&lt;set _options.find(&quot;#li2&quot;).css(&quot;text-decoration&quot;, &quot;line-through&quot;)&gt;&gt;
+            &lt;&lt;set _action = 2&gt;&gt;
+            &lt;&lt;set _sub_options = $(&quot;&lt;ol&gt;\
+                    &lt;li id=\&quot;li1\&quot;&gt;\&quot;What makes Nipon successful?\&quot;&lt;/li&gt;\
+                    &lt;li id=\&quot;li2\&quot;&gt;\&quot;How did Nipon start?\&quot;&lt;/li&gt;\
+                    &lt;li id=\&quot;li3\&quot;&gt;\&quot;Why is Nipon so... oriental? Has it always been this way?\&quot;&lt;/li&gt;\
+                    &lt;li id=\&quot;li4\&quot;&gt;\&quot;Nevermind\&quot;&lt;/li&gt;\
+                &lt;/ol&gt;&quot;)&gt;&gt;
+            &lt;&lt;set _responses = [
+                &quot;Lia lets out a long sigh,&quot;,
+                _lia.dialogue(&quot;Well... ask away, what did you want to know?&quot;),
+                _sub_options.clone()
+            ]&gt;&gt;
+            &lt;&lt;silently&gt;&gt;&lt;&lt;repeat 20ms&gt;&gt;&lt;&lt;if def _done_appending &amp;&amp; _done_appending&gt;&gt;
+                &lt;&lt;set _choices = 4&gt;&gt;
+                &lt;&lt;set _disable_buttons = false&gt;&gt;
+                &lt;&lt;disableactions&gt;&gt;
+                &lt;&lt;stop&gt;&gt;
+            &lt;&lt;/if&gt;&gt;&lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
+        &lt;&lt;elseif _action == 1&gt;&gt;
+            &lt;&lt;set _sub_options.find(&quot;#li2&quot;).css(&quot;text-decoration&quot;, &quot;line-through&quot;)&gt;&gt;
+            &lt;&lt;set _responses = [
+                _lia.dialogue(&quot;Not freedom. He claims to want a \&quot;Free City,\&quot; but his definitions of freedom \
+                    are a complete perversion of the word. He wants to give everyone freedom by removing the need \
+                    to worry about choice. He wants to resolve all interpersonal conflict by performing mass eugenics \
+                    to completely cull the population of anyone not of eastern Asian descent. He wants to bring his \
+                    people happiness by getting them addicted to drugs and dulling their senses. Monster would be putting \
+                    it lightly. This is why we at the Trade Union are making a move.&quot;),
+                _lia.dialogue(&quot;Anything else you wanted to know?&quot;),
+                _sub_options.clone()
+            ]&gt;&gt;
+        &lt;&lt;elseif _action == 2&gt;&gt;
+            &lt;&lt;set _sub_options.find(&quot;#li2&quot;).css(&quot;text-decoration&quot;, &quot;line-through&quot;)&gt;&gt;
+            &lt;&lt;set _responses = [
+                _lia.dialogue(&quot;Well I\&#39;m sure Shin will tell you it was gifted to us by the gods, but actually our ancestors \
+                    conquered Nipon from the Namm household many years ago. In fact the day that Nipon started is year 0 of the \
+                    standard calendar. At that time Nipon worked hand-in-hand with the Trade Union, so the Nipon calendar was \
+                    popularized through that.&quot;),
+                _lia.dialogue(&quot;Anything else you wanted to know?&quot;),
+                _sub_options.clone()
+            ]&gt;&gt;
+        &lt;&lt;/if&gt;&gt;
+    &lt;&lt;/button&gt;&gt;@@
+    @@#events3;.event_button;&lt;&lt;button &quot;3&quot;&gt;&gt;
+        &lt;&lt;if ndef _action&gt;&gt;
+            &lt;&lt;set _options.find(&quot;#li3&quot;).css(&quot;text-decoration&quot;, &quot;line-through&quot;)&gt;&gt;
+            &lt;&lt;set _responses = [
+                _lia.dialogue(&quot;Well actually when my parents were sold off he sent assassins after me. \
+                    I guess my parents held some prestige of the Hiroyuki household thus there were buyers, \
+                    but not me. I very luckily ran into the Trade Union, which as you know is an independent \
+                    entity from Nipon. They took me in, and now Shin can\&#39;t touch me. He has tried everything \
+                    he could from limiting my movements though, even isolating me to a tower on the outskirts of \
+                    town.&quot;),
+                _options.clone()
+            ]&gt;&gt;
+        &lt;&lt;elseif _action == 1&gt;&gt;
+            &lt;&lt;unset _action&gt;&gt;
+            &lt;&lt;set _responses = [
+                _lia.dialogue(&quot;What did you need?&quot;),
+                _options.clone()
+            ]&gt;&gt;
+            &lt;&lt;silently&gt;&gt;&lt;&lt;repeat 20ms&gt;&gt;&lt;&lt;if def _done_appending &amp;&amp; _done_appending&gt;&gt;
+                &lt;&lt;set _disable_buttons = false&gt;&gt;
+                &lt;&lt;disableactions _options&gt;&gt;
+                &lt;&lt;stop&gt;&gt;
+            &lt;&lt;/if&gt;&gt;&lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
+        &lt;&lt;elseif _action == 2&gt;&gt;
+            &lt;&lt;set _sub_options.find(&quot;#li3&quot;).css(&quot;text-decoration&quot;, &quot;line-through&quot;)&gt;&gt;
+            &lt;&lt;set _responses = [
+                &quot;Your question catches Lia off guard, and she chuckles a little to herself&quot;,
+                _lia.dialogue(&quot;Nipon has always been a little \&quot;oriental\&quot; as you call it, because when the Hiroyuki family \
+                    conquered Nipon from the Namm household we wanted to integrate our cultures as fast as possible. However \
+                    Nipon as you know it now is way more extreme then it ever was before. This is due to Shin\&#39;s racial \
+                    superiority. I\&#39;m pretty sure he just wants an excuse to be above others. While our parents did always \
+                    teach us to appreciate our own culture due to the limited number of east Asians left today, they also \
+                    always stressed the importance of diversity. Diversity is important in any system to ensure the continued \
+                    survival of a species. The same is true for civilizations as well. Shin is heading down a dark path.&quot;),
+                &quot;You are shocked at Lia\&#39;s depth of knowledge&quot;,
+                $player.dialogue(&quot;How... do you know all this?&quot;),
+                _lia.dialogue(&quot;Haha... that\&#39;s a fair response. Not even Shin knows about how Nipon came to be. I\&#39;m sure if \
+                    you asked him, he\&#39;d spout some garbage about the gods as our father always told him. But, I think he only \
+                    pretends to care, because this information is readily available if you search through our old books. But of \
+                    course that would delegitimize Shin\&#39;s position. Anyways, anything else?&quot;),
+                _sub_options.clone()
+            ]&gt;&gt;
+        &lt;&lt;/if&gt;&gt;
+    &lt;&lt;/button&gt;&gt;@@
+    @@#events4;.event_button;&lt;&lt;button &quot;4&quot;&gt;&gt;
+        &lt;&lt;if ndef _action&gt;&gt;
+            &lt;&lt;set _options.find(&quot;#li4&quot;).css(&quot;text-decoration&quot;, &quot;line-through&quot;)&gt;&gt;
+            &lt;&lt;set _responses = [
+                _lia.dialogue(&quot;As in why not leave? Well firstly despite my brother trying to limit my rights \
+                    Nipon is still better than the outside world. Plus I\&#39;m still a Hiroyuki... and well I guess \
+                    I also don\&#39;t want to just leave my home because of Shin. If I do that, he wins doesn\&#39;t he? \
+                    I guess despite being much more intelligent than Shin I can still be irrationall sentimental \
+                    at times.&quot;),
+                    _options.clone()
+            ]&gt;&gt;
+        &lt;&lt;elseif _action == 2&gt;&gt;
+            &lt;&lt;unset _action&gt;&gt;
+            &lt;&lt;set _responses = [
+                _lia.dialogue(&quot;What did you need?&quot;),
+                _options.clone()
+            ]&gt;&gt;
+            &lt;&lt;silently&gt;&gt;&lt;&lt;repeat 20ms&gt;&gt;&lt;&lt;if def _done_appending &amp;&amp; _done_appending&gt;&gt;
+                &lt;&lt;set _disable_buttons = false&gt;&gt;
+                &lt;&lt;disableactions _options&gt;&gt;
+                &lt;&lt;stop&gt;&gt;
+            &lt;&lt;/if&gt;&gt;&lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
+        &lt;&lt;/if&gt;&gt;
+    &lt;&lt;/button&gt;&gt;@@
+    @@#events5;.event_button;&lt;&lt;button &quot;5&quot;&gt;&gt;
+        &lt;&lt;set _options.find(&quot;#li5&quot;).css(&quot;text-decoration&quot;, &quot;line-through&quot;)&gt;&gt;
+        &lt;&lt;set _responses = [
+            _lia.dialogue(&quot;Nipon needs to return to its origins. I want to see this trend of slavery \
+                abolished not matter what, and I want to prove to people that true freedom is possible even \
+                in this wretched world. And...&quot;),
+            &quot;Lia\&#39;s words fade off and she turns again to stare at the horizon,&quot;,
+            _lia.dialogue(&quot;I... I just want my home back. I miss my family.&quot;),
+            _options.clone()
+        ]&gt;&gt;
+    &lt;&lt;/button&gt;&gt;@@
+    @@#events6;.event_button;&lt;&lt;button &quot;6&quot;&gt;&gt;
+        &lt;&lt;set _options.find(&quot;#li6&quot;).css(&quot;text-decoration&quot;, &quot;line-through&quot;)&gt;&gt;
+        &lt;&lt;if $quests.power_struggles.stage == 1&gt;&gt;
+            &lt;&lt;set _responses = [
+                $player.dialogue(&quot;So what did you need me to do again?&quot;),
+                _lia.dialogue(&quot;I need you to steal Shin\&#39;s transaction log from his office and \
+                    I also need the copy of the Hiroyuki family registry from his library. Bring them \
+                    to me and I will ensure your eventual freedom.&quot;),
+                &quot;Lia eyes you expecting your next question,&quot;,
+                _options.clone()
+            ]&gt;&gt;
+        &lt;&lt;elseif $quests.power_struggles.stage == 3&gt;&gt;
+            &lt;&lt;set _responses = [
+                &quot;UNDER CONSTRUCTION&quot;
+            ]&gt;&gt;
+        &lt;&lt;/if&gt;&gt;
+    &lt;&lt;/button&gt;&gt;@@
+    @@#events7;.event_button;&lt;&lt;button &quot;7&quot;&gt;&gt;
+
+    &lt;&lt;/button&gt;&gt;@@
+    @@#events8;.event_button;&lt;&lt;button &quot;8&quot;&gt;&gt;
+
+    &lt;&lt;/button&gt;&gt;@@
+
+    &lt;&lt;set $buttons = []&gt;&gt;
+    &lt;&lt;for _i = 1; _i lte 8; _i++&gt;&gt;
+        &lt;&lt;set $buttons.push(&quot;#events&quot; + _i)&gt;&gt;
+    &lt;&lt;/for&gt;&gt;
+    &lt;&lt;set $buttons_extra = [&quot;#events_actions_back&quot;, &quot;#events_actions_leave&quot;]&gt;&gt;
+
+    /* Back button is disabled by default */
+    &lt;div style=&quot;grid-row: 1; grid-column: 5&quot;&gt;&lt;/div&gt;
+    &lt;div style=&quot;grid-row: 2; grid-column: 5&quot;&gt;&lt;/div&gt;
+    &lt;div id=&quot;events_actions_back&quot; style=&quot;grid-row: 3; grid-column: 5&quot;&gt;
+        &lt;&lt;button &quot;Back&quot;&gt;&gt;
+            &lt;&lt;removeclass &quot;#actions&quot; &quot;hidden&quot;&gt;&gt;
+            &lt;&lt;addclass &quot;#events_actions&quot; &quot;hidden&quot;&gt;&gt;
+        &lt;&lt;/button&gt;&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;events_actions_leave&quot; style=&quot;grid-row: 4; grid-column: 5&quot;&gt;
+        &lt;&lt;set _location_button_text = &quot;Leave&quot;&gt;&gt;
+        &lt;&lt;set _location_button_dest = &quot;niponCentral&quot;&gt;&gt;
+        &lt;&lt;set _location_button_sound = &quot;wooden_door_sound&quot;&gt;&gt;
+        &lt;&lt;include locationButton&gt;&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;&lt;timed 50ms&gt;&gt;&lt;&lt;silently&gt;&gt;&lt;&lt;script&gt;&gt;
+    $(&quot;.event_button button&quot;).on(&quot;click&quot;, (event) =&gt; {
+        var self = $(event.currentTarget);
+        self.addClass(&quot;disabled&quot;);
+        self.prop(&quot;disabled&quot;, true);
+
+        setup.mainLog_append_delayed(State.temporary.responses, 
+            State.variables.buttons, 
+            State.variables.buttons_extra);
+        delete State.temporary.responses;
+    });
+&lt;&lt;/script&gt;&gt;&lt;&lt;/silently&gt;&gt;&lt;&lt;/timed&gt;&gt;
+
+
+
+
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="72" name="niponBarracksActions" tags="" position="225,975" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;actions&quot; class=&quot;action container row col longbutton fiveQuarters&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -20846,7 +21988,7 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="66" name="niponBarracksEmilyActions" tags="" position="725,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="73" name="niponBarracksEmilyActions" tags="" position="350,975" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;emily_actions&quot; class=&quot;action container row col longbutton fiveQuarters hidden&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -20950,7 +22092,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="67" name="niponBarracks" tags="black" position="850,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="74" name="niponBarracks" tags="black" position="475,975" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;set _emily = $characters.emily_namm&gt;&gt;
 
@@ -21019,7 +22161,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;updatetime&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="68" name="niponBarracksTalkOptions" tags="" position="975,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="75" name="niponBarracksTalkOptions" tags="" position="600,975" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* For ease */
 &lt;&lt;set _emily = $characters.emily_namm&gt;&gt;
@@ -21292,7 +22434,7 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="69" name="niponCentral" tags="paper" position="1100,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="76" name="niponCentral" tags="paper" position="725,975" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* Player is outside */
 &lt;&lt;set $player.is_home = false&gt;&gt;
@@ -21375,7 +22517,7 @@ of completing them (unless it is a direct request from another character).
     }, 10);
 &lt;&lt;/script&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="70" name="shintaniHomeActions" tags="" position="1225,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="77" name="shintaniHomeActions" tags="" position="850,975" size="100,100">&lt;&lt;nobr&gt;&gt;
     &lt;div id=&quot;actions&quot; class=&quot;action container row col&quot; 
          style=&quot;--rows: 4; --cols: 5&quot;&gt;
         &lt;div style=&quot;grid-row: 1; grid-column: 1&quot;&gt;
@@ -21432,7 +22574,7 @@ of completing them (unless it is a direct request from another character).
         &lt;/div&gt;
 
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="71" name="shintaniHomeEventsActions" tags="" position="100,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="78" name="shintaniHomeEventsActions" tags="" position="975,975" size="100,100">&lt;&lt;nobr&gt;&gt;
     &lt;div id=&quot;events_actions&quot; class=&quot;action container row col hidden&quot;
          style=&quot;--rows: 4; --cols: 5&quot;&gt;
 
@@ -21484,7 +22626,7 @@ of completing them (unless it is a direct request from another character).
         &lt;/div&gt;
 
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="72" name="shintaniHomeEventsInteractHimariAsk" tags="" position="225,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="79" name="shintaniHomeEventsInteractHimariAsk" tags="" position="1100,975" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;set _choices = 5&gt;&gt;
 &lt;&lt;script&gt;&gt;
@@ -21515,10 +22657,10 @@ of completing them (unless it is a direct request from another character).
         } else if (quests.knowledge_is_power.stage == 1) {
             /* TODO: Worked at brothel */
             if (false) {
-                State.temporary.options += &quot;&lt;li id=\&quot;li6\&quot;&gt;About having worked at the brothel.&lt;/li&gt;&quot;;
+                State.temporary.options += &quot;&lt;li value=\&quot;6\&quot; id=\&quot;li6\&quot;&gt;About having worked at the brothel.&lt;/li&gt;&quot;;
                 State.temporary.choices = 6;
             } else if (player.get_money() &gt;= 500) {
-                State.temporary.options += &quot;&lt;li id=\&quot;li6\&quot;&gt;About paying off the debt (¤500).&lt;/li&gt;&quot;;
+                State.temporary.options += &quot;&lt;li value=\&quot;6\&quot; id=\&quot;li6\&quot;&gt;About paying off the debt (¤500).&lt;/li&gt;&quot;;
                 State.temporary.choices = 6;
             }
         }
@@ -21673,6 +22815,7 @@ of completing them (unless it is a direct request from another character).
                     &lt;&lt;unset _responses&gt;&gt;
                     &lt;&lt;unset _dialogue&gt;&gt;
                 &lt;&lt;case 6&gt;&gt;
+                    &lt;&lt;set _options.find(&quot;#li6&quot;).css(&quot;text-decoration&quot;, &quot;line-through&quot;)&gt;&gt;
                     &lt;&lt;run $(&quot;#events6 button&quot;).prop(&quot;disabled&quot;, true)&gt;&gt;
                     &lt;&lt;addclass &quot;#events6 button&quot; &quot;disabled&quot;&gt;&gt;
                     &lt;&lt;set _responses = []&gt;&gt;
@@ -21700,7 +22843,6 @@ of completing them (unless it is a direct request from another character).
                             &lt;&lt;set _responses.push(_char.dialogue(&quot;500 lari should cover it.&quot;))&gt;&gt;
                             &lt;&lt;set $quests.knowledge_is_power.stage = 1&gt;&gt;
                         &lt;&lt;/if&gt;&gt;
-                        &lt;&lt;set _options.find(&quot;#li6&quot;).css(&quot;text-decoration&quot;, &quot;line-through&quot;)&gt;&gt;
                         &lt;&lt;set _responses.push(_options.clone())&gt;&gt;
                     &lt;&lt;else&gt;&gt;
                         /* Worked at brothel */
@@ -21760,7 +22902,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="73" name="shintaniHomeEventsInteractShintaniAsk" tags="" position="350,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="80" name="shintaniHomeEventsInteractShintaniAsk" tags="" position="1225,975" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* For ease */
 &lt;&lt;set _shintani = $characters.shintani_hiroyuki&gt;&gt;
@@ -21774,7 +22916,7 @@ of completing them (unless it is a direct request from another character).
         ask you a couple of things?\&quot;&lt;/em&gt;\
         &lt;br&gt;Shintani eyes you up and down, wondering what you want.\
         &lt;br&gt;\
-        What would you like to ask about?\
+        What would you like to talk about?\
     &quot;;
     State.temporary.options = &quot;
         &lt;ol&gt;\
@@ -21784,17 +22926,20 @@ of completing them (unless it is a direct request from another character).
             &lt;li id=\&quot;li4\&quot;&gt;Where you can improve your skills.&lt;/li&gt;\
             &lt;li id=\&quot;li5\&quot;&gt;The library.&lt;/li&gt;\
             &lt;li id=\&quot;li6\&quot;&gt;What you can do to help.&lt;/li&gt;&quot;;
-
-    var quest_journal = State.variables.quest_journal;
+    State.temporary.choices = 6;
+    let quest_journal = State.variables.quest_journal;
+    let quests = State.variables.quests;
     if (quest_journal.ongoing.contains(&quot;the_nipon_economy&quot;)) {
         if (player.get_money() &gt;= 1000) {
-            State.temporary.options += &quot;&lt;li id=\&quot;li7\&quot;&gt;About successfully getting $1000.&lt;/li&gt;&quot;;
+            State.temporary.options += &quot;&lt;li id=\&quot;li7\&quot; value=\&quot;7\&quot;&gt;About successfully getting $1000.&lt;/li&gt;&quot;;
         } else {
-            State.temporary.options += &quot;&lt;li id=\&quot;li7\&quot;&gt;About giving up on testing the economy.&lt;/li&gt;&quot;;
+            State.temporary.options += &quot;&lt;li id=\&quot;li7\&quot; value=\&quot;7\&quot;&gt;About giving up on testing the economy.&lt;/li&gt;&quot;;
         }
-        State.temporary.choices = 7;
-    } else {
-        State.temporary.choices = 6;
+        State.temporary.choices += 1;
+    }
+    if (quest_journal.ongoing.contains(&quot;power_struggles&quot;) &amp;&amp; 
+        (quests.power_struggles.stage == 1 || quests.power_struggles.stage == 2)) {
+        State.temporary.options += &quot;&lt;li id=\&quot;li8\&quot; value=\&quot;8\&quot;&gt;Lia\&#39;s adversarial plans.&quot;
     }
 
     State.temporary.options += &quot;&lt;/ol&gt;&quot;;
@@ -21804,11 +22949,8 @@ of completing them (unless it is a direct request from another character).
     State.temporary.options = $(State.temporary.options);
 &lt;&lt;/script&gt;&gt;
 
-&lt;&lt;disableactions&gt;&gt;
-
-/* Allow back and leave buttons */
-&lt;&lt;removeclass &quot;#events_actions_back&quot; &quot;hidden&quot;&gt;&gt;
-&lt;&lt;removeclass &quot;#events_actions_leave&quot; &quot;hidden&quot;&gt;&gt;
+&lt;&lt;set _disable_buttons = false&gt;&gt;
+&lt;&lt;disableactions _options&gt;&gt;
 
 /* Psuedoevent listener for action */
 &lt;&lt;silently&gt;&gt;&lt;&lt;repeat 10ms&gt;&gt;
@@ -21866,7 +23008,22 @@ of completing them (unless it is a direct request from another character).
                     &lt;&lt;run $(&quot;#events2 button&quot;).prop(&quot;disabled&quot;, true)&gt;&gt;
                     &lt;&lt;addclass &quot;#events2 button&quot; &quot;disabled&quot;&gt;&gt;
                     &lt;&lt;set _options.find(&quot;#li2&quot;).css(&quot;text-decoration&quot;, &quot;line-through&quot;)&gt;&gt;
-                    &lt;&lt;set _responses = [&quot;UNDER CONSTRUCTION.&quot;]&gt;&gt;
+                    &lt;&lt;set _responses = [$player.dialogue(&quot;When you first found me, you mentioned a \&quot;Free City\&quot;,&quot;)]&gt;&gt;
+                    &lt;&lt;if $player.is_slave&gt;&gt;
+                        &lt;&lt;set _responses.push(
+                            &quot;You raise your hand slowly to touch the collar on your neck with the crest of the \
+                            Hiroyuki household engraved in it, implying that his city is anything but free.&quot;
+                        )&gt;&gt;
+                        &lt;&lt;set _response.push(&quot;Shintani chuckles,&quot;)&gt;&gt;
+                        &lt;&lt;set _response.push(_shintani.dialogue(
+                            &quot;What is freedom really? Do we as humans desire true freedom? Freedom is you starving in the \
+                            desert. It\&#39;s your death. Humans like to be told what to do. We like to wake up and have somewhere \
+                            to be. We like to slowly walk the monotonous march that leads the the great equalizer... death.&quot;
+                        ))&gt;&gt;
+                    &lt;&lt;/if&gt;&gt;
+                    &lt;&lt;set _responses.push(&quot;Shintani pauses and considers his words,&quot;)&gt;&gt;
+                    &lt;&lt;set _responses.push(&quot;Freedom is about freedom from starvation. It\&#39;s about freedom from worry. \
+                        Freedom is Slavery.&quot;)&gt;&gt;
                     &lt;&lt;set _responses.push(_options.clone())&gt;&gt;
                     &lt;&lt;script&gt;&gt;
                         setup.mainLog_append_delayed(State.temporary.responses, 
@@ -22084,7 +23241,7 @@ of completing them (unless it is a direct request from another character).
                     &lt;&lt;unset _response&gt;&gt;
                     &lt;&lt;unset _responses&gt;&gt;
                 &lt;&lt;case 7&gt;&gt;
-                    &lt;&lt;run $(&quot;#events7 button&quot;).prop(&quot;disabled&quot;, true)&gt;&gt;
+                    &lt;&lt;run $(&quot;#events7 button&quot;).css(&quot;text-decoration&quot;, &quot;line-through&quot;)&gt;&gt;
                     &lt;&lt;addclass &quot;#events7 button&quot; &quot;disabled&quot;&gt;&gt;
                     &lt;&lt;if $player.get_money() gte 1000&gt;&gt;
                         &lt;&lt;set _responses = [$player.dialogue(&quot;I\&#39;ve completed your task, here\&#39;s 1000 lari.&quot;)]&gt;&gt;
@@ -22127,6 +23284,16 @@ of completing them (unless it is a direct request from another character).
                     &lt;&lt;/script&gt;&gt;
                     &lt;&lt;unset _response&gt;&gt;
                     &lt;&lt;unset _responses&gt;&gt;
+                &lt;&lt;case 8&gt;&gt;
+                    /* TODO */
+                    &lt;&lt;set _options.find(&quot;#li8&quot;).css(&quot;text-decoration&quot;, &quot;line-through&quot;)&gt;&gt;
+                    &lt;&lt;set _responses = [&quot;UNDER CONSTRUCTION&quot;]&gt;&gt;
+                    &lt;&lt;set _responses.push(_options.clone())&gt;&gt;
+                    &lt;&lt;script&gt;&gt;
+                        setup.mainLog_append_delayed(State.temporary.responses, State.variables.buttons, State.variables.buttons_extra);
+                    &lt;&lt;/script&gt;&gt;
+                    &lt;&lt;unset _response&gt;&gt;
+                    &lt;&lt;unset _responses&gt;&gt;
             &lt;&lt;/switch&gt;&gt;
 
             &lt;&lt;silently&gt;&gt;&lt;&lt;repeat 20ms&gt;&gt;&lt;&lt;if ndef _done_appending || (def _done_appending &amp;&amp; _done_appending)&gt;&gt;
@@ -22145,9 +23312,9 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="74" name="shintaniHomeEventsWorkDomesticEvents" tags="" position="475,975" size="100,100">&lt;&lt;set _events = [
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="81" name="shintaniHomeEventsWorkDomesticEvents" tags="" position="100,1100" size="100,100">&lt;&lt;set _events = [
 
-]&gt;&gt;</tw-passagedata><tw-passagedata pid="75" name="shintaniHomeEventsWorkEconomicCheckMath" tags="" position="600,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+]&gt;&gt;</tw-passagedata><tw-passagedata pid="82" name="shintaniHomeEventsWorkEconomicCheckMath" tags="" position="225,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;script&gt;&gt;
     var div = $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
@@ -22262,8 +23429,6 @@ of completing them (unless it is a direct request from another character).
                     &lt;&lt;/if&gt;&gt;
                 &lt;&lt;/if&gt;&gt;
 
-                /* TODO: Add flavor text */
-
                 &lt;&lt;if _success&gt;&gt;
                     &lt;&lt;set $_temp_to_log += &quot;&lt;div&gt;Whether it was from your intelligence or pure willpower, \
                                             you were able to diligently check through Shintani&#39;s work. \
@@ -22321,7 +23486,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="76" name="shintaniHomeEventsWorkEconomicEvents" tags="" position="725,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="83" name="shintaniHomeEventsWorkEconomicEvents" tags="" position="350,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _prefix = &quot;shintaniHomeEventsWorkEconomic&quot;&gt;&gt;
 &lt;&lt;set _events = [
     &quot;CheckMath&quot;,
@@ -22332,7 +23497,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;include `_prefix + either(_events)`&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="77" name="shintaniHomeEventsWorkEconomicFetchBook" tags="" position="850,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="84" name="shintaniHomeEventsWorkEconomicFetchBook" tags="" position="475,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;script&gt;&gt;
     var div = $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
@@ -22425,7 +23590,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="78" name="shintaniHomeEventsWorkEconomicGetTea" tags="" position="975,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="85" name="shintaniHomeEventsWorkEconomicGetTea" tags="" position="600,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* For ease */
 &lt;&lt;set _char = $characters[either($characters.shintani_hiroyuki.slaves)]&gt;&gt;
@@ -22835,7 +24000,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="79" name="shintaniHomeEventsWorkEconomicInformShintani" tags="" position="1100,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="86" name="shintaniHomeEventsWorkEconomicInformShintani" tags="" position="725,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* For ease */
 &lt;&lt;set _himari = $characters.himari_hironaka&gt;&gt;
@@ -22921,9 +24086,9 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="80" name="shintaniHomeEventsWorkSexualEvents" tags="" position="1225,975" size="100,100">&lt;&lt;set _events = [
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="87" name="shintaniHomeEventsWorkSexualEvents" tags="" position="850,1100" size="100,100">&lt;&lt;set _events = [
 
-]&gt;&gt;</tw-passagedata><tw-passagedata pid="81" name="shintaniHomeInteractActions" tags="" position="100,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+]&gt;&gt;</tw-passagedata><tw-passagedata pid="88" name="shintaniHomeInteractActions" tags="" position="975,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;interact_actions&quot; class=&quot;action container row col hidden&quot; 
         style=&quot;--rows: 4; --cols: 5&quot;&gt;
 
@@ -23026,7 +24191,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/button&gt;&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="82" name="shintaniHomeInteractAsleepActions" tags="" position="225,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="89" name="shintaniHomeInteractAsleepActions" tags="" position="1100,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 /* For engines */
 &lt;div id=&quot;interact_asleep_actions&quot; class=&quot;action container row col hidden&quot; 
         style=&quot;--rows: 4; --cols: 5&quot;&gt;
@@ -23092,7 +24257,7 @@ of completing them (unless it is a direct request from another character).
         &lt;&lt;unset _modifier&gt;&gt;
     &lt;&lt;/button&gt;&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="83" name="shintaniHomeInteractOptions" tags="" position="350,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="90" name="shintaniHomeInteractOptions" tags="" position="1225,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;interact_options&quot; class=&quot;action container row col hidden&quot; 
         style=&quot;--rows: 4; --cols: 5&quot;&gt;
 
@@ -23221,16 +24386,72 @@ of completing them (unless it is a direct request from another character).
         &lt;/div&gt;
     &lt;&lt;/for&gt;&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="84" name="shintaniHomeLibraryActions" tags="" position="475,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="91" name="shintaniHomeLibraryActions" tags="" position="100,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
     &lt;div id=&quot;actions&quot; class=&quot;action container row col&quot; 
          style=&quot;--rows: 4; --cols: 5&quot;&gt;
 
          &lt;&lt;button &quot;Study&quot;&gt;&gt;
-            &lt;&lt;notify&gt;&gt;Under Construction&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;run $(&quot;#info_title&quot;).html(&quot;Study in the Hiroyuki Library&quot;)&gt;&gt;
+            &lt;&lt;set _default_info = $(&quot;&lt;div&gt;\
+                &lt;div id=\&quot;normal_study\&quot;&gt;\
+                The shelves in the Hiroyuki library are stuffed to the brim with knowledge \
+                just waiting to be learned.\
+                &lt;ul id=\&quot;change_list\&quot;&gt;\
+                    &lt;li id=\&quot;li1\&quot;&gt;3% per hour chance to gain intelligence (capped at 40).&lt;/li&gt;\
+                    &lt;li id=\&quot;li2\&quot; class=\&quot;hidden\&quot;&gt;&lt;/li&gt;\
+                    &lt;li id=\&quot;li3\&quot; class=\&quot;hidden\&quot;&gt;&lt;/li&gt;\
+                &lt;/ul&gt;&lt;/div&gt;\
+                &lt;div id=\&quot;subject_study\&quot;&gt;\
+                You could also expend some extra effort to focus on a specific topic if you\&#39;d like.\
+                &lt;ul&gt;\
+                    &lt;li id=\&quot;li4\&quot;&gt;(intelligence/20)% per hour chance to increase subject stat.&lt;/li&gt;\
+                    &lt;li id=\&quot;li5\&quot;&gt;-3 additional stamina per hour.&lt;/li&gt;\
+                &lt;/ul&gt;&lt;/div&gt;\
+            &lt;/div&gt;&quot;)&gt;&gt;
+            &lt;&lt;run $(&quot;#infoLogBody&quot;).html(&quot;&quot;)&gt;&gt;
+            &lt;&lt;run $(&quot;#infoLogBody&quot;).append(_default_info.clone())&gt;&gt;
+            &lt;&lt;removeclass &quot;#study_actions&quot; &quot;hidden&quot;&gt;&gt;
+            &lt;&lt;addclass &quot;#actions&quot; &quot;hidden&quot;&gt;&gt;
+            &lt;&lt;removeclass &quot;#infoLog&quot; &quot;hidden&quot;&gt;&gt;
+            &lt;&lt;addclass &quot;#mainLog&quot; &quot;hidden&quot;&gt;&gt;
+            /* Reset study buttons */
+            &lt;&lt;script&gt;&gt;
+                $(&quot;.study button&quot;).removeClass(&quot;disabled&quot;);
+                $(&quot;.study button&quot;).prop(&quot;disabled&quot;, false);
+                $(&quot;.study_option button&quot;).addClass(&quot;disabled&quot;);
+                $(&quot;.study_option button&quot;).prop(&quot;disabled&quot;, true);
+                $(&quot;#studyStart button&quot;).addClass(&quot;disabled&quot;);
+                $(&quot;#studyStart button&quot;).prop(&quot;disabled&quot;, true);
+            &lt;&lt;/script&gt;&gt;
          &lt;&lt;/button&gt;&gt;
 
-         &lt;&lt;button &quot;Search&quot;&gt;&gt;
-            &lt;&lt;notify&gt;&gt;Under Construction&lt;&lt;/notify&gt;&gt;
+         &lt;&lt;button &quot;Search&quot; `passage()`&gt;&gt;
+            &lt;&lt;if $quests.power_struggles.stage == 1&gt;&gt;
+                &lt;&lt;set $_temp_to_log = &quot;You searched the library for an hour and found a tattered old book with \
+                    the symbol that Lia showed you. &quot;&gt;&gt;
+                &lt;&lt;if $player.titles.has(&quot;lost_knowledge&quot;)&gt;&gt;
+                    &lt;&lt;set $_temp_to_log += &quot;As you openned the book you were immediately greated with what you \
+                        recognized as a \&quot;long tougue\&quot;, specifically an eastern variety. It seems the book \
+                        describes the different births and deaths spanning since the beginning of time at year 0. &quot;&gt;&gt;
+                &lt;&lt;else&gt;&gt;
+                    &lt;&lt;set $_temp_to_log += &quot;As you openned the book you were immediately greated with cryptic \
+                        symbols that did not resemble any writing system you\&#39;ve ever seen. &quot;&gt;&gt;
+                &lt;&lt;/if&gt;&gt;
+                &lt;&lt;set $_temp_to_log += &quot;On the inside of the cover you see another symbol that looks extremely familiar.&quot;&gt;&gt;
+                &lt;&lt;set $_temp_to_log += &quot;&lt;br&gt;&lt;span class=\&quot;success\&quot;&gt;(Acquired Hiroyuki Family Registry)&lt;/span&gt;&quot;&gt;&gt;
+                &lt;&lt;set $quests.power_struggles.stage = 2&gt;&gt;
+                &lt;&lt;run UInv.AddItem(&quot;inventory&quot;, &quot;hiroyuki_book&quot;, 1)&gt;&gt;
+            &lt;&lt;else&gt;&gt;
+                &lt;&lt;if $player.titles.has(&quot;lost_knowledge&quot;)&gt;&gt;
+                    &lt;&lt;set $_temp_to_log = &quot;You searched the library for an hour but only found unimportant \
+                        documents.&quot;&gt;&gt;
+                &lt;&lt;else&gt;&gt;
+                    &lt;&lt;set $_temp_to_log = &quot;You searched the library for an hour but only found either unimportant \
+                        documents or scrolls with cryptic symbols on them. Perhaps you might be able to find \
+                        someone who could decipher them.&quot;&gt;&gt;
+                &lt;&lt;/if&gt;&gt;
+            &lt;&lt;/if&gt;&gt;
+            &lt;&lt;addhours 1&gt;&gt;
          &lt;&lt;/button&gt;&gt;
         
         &lt;div style=&quot;grid-row: 3; grid-column: 5&quot;&gt;
@@ -23246,13 +24467,10 @@ of completing them (unless it is a direct request from another character).
             &lt;&lt;set _location_button_sound = &quot;wooden_door_sound&quot;&gt;&gt;
             &lt;&lt;include locationButton&gt;&gt;
         &lt;/div&gt;
-
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="85" name="shintaniHomeLibrary" tags="black" position="600,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="92" name="shintaniHomeLibrary" tags="black" position="225,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
 /* Add tutorial for shintaniHome as well as trigger on first enterance */
 &lt;&lt;if !(passage() in $tutorials)&gt;&gt;
-    /* Enable menu keybinds */
-    &lt;&lt;set $enable_menu = true&gt;&gt;
     &lt;&lt;set $tutorials[passage()] = passage() + &quot;Tutorial&quot;&gt;&gt;
 
     /* First interaction */
@@ -23269,8 +24487,6 @@ of completing them (unless it is a direct request from another character).
     quickly abandoned due to some emergency.&lt;/div&gt;&lt;br&gt;\
 &quot;&gt;&gt;
 
-&lt;&lt;set $_to_log += &quot;&lt;div&gt;MS: CURRENTLY UNDER CONSTRUCTION&lt;/div&gt;&quot;&gt;&gt;
-
 /* Load in any saved variables */
 &lt;&lt;loadVars&gt;&gt;
  
@@ -23279,11 +24495,13 @@ of completing them (unless it is a direct request from another character).
     &lt;div class=&quot;main container fourCol threeRow&quot; style=&quot;height: 100%; width: 100%;&quot;&gt;
         &lt;div class=&quot;subbackground mainLogContainer&quot;&gt;
             &lt;&lt;include mainLog&gt;&gt;
+            &lt;&lt;include infoLog&gt;&gt;
         &lt;/div&gt;
         &lt;&lt;include info&gt;&gt;
 
         &lt;div id=&quot;action_bar&quot; class=&quot;subbackground&quot; style=&quot;grid-row: 3 / span 1; grid-column: 1 / span 3&quot;&gt;
             &lt;&lt;include shintaniHomeLibraryActions&gt;&gt;
+            &lt;&lt;include shintaniHomeLibraryStudyActions&gt;&gt;
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
@@ -23291,7 +24509,205 @@ of completing them (unless it is a direct request from another character).
 &lt;&lt;updatetime&gt;&gt;
 
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="86" name="shintaniHome" tags="black" position="725,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="93" name="shintaniHomeLibraryStudyActions" tags="" position="350,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div id=&quot;study_actions&quot; class=&quot;action container row col fiveQuarters smalltext longbutton hidden&quot; 
+        style=&quot;--rows: 4; --cols: 4&quot;&gt;
+
+    
+    /* How long we want to work for */
+    &lt;div style=&quot;grid-row: 1; grid-column: 1&quot;&gt;
+        @@#study1Hr;.study;&lt;&lt;button &quot;1 Hour&quot;&gt;&gt;
+        &lt;&lt;/button&gt;&gt;@@
+    &lt;/div&gt;
+    &lt;div style=&quot;grid-row: 1; grid-column: 2&quot;&gt;
+        @@#study4Hr;.study;&lt;&lt;button &quot;4 Hours&quot;&gt;&gt;
+        &lt;&lt;/button&gt;&gt;@@
+    &lt;/div&gt;
+    &lt;div style=&quot;grid-row: 1; grid-column: 3&quot;&gt;
+        @@#study8Hr;.study;&lt;&lt;button &quot;8 Hours&quot;&gt;&gt;
+        &lt;&lt;/button&gt;&gt;@@
+    &lt;/div&gt;
+
+
+    &lt;div style=&quot;grid-row: 1; grid-column: 4&quot;&gt;
+        &lt;&lt;disable&gt;&gt;
+            @@#studyStart;&lt;&lt;button &quot;Start&quot;&gt;&gt;
+                &lt;&lt;include shintaniHomeLibraryStudyEngine&gt;&gt;
+            &lt;&lt;/button&gt;&gt;@@
+        &lt;&lt;/disable&gt;&gt;
+    &lt;/div&gt;
+
+    &lt;&lt;disable&gt;&gt;
+        @@#manipulation;.study_option;&lt;&lt;button &quot;Manipulation&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@
+    &lt;&lt;/disable&gt;&gt;
+    &lt;&lt;disable&gt;&gt;
+        @@#tact;.study_option;&lt;&lt;button &quot;Tact&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;@@
+    &lt;&lt;/disable&gt;&gt;
+
+    &lt;div style=&quot;grid-row: 3; grid-column: 4&quot;&gt;
+        &lt;&lt;button &quot;Back&quot;&gt;&gt;
+            &lt;&lt;removeclass &quot;#actions&quot; &quot;hidden&quot;&gt;&gt;
+            &lt;&lt;addclass &quot;#study_actions&quot; &quot;hidden&quot;&gt;&gt;
+            &lt;&lt;removeclass &quot;#mainLog&quot; &quot;hidden&quot;&gt;&gt;
+            &lt;&lt;addclass &quot;#infoLog&quot; &quot;hidden&quot;&gt;&gt;
+        &lt;&lt;/button&gt;&gt;
+    &lt;/div&gt;
+
+    &lt;div style=&quot;grid-row: 4; grid-column: 4&quot;&gt;
+        &lt;&lt;set _location_button_text = &quot;Leave&quot;&gt;&gt;
+        &lt;&lt;set _location_button_dest = &quot;niponCentral&quot;&gt;&gt;
+        &lt;&lt;set _location_button_sound = &quot;wooden_door_sound&quot;&gt;&gt;
+        &lt;&lt;include locationButton&gt;&gt;
+    &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;&lt;timed 50ms&gt;&gt;&lt;&lt;silently&gt;&gt;&lt;&lt;script&gt;&gt;
+    $(&quot;.study button&quot;).on(&quot;click&quot;, (event) =&gt; {
+        let player = State.variables.player;
+        $(&quot;.study button&quot;).removeClass(&quot;disabled&quot;);
+        $(&quot;.study button&quot;).prop(&quot;disabled&quot;, false);
+        
+        let self = $(event.currentTarget);
+        let study_time = parseInt(self.html().replace(/\D/g,&#39;&#39;));
+        State.temporary.to_advance_hr = study_time;
+        if (Math.abs(setup.project_stamina_change(60 * study_time)) &lt; player.conditions.stamina) {
+            self.addClass(&quot;disabled&quot;);
+            self.prop(&quot;disabled&quot;, true);
+            $(&quot;.study_option button&quot;).removeClass(&quot;disabled&quot;);
+            $(&quot;.study_option button&quot;).prop(&quot;disabled&quot;, false);
+            State.temporary.study_subject = &quot;none&quot;;
+            $(&quot;#subject_study&quot;).addClass(&quot;hidden&quot;);
+            let intell_perc = 3;
+            if (player.stats.intelligence &gt; 40) {
+                intell_perc = 0;
+            }
+            $(&quot;#li1&quot;).html(intell_perc * study_time + &quot;% change to gain intelligence.&quot;);
+            $(&quot;#li2&quot;).addClass(&quot;hidden&quot;);
+            $(&quot;#li3&quot;).addClass(&quot;hidden&quot;);
+            $(&quot;#studyStart button&quot;).removeClass(&quot;disabled&quot;);
+            $(&quot;#studyStart button&quot;).prop(&quot;disabled&quot;, false);
+        } else {
+            let str = &quot;&lt;&lt;popover&gt;&gt;You are too tired to study &quot; + study_time + &quot; &quot;;
+            if (study_time == 1) {
+                str += &quot;hour.&quot;;
+            } else {
+                str += &quot;hours.&quot;;
+            }
+            $.wiki(str);
+            $(&quot;.study_option button&quot;).addClass(&quot;disabled&quot;);
+            $(&quot;.study_option button&quot;).prop(&quot;disabled&quot;, true);
+            $(&quot;#studyStart button&quot;).addClass(&quot;disabled&quot;);
+            $(&quot;#studyStart button&quot;).prop(&quot;disabled&quot;, true);
+            $(&quot;#infoLogBody&quot;).html(&quot;&quot;);
+            $(&quot;#infoLogBody&quot;).append(State.temporary.default_info.clone());
+        }
+    });
+    $(&quot;.study_option button&quot;).on(&quot;click&quot;, (event) =&gt; {
+        let player = State.variables.player;
+        let study_time = State.temporary.to_advance_hr;
+        if (3 * study_time + Math.abs(setup.project_stamina_change(60 * study_time)) &lt; player.conditions.stamina) {
+            $(&quot;.study_option button&quot;).removeClass(&quot;disabled&quot;);
+            $(&quot;.study_option button&quot;).prop(&quot;disabled&quot;, false);
+            let self = $(event.currentTarget);
+            self.addClass(&quot;disabled&quot;);
+            self.prop(&quot;disabled&quot;, true);
+            let study_subject = self.html().toLowerCase();
+            State.temporary.study_subject = study_subject;
+            let raise_perc = player.stats.intelligence / 20 * study_time;
+            $(&quot;#li2&quot;).html(raise_perc + &quot;% change to increase &quot; + study_subject + &quot;.&quot;);
+            $(&quot;#li2&quot;).removeClass(&quot;hidden&quot;);
+            $(&quot;#li3&quot;).html(-3 * study_time + &quot; additional stamina.&quot;);
+            $(&quot;#li3&quot;).removeClass(&quot;hidden&quot;);
+        } else {
+            $.wiki(&quot;&lt;&lt;popover&gt;&gt;You are too tired to study an additional subject.&lt;&lt;/popover&gt;&gt;&quot;);
+        }
+    })
+&lt;&lt;/script&gt;&gt;&lt;&lt;/silently&gt;&gt;&lt;&lt;/timed&gt;&gt;
+
+
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="94" name="shintaniHomeLibraryStudyEngine" tags="" position="475,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+
+/* Information about work */
+&lt;&lt;set $_temp_to_log = &quot;\
+    &lt;div&gt;You spent time intensely studying in the Hiroyuki library.&lt;/div&gt;\
+&quot;&gt;&gt;
+
+/* Get clone of player to display changes */
+&lt;&lt;set _player = clone($player)&gt;&gt;
+
+/* Forward time along with dynamics */
+&lt;&lt;set $player.is_working = true&gt;&gt;
+&lt;&lt;addhours _to_advance_hr&gt;&gt;
+&lt;&lt;set $player.is_working = false&gt;&gt;
+
+/* Simulate intelligence roll */
+&lt;&lt;set _roll = randomFloat(1.0)&gt;&gt;
+&lt;&lt;set _thresh = _to_advance_hr * 3 / 100&gt;&gt;
+&lt;&lt;if $player.stats.intelligence gte 40&gt;&gt;
+    &lt;&lt;set _thresh = 0&gt;&gt;
+&lt;&lt;/if&gt;&gt;
+&lt;&lt;if _roll lt _thresh&gt;&gt;
+    &lt;&lt;set $player.stats.intelligence += 1&gt;&gt;
+    &lt;&lt;set $_temp_to_log += &quot;&lt;div&gt;You studied the perfect combination of subjects, resulting in clear \
+        mental growth (Intelligence &quot; + setup.show_change_html(0, 1) + &quot;)&lt;/div&gt;&quot;&gt;&gt;
+&lt;&lt;/if&gt;&gt;
+
+/* Simulate subject learning */
+&lt;&lt;if _study_subject != &quot;none&quot;&gt;&gt;
+    &lt;&lt;set _roll = randomFloat(1.0)&gt;&gt;
+    &lt;&lt;set _thresh = (_to_advance_hr * $player.stats.intelligence / 20) / 100&gt;&gt;
+    &lt;&lt;if _roll lt _thresh&gt;&gt;
+        &lt;&lt;set $_temp_to_log += &quot;&lt;div&gt;Your study of &quot; + _study_subject + &quot; was extremely successful and informative \
+            (&quot; + setup.titleCase(_study_subject) + &quot; &quot; + setup.show_change_html(0, 1) + &quot;)&lt;/div&gt;&quot;&gt;&gt;
+    &lt;&lt;/if&gt;&gt;
+    &lt;&lt;set $player.stats[_study_subject] += 1&gt;&gt;
+    &lt;&lt;set $player.conditions.stamina -= 3 * _to_advance_hr&gt;&gt;
+&lt;&lt;/if&gt;&gt;
+
+/* Round off and clamp */
+&lt;&lt;include round&gt;&gt;
+
+&lt;&lt;set $_temp_to_log += &quot;&lt;br&gt;&lt;b&gt;Study total stat changes:&lt;/b&gt;&quot;&gt;&gt;
+&lt;&lt;set $_temp_to_log += &quot;&lt;ul&gt;&quot;&gt;&gt;
+
+/* Add in stats changes */
+&lt;&lt;for _key, _val range _player.stats&gt;&gt;
+    &lt;&lt;if _val != $player.stats[_key]&gt;&gt;
+        &lt;&lt;set $_temp_to_log += (&quot;&lt;li&gt;&quot; + setup.titleCase(_key) + &quot;: &quot; +
+            setup.show_change_html(_val, $player.stats[_key], true) +  &quot;&lt;/li&gt;&quot;)&gt;&gt;
+    &lt;&lt;/if&gt;&gt;
+&lt;&lt;/for&gt;&gt;
+
+/* Add in condition changes */
+&lt;&lt;for _key, _val range _player.conditions&gt;&gt;
+    &lt;&lt;if _val != $player.conditions[_key]&gt;&gt;
+        &lt;&lt;set $_temp_to_log += (&quot;&lt;li&gt;&quot; + setup.titleCase(_key) + &quot;: &quot; +
+            setup.show_change_html(_val, $player.conditions[_key], true) +  &quot;&lt;/li&gt;&quot;)&gt;&gt;
+    &lt;&lt;/if&gt;&gt;
+&lt;&lt;/for&gt;&gt;
+
+/* Add in slave trait changes */
+&lt;&lt;for _key, _val range _player.slave_traits&gt;&gt;
+    &lt;&lt;if _val != $player.slave_traits[_key]&gt;&gt;
+        &lt;&lt;set $_temp_to_log += (&quot;&lt;li&gt;&quot; + setup.titleCase(_key) + &quot;: &quot; +
+            setup.show_change_html(_val, $player.slave_traits[_key], true) +  &quot;&lt;/li&gt;&quot;)&gt;&gt;
+    &lt;&lt;/if&gt;&gt;
+&lt;&lt;/for&gt;&gt;
+
+/* Close off changes */
+&lt;&lt;set $_temp_to_log += &quot;&lt;/ul&gt;&quot;&gt;&gt;
+
+/* Unset variables */
+&lt;&lt;unset _changes&gt;&gt;
+&lt;&lt;unset _to_advance_hr&gt;&gt;
+&lt;&lt;unset $_player&gt;&gt;
+
+/* Re-enable menu */
+&lt;&lt;set $enable_menu = true&gt;&gt;
+
+&lt;&lt;goto `passage()`&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="95" name="shintaniHome" tags="black" position="600,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
 /* Add tutorial for shintaniHome as well as trigger on first enterance */
 &lt;&lt;if !(passage() in $tutorials)&gt;&gt;
     /* Enable menu keybinds */
@@ -23315,6 +24731,10 @@ of completing them (unless it is a direct request from another character).
 
     /* Initialize things that depend on the player */
     &lt;&lt;run setup.init_influence()&gt;&gt;
+
+    /* Give player Hironaka Symbol */
+    &lt;&lt;run UInv.AddItem(&quot;inventory&quot;, &quot;hironaka_amulet&quot;, 1)&gt;&gt;
+    &lt;&lt;set $player.equipment.neck = &quot;hironaka_amulet&quot;&gt;&gt;
 
 &lt;&lt;else&gt;&gt;
     &lt;&lt;set $_to_log = &quot;&quot;&gt;&gt;
@@ -23369,7 +24789,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;updatetime&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="87" name="shintaniHomeSleep" tags="black" position="850,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="96" name="shintaniHomeSleep" tags="black" position="725,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* Check for fill or emptied slave_traits */
 &lt;&lt;set _player_extra_changes = &quot;&quot;&gt;&gt;
@@ -23624,7 +25044,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;include round&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="88" name="shintaniHomeWorkActions" tags="" position="975,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="97" name="shintaniHomeWorkActions" tags="" position="850,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;work_actions&quot; class=&quot;action container row col hidden&quot; 
         style=&quot;--rows: 4; --cols: 5&quot;&gt;
 
@@ -23731,7 +25151,7 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="89" name="shintaniHomeWorkEngine" tags="" position="1100,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="98" name="shintaniHomeWorkEngine" tags="" position="975,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* Information about work */
 &lt;&lt;set $_temp_to_log = &quot;\
@@ -23778,7 +25198,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;include shintaniHomeWorkEngineAfter&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="90" name="shintaniHomeWorkEngineAfter" tags="" position="1225,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="99" name="shintaniHomeWorkEngineAfter" tags="" position="1100,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;include round&gt;&gt;
 
@@ -23830,7 +25250,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;script&gt;&gt;Engine.play(&quot;shintaniHome&quot;);&lt;&lt;/script&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="91" name="niponMarket" tags="paper" position="100,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="100" name="niponMarket" tags="paper" position="1225,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;if setup.is_day($gameDate)&gt;&gt;
     &lt;&lt;set $_to_log += &quot;
@@ -23923,7 +25343,7 @@ of completing them (unless it is a direct request from another character).
     }, 10);
 &lt;&lt;/script&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="92" name="niponMinesActions" tags="" position="225,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="101" name="niponMinesActions" tags="" position="100,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;actions&quot; class=&quot;action container row col longbutton fiveQuarters&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -23978,8 +25398,8 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="93" name="niponMines" tags="black" position="350,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
-&lt;&lt;if !hasVisited(passage())&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="102" name="niponMines" tags="black" position="225,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;if $quests.the_nipon_economy.stage == 0&gt;&gt;
     /* Add tutorial */
     &lt;&lt;if tale.has(passage() + &quot;Tutorial&quot;)&gt;&gt;
         &lt;&lt;set $tutorials[passage()] = passage() + &quot;Tutorial&quot;&gt;&gt;
@@ -24020,7 +25440,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;updatetime&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="94" name="niponMinesWorkActions" tags="" position="475,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="103" name="niponMinesWorkActions" tags="" position="350,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;work_actions&quot; class=&quot;action container row col fiveQuarters smalltext longbutton hidden&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -24144,7 +25564,7 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="95" name="niponMinesWorkEngine" tags="" position="600,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="104" name="niponMinesWorkEngine" tags="" position="475,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* Information about work */
 &lt;&lt;set $_temp_to_log = &quot;\
@@ -24152,7 +25572,7 @@ of completing them (unless it is a direct request from another character).
 &quot;&gt;&gt;
 
 /* Get clone of player to display changes */
-&lt;&lt;set $_player = clone($player)&gt;&gt;
+&lt;&lt;set _player = clone($player)&gt;&gt;
 
 /* Forward time along with dynamics */
 &lt;&lt;set $player.is_working = true&gt;&gt;
@@ -24191,18 +25611,25 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/if&gt;&gt;
     &lt;&lt;set $_temp_to_log += &quot;&lt;div&gt;You over-worked yourself, tripping over some rocks and twisting your ankle (Dexterity &quot; + 
         setup.show_change_html(_to_injure, 0) + &quot;)&lt;/div&gt;&quot;&gt;&gt;
+    &lt;&lt;set $player.stats.dexterity -= _to_injure&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 /* Check if there were any changes at all */
 &lt;&lt;set _changes = false&gt;&gt;
-&lt;&lt;for _key, _val range $_player.conditions&gt;&gt;
+&lt;&lt;for _key, _val range _player.conditions&gt;&gt;
     &lt;&lt;if _val != $player.conditions[_key]&gt;&gt;
         &lt;&lt;set _changes = true&gt;&gt;
         &lt;&lt;break&gt;&gt;
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/for&gt;&gt;
-&lt;&lt;for _key, _val range $_player.slave_traits&gt;&gt;
+&lt;&lt;for _key, _val range _player.slave_traits&gt;&gt;
     &lt;&lt;if _val != $player.slave_traits[_key]&gt;&gt;
+        &lt;&lt;set _changes = true&gt;&gt;
+        &lt;&lt;break&gt;&gt;
+    &lt;&lt;/if&gt;&gt;
+&lt;&lt;/for&gt;&gt;
+&lt;&lt;for _key, _val range _player.stats&gt;&gt;
+    &lt;&lt;if _val != $player.stats[_key]&gt;&gt;
         &lt;&lt;set _changes = true&gt;&gt;
         &lt;&lt;break&gt;&gt;
     &lt;&lt;/if&gt;&gt;
@@ -24212,8 +25639,16 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;set $_temp_to_log += &quot;&lt;br&gt;&lt;b&gt;Work total stat changes:&lt;/b&gt;&quot;&gt;&gt;
     &lt;&lt;set $_temp_to_log += &quot;&lt;ul&gt;&quot;&gt;&gt;
 
+    /* Add in stats changes */
+    &lt;&lt;for _key, _val range _player.stats&gt;&gt;
+        &lt;&lt;if _val != $player.stats[_key]&gt;&gt;
+            &lt;&lt;set $_temp_to_log += (&quot;&lt;li&gt;&quot; + setup.titleCase(_key) + &quot;: &quot; +
+                setup.show_change_html(_val, $player.stats[_key], true) +  &quot;&lt;/li&gt;&quot;)&gt;&gt;
+        &lt;&lt;/if&gt;&gt;
+    &lt;&lt;/for&gt;&gt;
+
     /* Add in condition changes */
-    &lt;&lt;for _key, _val range $_player.conditions&gt;&gt;
+    &lt;&lt;for _key, _val range _player.conditions&gt;&gt;
         &lt;&lt;if _val != $player.conditions[_key]&gt;&gt;
             &lt;&lt;set $_temp_to_log += (&quot;&lt;li&gt;&quot; + setup.titleCase(_key) + &quot;: &quot; +
                 setup.show_change_html(_val, $player.conditions[_key], true) +  &quot;&lt;/li&gt;&quot;)&gt;&gt;
@@ -24221,7 +25656,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/for&gt;&gt;
 
     /* Add in slave trait changes */
-    &lt;&lt;for _key, _val range $_player.slave_traits&gt;&gt;
+    &lt;&lt;for _key, _val range _player.slave_traits&gt;&gt;
         &lt;&lt;if _val != $player.slave_traits[_key]&gt;&gt;
             &lt;&lt;set $_temp_to_log += (&quot;&lt;li&gt;&quot; + setup.titleCase(_key) + &quot;: &quot; +
                 setup.show_change_html(_val, $player.slave_traits[_key], true) +  &quot;&lt;/li&gt;&quot;)&gt;&gt;
@@ -24235,7 +25670,7 @@ of completing them (unless it is a direct request from another character).
 &lt;&lt;if _explore&gt;&gt;
     /* Roll for iron */
     &lt;&lt;set _roll = randomFloat(1.0)&gt;&gt;
-    &lt;&lt;set _thresh = 3 * _to_advance_hr&gt;&gt;
+    &lt;&lt;set _thresh = 3 * _to_advance_hr / 100&gt;&gt;
     &lt;&lt;if _roll lt _thresh&gt;&gt;
         &lt;&lt;run UInv.AddItem(&quot;inventory&quot;, &quot;iron&quot;, 1)&gt;&gt;
         &lt;&lt;set $_temp_to_log += &quot;&lt;li&gt;&lt;span style=\&quot;color: green\&quot;&gt;&quot; + 
@@ -24244,7 +25679,7 @@ of completing them (unless it is a direct request from another character).
 
     /* Roll for silver */
     &lt;&lt;set _roll = randomFloat(1.0)&gt;&gt;
-    &lt;&lt;set _thresh = 1 * _to_advance_hr&gt;&gt;
+    &lt;&lt;set _thresh = 1 * _to_advance_hr / 100&gt;&gt;
     &lt;&lt;if _roll lt _thresh&gt;&gt;
         &lt;&lt;run UInv.AddItem(&quot;inventory&quot;, &quot;silver&quot;, 1)&gt;&gt;
         &lt;&lt;set $_temp_to_log += &quot;&lt;li&gt;&lt;span style=\&quot;color: green\&quot;&gt;&quot; + 
@@ -24265,7 +25700,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;goto &quot;niponMines&quot;&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="96" name="niponStallsActions" tags="" position="725,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="105" name="niponStallsActions" tags="" position="600,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;actions&quot; class=&quot;action container row col longbutton fiveQuarters&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -24295,8 +25730,8 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="97" name="niponStalls" tags="black" position="850,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
-&lt;&lt;if !hasVisited(passage())&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="106" name="niponStalls" tags="black" position="725,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;if $quests.the_nipon_economy.stage lte 1&gt;&gt;
     /* Add tutorial */
     &lt;&lt;if tale.has(passage() + &quot;Tutorial&quot;)&gt;&gt;
         &lt;&lt;set $tutorials[passage()] = passage() + &quot;Tutorial&quot;&gt;&gt;
@@ -24426,7 +25861,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;updatetime&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="98" name="niponStallsTradeOptions" tags="" position="975,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="107" name="niponStallsTradeOptions" tags="" position="850,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;trade_options&quot; class=&quot;action container row col longbutton fiveQuarters hidden&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -24473,7 +25908,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/for&gt;&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="99" name="niponTradeUnionActions" tags="" position="1100,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="108" name="niponTradeUnionActions" tags="" position="975,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;actions&quot; class=&quot;action container row col longbutton fiveQuarters&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -24524,8 +25959,8 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="100" name="niponTradeUnion" tags="black" position="1225,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
-&lt;&lt;if !hasVisited(passage())&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="109" name="niponTradeUnion" tags="black" position="1100,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;if $quests.the_nipon_economy.stage lte 2&gt;&gt;
     /* Add tutorial */
     &lt;&lt;if tale.has(passage() + &quot;Tutorial&quot;)&gt;&gt;
         &lt;&lt;set $tutorials[passage()] = passage() + &quot;Tutorial&quot;&gt;&gt;
@@ -24669,7 +26104,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;updatetime&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="101" name="niponTradeUnionTalkOptions" tags="" position="100,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="110" name="niponTradeUnionTalkOptions" tags="" position="1225,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;div id=&quot;events_actions&quot; class=&quot;action container row col hidden&quot;
          style=&quot;--rows: 4; --cols: 5&quot;&gt;
@@ -25179,7 +26614,7 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="102" name="niponTradeUnionTradeOptions" tags="" position="225,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="111" name="niponTradeUnionTradeOptions" tags="" position="100,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;trade_options&quot; class=&quot;action container row col longbutton fiveQuarters hidden&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -25221,7 +26656,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/for&gt;&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="103" name="niponSlums" tags="paper" position="350,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="112" name="niponSlums" tags="paper" position="225,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;if setup.is_day($gameDate)&gt;&gt;
     &lt;&lt;set $_to_log += &quot;
@@ -25310,9 +26745,9 @@ of completing them (unless it is a direct request from another character).
     }, 10);
 &lt;&lt;/script&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="104" name="PassageHeader" tags="" position="475,1350" size="100,100">&lt;&lt;include audioEngine&gt;&gt;</tw-passagedata><tw-passagedata pid="105" name="Start" tags="black, pausetimer" position="600,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="113" name="PassageHeader" tags="" position="350,1475" size="100,100">&lt;&lt;include audioEngine&gt;&gt;</tw-passagedata><tw-passagedata pid="114" name="Start" tags="black, pausetimer" position="475,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 
-&lt;div id=&quot;background&quot; class=&quot;paper_border&quot; style=&quot;position: relative; padding: 80px&quot;&gt;&lt;center&gt;
+&lt;div id=&quot;background&quot; class=&quot;city_border&quot; style=&quot;position: relative; padding: 80px&quot;&gt;&lt;center&gt;
     &lt;div id=&quot;banner&quot;&gt;&lt;/div&gt;
     &lt;h3 style=&quot;&quot;&gt;- GAME LOBBY -&lt;/h3&gt;
 
@@ -25380,7 +26815,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/timed&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="106" name="controls" tags="" position="725,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="115" name="controls" tags="" position="600,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h3&gt;Controls&lt;/h3&gt;
 There are many convenient keybinds that may help you out throughout your journey.
@@ -25395,35 +26830,35 @@ There are many convenient keybinds that may help you out throughout your journey
     &lt;li&gt;&#39;&#39;X / ESC&#39;&#39;: Settings menu&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="107" name="niponCentralTutorial" tags="" position="850,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="116" name="niponCentralTutorial" tags="" position="725,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;Nipon&#39;s Central District&lt;/h2&gt;
 &lt;div&gt;
     
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="108" name="niponMarketTutorial" tags="" position="975,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="117" name="niponMarketTutorial" tags="" position="850,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;Nipon&#39;s Market District&lt;/h2&gt;
 &lt;div&gt;
     
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="109" name="niponSlumsTutorial" tags="" position="1100,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="118" name="niponSlumsTutorial" tags="" position="975,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;Nipon Slums&lt;/h2&gt;
 &lt;div&gt;
     
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="110" name="shintaniHomeLibraryTutorial" tags="" position="1225,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="119" name="shintaniHomeLibraryTutorial" tags="" position="1100,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;Shintani&#39;s Library&lt;/h2&gt;
 &lt;div&gt;
     This is Shintani&#39;s Library and the central location you gain intelligence.
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="111" name="shintaniHomeTutorial" tags="" position="100,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="120" name="shintaniHomeTutorial" tags="" position="1225,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;Shintani&#39;s Home&lt;/h2&gt;
 &lt;div&gt;
@@ -25474,31 +26909,31 @@ orders; Not working (slacking off).
 &lt;&lt;/message&gt;&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="112" name="statusTutorial" tags="" position="225,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="121" name="statusTutorial" tags="" position="100,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
-&lt;h2&gt;&lt;&lt;= setup.titleCase($selected_status)&gt;&gt;&lt;/h2&gt;
-As &lt;&lt;= setup.statuses[$selected_status].article&gt;&gt; &lt;b&gt;&lt;&lt;= setup.titleCase($selected_status)&gt;&gt;&lt;/b&gt;, 
-&lt;&lt;= setup.statuses[$selected_status].flavor_text&gt;&gt;
+&lt;h2&gt;&lt;&lt;= setup.titleCase(_selected_status)&gt;&gt;&lt;/h2&gt;
+As &lt;&lt;= setup.statuses[_selected_status].article&gt;&gt; &lt;b&gt;&lt;&lt;= setup.titleCase(_selected_status)&gt;&gt;&lt;/b&gt;, 
+&lt;&lt;= setup.statuses[_selected_status].flavor_text&gt;&gt;
 &lt;br&gt;
 &lt;h4&gt;Stat Changes&lt;/h4&gt;
 &lt;ul&gt;
-    &lt;&lt;for _key, _val range setup.statuses[$selected_status].condition_changes&gt;&gt;
+    &lt;&lt;for _key, _val range setup.statuses[_selected_status].condition_changes&gt;&gt;
         &lt;li&gt;&lt;&lt;= setup.titleCase(_key)&gt;&gt;: &lt;&lt;= setup.show_change_html(0, _val)&gt;&gt;&lt;/li&gt;
     &lt;&lt;/for&gt;&gt;
-    &lt;&lt;for _key, _val range setup.statuses[$selected_status].stat_changes&gt;&gt;
+    &lt;&lt;for _key, _val range setup.statuses[_selected_status].stat_changes&gt;&gt;
         &lt;li&gt;&lt;&lt;= setup.titleCase(_key)&gt;&gt;: &lt;&lt;= setup.show_change_html(0, _val)&gt;&gt;&lt;/li&gt;
     &lt;&lt;/for&gt;&gt;
 &lt;/ul&gt;
-&lt;&lt;if setup.statuses[$selected_status].extra_changes.length gt 0&gt;&gt;
+&lt;&lt;if setup.statuses[_selected_status].extra_changes.length gt 0&gt;&gt;
 &lt;h4&gt;Extras&lt;/h4&gt;
 &lt;ul&gt;
-    &lt;&lt;for _idx, _val range setup.statuses[$selected_status].extra_changes&gt;&gt;
+    &lt;&lt;for _idx, _val range setup.statuses[_selected_status].extra_changes&gt;&gt;
         &lt;li&gt;_val&lt;/li&gt;
     &lt;&lt;/for&gt;&gt;
 &lt;/ul&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="113" name="titleTutorial" tags="" position="350,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="122" name="titleTutorial" tags="" position="225,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;&lt;&lt;= setup.titleCase($selected_title)&gt;&gt;&lt;/h2&gt;
 &lt;&lt;if setup.titles[$selected_title].custom_intro&gt;&gt;
@@ -25532,7 +26967,7 @@ As &lt;&lt;= setup.statuses[$selected_status].article&gt;&gt; &lt;b&gt;&lt;&lt;=
     &lt;/ul&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="114" name="welcome" tags="" position="475,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="123" name="welcome" tags="" position="350,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;Welcome to Free Cities: Origins&lt;/h2&gt;
 Thank you for choosing to play Free Cities: Origins, a prequal to the famous 
@@ -25555,11 +26990,11 @@ There are many convenient keybinds that may help you out throughout your journey
     &lt;li&gt;&#39;&#39;X / ESC&#39;&#39;: Settings menu&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="115" name="info" tags="" position="600,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="124" name="info" tags="" position="475,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;info&quot; class=&quot;subbackground&quot; style=&quot;grid-row: 1 / span 3; grid-column: 4 / span 1&quot;&gt;
     &lt;&lt;include infoNoSubbackground&gt;&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="116" name="infoLog" tags="" position="725,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="125" name="infoLog" tags="" position="600,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;infoLog&quot; class=&quot;mainLog hidden&quot;&gt;
     &lt;center&gt;
         &lt;div style=&quot;margin: 20px&quot;&gt;
@@ -25569,7 +27004,7 @@ There are many convenient keybinds that may help you out throughout your journey
     &lt;p id=&quot;infoLogBody&quot;&gt;
     &lt;/p&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="117" name="infoNoSubbackground" tags="" position="850,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="126" name="infoNoSubbackground" tags="" position="725,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;container threeRow&quot; style=&quot;font-weight: normal; height: 100%; width: 100%&quot;&gt;
     &lt;center&gt;
         &lt;h3 style=&quot;margin-bottom:0&quot;&gt;&lt;&lt;= setup.locations.get(passage()).name&gt;&gt;&lt;/h3&gt;
@@ -25585,14 +27020,13 @@ There are many convenient keybinds that may help you out throughout your journey
     &lt;/center&gt;
 
     &lt;center&gt;
-        &lt;&lt;set $cur_status = $player.get_status()&gt;&gt;
-        &lt;&lt;if $cur_status == null&gt;&gt;
-            &lt;&lt;set $cur_status = &quot;unknown&quot;&gt;&gt;
+        &lt;&lt;set _selected_status = $player.get_status()&gt;&gt;
+        &lt;&lt;if _selected_status == null&gt;&gt;
+            &lt;&lt;set _selected_status = &quot;unknown&quot;&gt;&gt;
         &lt;&lt;/if&gt;&gt;
-        &#39;&#39;Status:&#39;&#39; &lt;span id=&quot;status&quot; class=&quot;tooltip&quot;&gt;&lt;&lt;= setup.titleCase($cur_status)&gt;&gt;&lt;/span&gt;
+        &#39;&#39;Status:&#39;&#39; &lt;span id=&quot;status&quot; class=&quot;tooltip&quot;&gt;&lt;&lt;= setup.titleCase(_selected_status)&gt;&gt;&lt;/span&gt;
         &lt;&lt;on &quot;click&quot; &quot;#status&quot;&gt;&gt;
             &lt;&lt;popover&gt;&gt;
-                &lt;&lt;set $selected_status = $cur_status&gt;&gt;
                 &lt;&lt;include statusTutorial&gt;&gt;
             &lt;&lt;/popover&gt;&gt;
         &lt;&lt;/on&gt;&gt;
@@ -25678,7 +27112,7 @@ There are many convenient keybinds that may help you out throughout your journey
 
     &lt;/center&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="118" name="locationButton" tags="" position="975,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="127" name="locationButton" tags="" position="850,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;if ndef _location_button_text&gt;&gt;
     &lt;&lt;set _location_button_text = setup.locations.get(_location_button_dest).name&gt;&gt;
 &lt;&lt;/if&gt;&gt;
@@ -25720,7 +27154,7 @@ There are many convenient keybinds that may help you out throughout your journey
 &lt;&lt;unset _location_button_dest&gt;&gt;
 &lt;&lt;unset _location_button_sound&gt;&gt;
 &lt;&lt;unset _location_button_dur&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="119" name="mainLog" tags="" position="1100,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="128" name="mainLog" tags="" position="975,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
     &lt;div id=&quot;mainLogImageContainer&quot; class=&quot;mainLogImageContainer&quot;&gt;
         &lt;div id=&quot;mainLogImage&quot; class=&quot;mainLogImage&quot;&gt;&lt;/div&gt;
         &lt;div id=&quot;mainLogCharacterImage&quot; class=&quot;mainLogCharacterImage&quot;&gt;&lt;/div&gt;
@@ -25742,7 +27176,7 @@ There are many convenient keybinds that may help you out throughout your journey
                 passage() + time + &quot;Image.png\&quot;)&quot;);
         }, 10);
     &lt;&lt;/script&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="120" name="disableActions" tags="widget" position="1225,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="129" name="disableActions" tags="widget" position="1100,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;widget &quot;disableactions&quot;&gt;&gt;
     /* Hide back and leave buttons */
@@ -25754,21 +27188,38 @@ There are many convenient keybinds that may help you out throughout your journey
         &lt;&lt;removeclass &quot;#events_actions_leave&quot; &quot;hidden&quot;&gt;&gt;
     &lt;&lt;/if&gt;&gt;
 
-    &lt;&lt;for _i = 1; _i lt _choices + 1; _i++&gt;&gt;
-        &lt;&lt;run $(&quot;#events&quot; + _i + &quot; button&quot;).prop(&quot;disabled&quot;, false)&gt;&gt;
-        &lt;&lt;removeclass `&quot;#events&quot; + _i + &quot; button&quot;` &quot;disabled&quot;&gt;&gt;
-    &lt;&lt;/for&gt;&gt;
+    &lt;&lt;if def $args[0] &amp;&amp; $args[0] instanceof jQuery&gt;&gt;
 
-    &lt;&lt;for _i = _choices + 1; _i lt 9; _i++&gt;&gt;
-        &lt;&lt;run $(&quot;#events&quot; + _i + &quot; button&quot;).prop(&quot;disabled&quot;, true)&gt;&gt;
-        &lt;&lt;addclass `&quot;#events&quot; + _i + &quot; button&quot;` &quot;disabled&quot;&gt;&gt;
-    &lt;&lt;/for&gt;&gt;
+        &lt;&lt;for _i = 1; _i lt 9; _i++&gt;&gt;
+            &lt;&lt;if $args[0].find(&quot;#li&quot; + _i).length gt 0&gt;&gt;
+                &lt;&lt;if $args[0].find(&quot;#li&quot; + _i).css(&quot;text-decoration&quot;) == &quot;line-through&quot;&gt;&gt;
+                    &lt;&lt;run $(&quot;#events&quot; + _i + &quot; button&quot;).prop(&quot;disabled&quot;, true)&gt;&gt;
+                    &lt;&lt;addclass `&quot;#events&quot; + _i + &quot; button&quot;` &quot;disabled&quot;&gt;&gt;
+                &lt;&lt;else&gt;&gt;
+                    &lt;&lt;run $(&quot;#events&quot; + _i + &quot; button&quot;).prop(&quot;disabled&quot;, false)&gt;&gt;
+                    &lt;&lt;removeclass `&quot;#events&quot; + _i + &quot; button&quot;` &quot;disabled&quot;&gt;&gt;
+                &lt;&lt;/if&gt;&gt;
+            &lt;&lt;else&gt;&gt;
+                &lt;&lt;run $(&quot;#events&quot; + _i + &quot; button&quot;).prop(&quot;disabled&quot;, true)&gt;&gt;
+                &lt;&lt;addclass `&quot;#events&quot; + _i + &quot; button&quot;` &quot;disabled&quot;&gt;&gt;
+            &lt;&lt;/if&gt;&gt;
+        &lt;&lt;/for&gt;&gt;
+    &lt;&lt;else&gt;&gt;
+        &lt;&lt;for _i = 1; _i lt _choices + 1; _i++&gt;&gt;
+            &lt;&lt;run $(&quot;#events&quot; + _i + &quot; button&quot;).prop(&quot;disabled&quot;, false)&gt;&gt;
+            &lt;&lt;removeclass `&quot;#events&quot; + _i + &quot; button&quot;` &quot;disabled&quot;&gt;&gt;
+        &lt;&lt;/for&gt;&gt;
 
+        &lt;&lt;for _i = _choices + 1; _i lt 9; _i++&gt;&gt;
+            &lt;&lt;run $(&quot;#events&quot; + _i + &quot; button&quot;).prop(&quot;disabled&quot;, true)&gt;&gt;
+            &lt;&lt;addclass `&quot;#events&quot; + _i + &quot; button&quot;` &quot;disabled&quot;&gt;&gt;
+        &lt;&lt;/for&gt;&gt;
+    &lt;&lt;/if&gt;&gt;
     &lt;&lt;unset _choices&gt;&gt;
     &lt;&lt;unset _disable_buttons&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="121" name="money" tags="widget" position="100,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="130" name="money" tags="widget" position="1225,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* Gets money that player has */
 &lt;&lt;widget &quot;money&quot;&gt;&gt;&lt;&lt;= setup.round2(UInv.BagHasItem(&quot;inventory&quot;, &quot;lari&quot;) + UInv.BagHasItem(&quot;inventory&quot;, &quot;tetri&quot;) / 100)&gt;&gt;&lt;&lt;/widget&gt;&gt;
@@ -25803,7 +27254,7 @@ There are many convenient keybinds that may help you out throughout your journey
 &lt;&lt;/widget&gt;&gt;
 
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="122" name="round" tags="" position="225,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="131" name="round" tags="" position="100,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;set $player.round = {}&gt;&gt;
 &lt;&lt;set $player.round.stats = {}&gt;&gt;
@@ -25870,7 +27321,7 @@ There are many convenient keybinds that may help you out throughout your journey
 /* Update max carry weight */
 &lt;&lt;run UInv.SetBagPropertyValue(&quot;inventory&quot;, &quot;maxCarryWeight&quot;, $player.stats.strength)&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="123" name="saveVars" tags="widget" position="350,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="132" name="saveVars" tags="widget" position="225,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* Saves some variables if they exist */
 &lt;&lt;widget &quot;saveVars&quot;&gt;&gt;
@@ -25886,7 +27337,7 @@ There are many convenient keybinds that may help you out throughout your journey
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="124" name="updateBars" tags="" position="475,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="133" name="updateBars" tags="" position="350,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;updatemeter &quot;player_health_bar&quot; `$player.conditions.health / $player.conditions.max_health`&gt;&gt;
 &lt;&lt;updatemeter &quot;player_stamina_bar&quot; `$player.conditions.stamina / $player.conditions.max_stamina`&gt;&gt;
@@ -25903,7 +27354,7 @@ There are many convenient keybinds that may help you out throughout your journey
     &lt;&lt;updatemeter &quot;char_suspicion_bar&quot; `_char.mental_conditions.suspicion / 50`&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="125" name="updateCommodities" tags="widget" position="600,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="134" name="updateCommodities" tags="widget" position="475,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;widget &quot;updatecommodities&quot;&gt;&gt;
     &lt;&lt;set _year_start = new Date($gameDate.getFullYear(), 0, 0)&gt;&gt;
@@ -26037,7 +27488,7 @@ There are many convenient keybinds that may help you out throughout your journey
     &lt;&lt;unset _mu&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="126" name="updateQuests" tags="widget" position="725,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="135" name="updateQuests" tags="widget" position="600,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;widget &quot;updatequests&quot;&gt;&gt;
     &lt;&lt;if !$quest_journal.completed.includes(&quot;life_of_a_slave&quot;)&gt;&gt;
@@ -26064,7 +27515,7 @@ There are many convenient keybinds that may help you out throughout your journey
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="127" name="updateStatus" tags="widget" position="850,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="136" name="updateStatus" tags="widget" position="725,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* Gives knowledge of all slaves of lower status */
 
