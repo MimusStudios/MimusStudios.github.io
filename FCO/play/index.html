@@ -98,7 +98,7 @@ var LZString={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<!-- UUID://277E920D-BECE-4796-A59D-C892911819DC// --><tw-storydata name="Free Cities: Origins" startnode="123" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="277E920D-BECE-4796-A59D-C892911819DC" zoom="1" format="SugarCube" format-version="2.36.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "notify.min.css" */
+	<!-- UUID://277E920D-BECE-4796-A59D-C892911819DC// --><tw-storydata name="Free Cities: Origins" startnode="126" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="277E920D-BECE-4796-A59D-C892911819DC" zoom="1" format="SugarCube" format-version="2.36.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "notify.min.css" */
 /* notify.min.css, by chapel; for use with notify.js; v1.0.0 */
 #notify{position:fixed;display:block;width:16em;right:-20em;top:2em;padding:.5em;background-color:#fff;color:#000;-webkit-transition:right .3s;-moz-transition:right .3s;-o-transition:right .3s;transition:right .3s}#notify.open{right:0}
 /* end notify.min.css */
@@ -1487,7 +1487,10 @@ setup.Character = function(key, randomize=true, cap=20) {
 
     this.sex_fetishes = {};
     for (const sex_fetish of setup.SEX_FETISHES) {
-        this.sex_fetishes[sex_fetish] += parseInt(dice(1, cap) / 2);
+        this.sex_fetishes[sex_fetish] = 0;
+        if (randomize) {
+            this.sex_fetishes[sex_fetish] += parseInt(dice(1, cap) / 2);
+        }
     }
     this.sex_ranges = {};
     for (const sex_range of setup.SEX_RANGES) {
@@ -20888,7 +20891,7 @@ as changing the images based on the state
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="dietEngine" tags="" position="600,350" size="100,100">&lt;&lt;nobr&gt;&gt;
-
+/* TODO: Implement amount of food for later */
 &lt;&lt;for _idx, _to_simulate range $to_simulate_day&gt;&gt;
     &lt;&lt;set _char = $characters[_to_simulate]&gt;&gt;
     &lt;&lt;if _char.diet.additives != &quot;none&quot;&gt;&gt;
@@ -21028,6 +21031,7 @@ as changing the images based on the state
 &lt;&lt;/for&gt;&gt;
 &lt;&lt;for _idx, _to_del range _to_delete&gt;&gt;
     &lt;&lt;set $to_simulate_day.delete(_to_del)&gt;&gt;
+    &lt;&lt;run delete $player.finances.slaves[_to_del]&gt;&gt;
 &lt;&lt;/for&gt;&gt;
 &lt;&lt;unset _to_delete&gt;&gt;
 
@@ -21350,7 +21354,10 @@ as changing the images based on the state
     &lt;&lt;if $player.is_slaving&gt;&gt;
         &lt;&lt;set $_mult = 2&gt;&gt;
     &lt;&lt;else&gt;&gt;
-        &lt;&lt;if $player.is_sleeping &amp;&amp; $player.conditions.stamina lt 20&gt;&gt;
+        &lt;&lt;if !(&quot;hours_worked&quot; in $player)&gt;&gt;
+            &lt;&lt;set $player.hours_worked = 0&gt;&gt;
+        &lt;&lt;/if&gt;&gt;
+        &lt;&lt;if $player.is_sleeping &amp;&amp; $player.conditions.stamina lt 20 &amp;&amp; $player.hours_worked gte 4&gt;&gt;
             &lt;&lt;set $_mult = 0&gt;&gt;
             &lt;&lt;set $_obedient_sleep = true&gt;&gt;
         &lt;&lt;else&gt;&gt;
@@ -21448,6 +21455,16 @@ as changing the images based on the state
                         save.state.history[save.state.index].variables[key] = clone(value);
                         added.push(key);
                     }
+                }
+                // Specifically for 0.0.1.6
+                if (!(&quot;finances&quot; in save.state.history[save.state.index].variables.player) || 
+                    !(&quot;businesses&quot; in save.state.history[save.state.index].variables.player.finances) ||
+                    !(&quot;slaves&quot; in save.state.history[save.state.index].variables.player.finances)) {
+                    save.state.history[save.state.index].variables.player.finances = {
+                        &quot;slaves&quot;: {},
+                        &quot;businesses&quot;: {}
+                    };
+                    str += &quot;Finances added to player. Assignments need to be reset for effect to take place.&lt;br&gt;&quot;
                 }
                 str += &quot;Added in story variables: &quot; + added.join(&quot;, &quot;) + &quot;&lt;br&gt;&quot;;
                 // Update the version
@@ -22071,12 +22088,16 @@ as changing the images based on the state
 &lt;&lt;set $player.is_outside = false&gt;&gt;
 /* Time awake */
 &lt;&lt;set $time_awake = 0&gt;&gt;
+/* Hours worked per day */
+&lt;&lt;set $player.hours_worked = 0&gt;&gt;
 
 /* Player slaves */
 &lt;&lt;set $player.slaves = []&gt;&gt;
 
 /* Player finance tracking */
 &lt;&lt;set $player.finances = {}&gt;&gt;
+&lt;&lt;set $player.finances.businesses = {}&gt;&gt;
+&lt;&lt;set $player.finances.slaves = {}&gt;&gt;
 
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="initQuests" tags="" position="225,600" size="100,100">&lt;&lt;nobr&gt;&gt;
 
@@ -22856,7 +22877,8 @@ as changing the images based on the state
         &lt;&lt;run $(&quot;#&quot; + _char.assignment + &quot; button&quot;).prop(&quot;disabled&quot;, true)&gt;&gt;
     &lt;&lt;/if&gt;&gt;
     &lt;&lt;script&gt;&gt;
-        var char = State.temporary.char;
+        let char = State.temporary.char;
+        let player = State.variables.player;
         $(&quot;#assignment_buttons&quot;).find(&quot;button&quot;).on(&quot;click&quot;, (event) =&gt; {
             $(&quot;#assignment_buttons&quot;).find(&quot;button&quot;).removeClass(&quot;disabled&quot;);
             $(&quot;#assignment_buttons&quot;).find(&quot;button&quot;).prop(&quot;disabled&quot;, false);
@@ -22871,12 +22893,29 @@ as changing the images based on the state
                 $(&quot;#characterMenuCenter&quot;).addClass(&quot;hidden&quot;);
                 $(&quot;#characterMenuLeft&quot;).addClass(&quot;hidden&quot;);
                 State.temporary.char.assignment = assignment;
+                if (!(char.key in player.finances.slaves)) {
+                    player.finances.slaves[char.key] = {};
+                }
+                player.finances.slaves[char.key].assignment = -25 * setup.HEIRARCHY[char.status];
+                if (&quot;cost&quot; in setup.assignments[assignment]) {
+                    player.finances.slaves[char.key].assignment -= setup.assignments[assignment].cost;
+                }
+                if (assignment == &quot;solBrothel&quot;) {
+                    if (char.owner == &quot;shintani_hiroyuki&quot;) {
+                        player.finances.slaves[char.key].assignment += 0.4 * char.sex_value().clamp(0, 1000);
+                    } else {
+                        player.finances.slaves[char.key].assignment += char.sex_value().clamp(0, 1000);
+                    }
+                }
                 State.variables.to_simulate_day.add(char.key);
             } else {
                 $(&quot;#characterMenuCenter&quot;).removeClass(&quot;hidden&quot;);
                 $(&quot;#characterMenuLeft&quot;).removeClass(&quot;hidden&quot;);
                 $(&quot;#characterMenuCenterDetails&quot;).addClass(&quot;hidden&quot;);
                 State.temporary.char.assignment = &quot;none&quot;;
+                if (char.key in player.finances.slaves) {
+                    player.finances.slaves[_char.key].assignment = 0;
+                }
             }
         });
     &lt;&lt;/script&gt;&gt;
@@ -22995,7 +23034,7 @@ as changing the images based on the state
             &lt;li&gt;Shintani\&#39;s cut: &lt;span class=\&quot;fail\&quot;&gt;&quot; + setup.LARI + 
                 &quot;&quot; + setup.round2(0.6 * _sex_value) + &quot;&lt;/span&gt; per day.&lt;/li&gt;\
     &quot;&gt;&gt;
-    &lt;&lt;if 0.1 * _sex_value gt _opportunity&gt;&gt;
+    &lt;&lt;if 0.4 * _sex_value gt _opportunity&gt;&gt;
         &lt;&lt;set _flavor_text += &quot;&lt;li&gt;Total profit: &lt;span class=\&quot;success\&quot;&gt;&quot; + setup.LARI + 
                 &quot;&quot; + setup.round2(0.4 * _sex_value - _opportunity) + &quot;&lt;/span&gt; per day.&lt;/li&gt;&quot;&gt;&gt;
     &lt;&lt;else&gt;&gt;
@@ -23135,6 +23174,7 @@ as changing the images based on the state
     &lt;/div&gt;
 
     &lt;&lt;include characterMenuAssignment&gt;&gt;
+    &lt;&lt;include characterMenuInventory&gt;&gt;
     &lt;&lt;include characterMenuDiet&gt;&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -23344,7 +23384,7 @@ as changing the images based on the state
     /* Set title */
     &lt;&lt;run $(&quot;#characterMenuCenterDetailsTitle&quot;).html(&quot;Cum Based&quot;);&gt;&gt;
     &lt;&lt;set _flavor_text = &quot;\
-        You now cum throughout the day to prepare&quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s meals. \
+        You now cum throughout the day to prepare &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s meals. \
         If &quot; + setup.titleCase(_char.first_name) + &quot; does not have a cum fetish this will severely decrease &quot; + 
         setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; affection for you as well as make them despite cum. \
         However for the cum loving this is a perfect way to build psychological addiction and happiness. \
@@ -23374,7 +23414,45 @@ as changing the images based on the state
 
     &lt;&lt;run $(&quot;#characterMenuCenterDetailsBody&quot;).html(_flavor_text)&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="63" name="characterMenuSexPrefs" tags="" position="350,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="63" name="characterMenuFinances" tags="" position="350,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+
+&lt;div id=&quot;finances&quot; class=&quot;subbackground hidden&quot;&gt;
+    &lt;hr&gt;
+    &lt;center&gt;&lt;h3&gt;Finances&lt;/h3&gt;
+        &lt;&lt;if $player.slaves.contains(_char.key)&gt;&gt;
+            /* TODO: Implement finances */
+        &lt;&lt;else&gt;&gt;
+            You do not own &lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; and cannot view their financial records!
+        &lt;&lt;/if&gt;&gt;
+    &lt;/center&gt;
+&lt;/div&gt;
+
+
+
+
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="64" name="characterMenuInventory" tags="" position="475,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+    &lt;div id=&quot;inventory&quot; class=&quot;subbackground hidden&quot;&gt;
+        &lt;hr&gt;
+        &lt;center&gt;&lt;h3&gt;Inventory&lt;/h3&gt;
+            &lt;&lt;set _items = UInv.GetItemsArrayWithoutAnyItemTags(_char.key, &quot;type&quot;, 
+                [&quot;money&quot;, &quot;quest_item&quot;, &quot;armor&quot;, &quot;accessory&quot;])&gt;&gt;
+            &lt;div class=&quot;container twoCol&quot; style=&quot;font-weight: normal&quot;&gt;
+                &lt;div style=&quot;text-align: left; margin-left: 20px&quot;&gt;
+                    &lt;&lt;for _i = 0; _i lt _items.length; _i++&gt;&gt;
+                        &lt;&lt;= setup.titleCase(UInv.GetItemPropertyValue(_char.key, _items[_i], &quot;name&quot;))&gt;&gt;
+                        &lt;br&gt;
+                    &lt;&lt;/for&gt;&gt;
+                &lt;/div&gt;
+                &lt;div style=&quot;text-align: right; margin-right: 20px; font-weight: normal&quot;&gt;
+                    &lt;&lt;for _i = 0; _i lt _items.length; _i++&gt;&gt;
+                            &lt;&lt;= UInv.BagHasItem(_char.key, _items[_i])&gt;&gt;
+                            &lt;br&gt;
+                    &lt;&lt;/for&gt;&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/center&gt;
+    &lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="65" name="characterMenuSexPrefs" tags="" position="600,850" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;div id=&quot;sexPrefs&quot; class=&quot;subbackground hidden&quot;&gt;
     &lt;hr&gt;
@@ -23424,7 +23502,7 @@ as changing the images based on the state
     &lt;&lt;/if&gt;&gt;
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="64" name="characterMenuSkills" tags="" position="475,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="66" name="characterMenuSkills" tags="" position="725,850" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;div id=&quot;skills&quot; class=&quot;subbackground hidden&quot;&gt;
     &lt;hr&gt;
@@ -23468,7 +23546,7 @@ as changing the images based on the state
     &lt;&lt;/if&gt;&gt;
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="65" name="characterMenuStats" tags="" position="600,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="67" name="characterMenuStats" tags="" position="850,850" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;div id=&quot;stats&quot; class=&quot;subbackground hidden&quot;&gt;
     &lt;hr&gt;
@@ -23506,7 +23584,7 @@ as changing the images based on the state
     &lt;&lt;/if&gt;&gt;
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="66" name="characterMenuSummary" tags="" position="725,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="68" name="characterMenuSummary" tags="" position="975,850" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;div id=&quot;summary&quot; class=&quot;subbackground&quot;&gt;
     &lt;hr&gt;
@@ -23516,7 +23594,7 @@ as changing the images based on the state
     &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="67" name="deathMenu" tags="black" position="850,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="69" name="deathMenu" tags="black" position="1100,850" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;div id=&quot;background&quot; class=&quot;paper_border&quot; style=&quot;position: relative&quot;&gt;
     &lt;center&gt;&lt;h1 style=&quot;color: red&quot;&gt;You Died&lt;/h1&gt;&lt;/center&gt;
@@ -23548,7 +23626,7 @@ as changing the images based on the state
 
 &lt;&lt;include round&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="68" name="playerMenuEquip" tags="" position="975,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="70" name="playerMenuEquip" tags="" position="1225,850" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;div id=&quot;equipOverlay&quot; class=&quot;hidden&quot; style=&quot;position: relative; width: 0; height: 0; margin-left: -5px&quot;&gt;
     &lt;div class=&quot;equipOverlay&quot;&gt;
@@ -23628,7 +23706,7 @@ as changing the images based on the state
     }
 &lt;&lt;/script&gt;&gt;&lt;&lt;/silently&gt;&gt;&lt;&lt;/timed&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="69" name="playerMenuEquipment" tags="" position="1100,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="71" name="playerMenuEquipment" tags="" position="100,975" size="100,100">&lt;&lt;nobr&gt;&gt;
     &lt;div id=&quot;equipment&quot; class=&quot;subbackground hidden&quot;&gt;
         &lt;div id=&quot;default_list&quot;&gt;
             &lt;hr&gt;
@@ -23779,15 +23857,12 @@ as changing the images based on the state
         }
     }
     let player = State.variables.player;
-    $(&quot;#armors_list&quot;).fadeOut(0.1);
     $(&quot;#armors_title&quot;).on(&quot;click&quot;, (event) =&gt; {
         $(&quot;#armors_list&quot;).fadeToggle(0.1);
     });
-    $(&quot;#weapons_list&quot;).fadeOut(0.1);
     $(&quot;#weapons_title&quot;).on(&quot;click&quot;, (event) =&gt; {
         $(&quot;#weapons_list&quot;).fadeToggle(0.1);
     });
-    $(&quot;#accessories_list&quot;).fadeOut(0.1);
     $(&quot;#accessories_title&quot;).on(&quot;click&quot;, (event) =&gt; {
         $(&quot;#accessories_list&quot;).fadeToggle(0.1);
     });
@@ -23799,7 +23874,78 @@ as changing the images based on the state
     }
 &lt;&lt;/script&gt;&gt;&lt;&lt;/silently&gt;&gt;&lt;&lt;/timed&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="70" name="playerMenuInventory" tags="" position="1225,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="72" name="playerMenuFinances" tags="" position="225,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+
+&lt;&lt;set _total_income = 0&gt;&gt;
+&lt;&lt;for _key, _val range $player.finances.businesses&gt;&gt;
+    &lt;&lt;set _total_income += _val&gt;&gt;
+&lt;&lt;/for&gt;&gt;
+&lt;&lt;for _key, _val range $player.finances.slaves&gt;&gt;
+    &lt;&lt;set _slave_income = 0&gt;&gt;
+    &lt;&lt;for _sub_key, _sub_val range _val&gt;&gt;
+        &lt;&lt;set _slave_income += _sub_val&gt;&gt;
+    &lt;&lt;/for&gt;&gt;
+    &lt;&lt;set _total_income += _slave_income&gt;&gt;
+    &lt;&lt;set $player.finances.slaves[_key].total = _slave_income&gt;&gt;
+&lt;&lt;/for&gt;&gt;
+
+&lt;div id=&quot;finances&quot; class=&quot;subbackground hidden&quot;&gt;
+    &lt;hr&gt;
+    &lt;center&gt;&lt;h3&gt;Finances&lt;/h3&gt;
+        &lt;div class=&quot;container twoCol&quot; style=&quot;font-weight: normal&quot;&gt;
+            &lt;div style=&quot;text-align: left; margin-left: 20px&quot;&gt;
+                Money: &lt;br&gt;
+                Passive income: &lt;br&gt;
+            &lt;/div&gt;
+            &lt;div style=&quot;text-align: right; margin-right: 20px; font-weight: normal&quot;&gt;
+                &lt;&lt;= setup.LARI&gt;&gt;&lt;&lt;money&gt;&gt;&lt;br&gt;
+                &lt;&lt;= setup.show_money_change_html(0, _total_income)&gt;&gt;&lt;br&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/center&gt;
+    &lt;hr&gt;
+    &lt;center&gt;&lt;h3 id=&quot;businesses_title&quot; class=&quot;tool&quot;&gt;Businesses&lt;/h3&gt;
+        &lt;div id=&quot;businesses_list&quot; class=&quot;container twoCol&quot; style=&quot;font-weight: normal&quot;&gt;
+            &lt;div style=&quot;text-align: left; margin-left: 20px&quot;&gt;
+                &lt;&lt;for _key, _val range $player.finances.businesses&gt;&gt;
+                    &lt;&lt;= setup.titleCase(_key)&gt;&gt;: &lt;br&gt;
+                &lt;&lt;/for&gt;&gt;
+            &lt;/div&gt;
+            &lt;div style=&quot;text-align: right; margin-right: 20px; font-weight: normal&quot;&gt;
+                &lt;&lt;for _key, _val range $player.finances.businesses&gt;&gt;
+                    &lt;&lt;= setup.show_money_change_html(0, _val)&gt;&gt;&lt;br&gt;
+                &lt;&lt;/for&gt;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/center&gt;
+    &lt;hr&gt;
+    &lt;center&gt;&lt;h3 id=&quot;slaves_title&quot; class=&quot;tool&quot;&gt;Slaves&lt;/h3&gt;
+        &lt;div id=&quot;slaves_list&quot; class=&quot;container twoCol&quot; style=&quot;font-weight: normal&quot;&gt;
+            &lt;div style=&quot;text-align: left; margin-left: 20px&quot;&gt;
+                &lt;&lt;for _key, _val range $player.finances.slaves&gt;&gt;
+                    &lt;&lt;= $characters[_key].name()&gt;&gt;: &lt;br&gt;
+                &lt;&lt;/for&gt;&gt;
+            &lt;/div&gt;
+            &lt;div style=&quot;text-align: right; margin-right: 20px; font-weight: normal&quot;&gt;
+                &lt;&lt;for _key, _val range $player.finances.slaves&gt;&gt;
+                    &lt;&lt;= setup.show_money_change_html(0, $player.finances.slaves[_key].total)&gt;&gt;&lt;br&gt;
+                &lt;&lt;/for&gt;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/center&gt;
+&lt;/div&gt;
+
+
+&lt;&lt;timed 50ms&gt;&gt;&lt;&lt;script&gt;&gt;
+    $(&quot;#businesses_title&quot;).on(&quot;click&quot;, (event) =&gt; {
+        $(&quot;#businesses_list&quot;).fadeToggle(0.1);
+    });
+    $(&quot;#slaves_title&quot;).on(&quot;click&quot;, (event) =&gt; {
+        $(&quot;#slaves_list&quot;).fadeToggle(0.1);
+    });
+&lt;&lt;/script&gt;&gt;&lt;&lt;/timed&gt;&gt;
+
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="73" name="playerMenuInventory" tags="" position="350,975" size="100,100">&lt;&lt;nobr&gt;&gt;
     &lt;div id=&quot;inventory&quot; class=&quot;subbackground&quot;&gt;
         &lt;hr&gt;
         &lt;center&gt;&lt;h3&gt;Inventory&lt;/h3&gt;
@@ -23831,7 +23977,7 @@ as changing the images based on the state
             &lt;/div&gt;
         &lt;/center&gt;
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="71" name="playerMenu" tags="paper" position="100,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="74" name="playerMenu" tags="paper" position="475,975" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* For updating versions */
 &lt;&lt;if $player.is_slave &amp;&amp; UInv.BagHasItem(&quot;inventory&quot;, &quot;hironaka_amulet&quot;) == 0&gt;&gt;
@@ -23895,6 +24041,7 @@ as changing the images based on the state
             &lt;&lt;set _right_selection = &quot;inventory&quot;&gt;&gt;
             &lt;&lt;include playerMenuInventory&gt;&gt;
             &lt;&lt;include playerMenuEquipment&gt;&gt;
+            &lt;&lt;include playerMenuFinances&gt;&gt;
         &lt;/div&gt;
 
     &lt;/div&gt;
@@ -23963,7 +24110,7 @@ as changing the images based on the state
     });
 &lt;&lt;/script&gt;&gt;&lt;&lt;/silently&gt;&gt;&lt;&lt;/timed&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="72" name="playerMenuSkills" tags="" position="225,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="75" name="playerMenuSkills" tags="" position="600,975" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;div id=&quot;skills&quot; class=&quot;subbackground hidden&quot;&gt;
     &lt;hr&gt;
@@ -24003,7 +24150,7 @@ as changing the images based on the state
     &lt;/center&gt;
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="73" name="playerMenuStats" tags="" position="350,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="76" name="playerMenuStats" tags="" position="725,975" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;stats&quot; class=&quot;subbackground&quot;&gt;
     &lt;hr&gt;
     &lt;center&gt;&lt;h3&gt;Stats&lt;/h3&gt;
@@ -24034,7 +24181,7 @@ as changing the images based on the state
         &lt;/div&gt;
     &lt;/center&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="74" name="playerMenuTitles" tags="" position="475,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="77" name="playerMenuTitles" tags="" position="850,975" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;titles&quot; class=&quot;subbackground hidden&quot;&gt;
     &lt;hr&gt;
     &lt;center&gt;&lt;h3&gt;Titles&lt;/h3&gt;
@@ -24080,7 +24227,7 @@ as changing the images based on the state
     &lt;/center&gt;
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="75" name="questMenu" tags="" position="600,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="78" name="questMenu" tags="" position="975,975" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;Quest Journal&lt;/h2&gt;
 This is your quest journal and where you can view quests that are both ongoing and completed. 
@@ -24133,7 +24280,7 @@ of completing them (unless it is a direct request from another character).
 &lt;&lt;/for&gt;&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="76" name="settingsMenu" tags="black" position="725,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="79" name="settingsMenu" tags="black" position="1100,975" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;background&quot; class=&quot;paper_border notext&quot;&gt;
     &lt;center&gt;&lt;h1&gt;Settings&lt;/h1&gt;&lt;/center&gt;
     &lt;div class=&quot;container threeCol&quot;&gt;
@@ -24309,7 +24456,7 @@ of completing them (unless it is a direct request from another character).
 &lt;&lt;/script&gt;&gt;&lt;&lt;/timed&gt;&gt;&lt;&lt;/silently&gt;&gt;
 
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="77" name="niponActions" tags="" position="850,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="80" name="niponActions" tags="" position="1225,975" size="100,100">&lt;&lt;nobr&gt;&gt;
     &lt;div id=&quot;actions&quot; class=&quot;mapaction fiveQuarters smalltext&quot;&gt;
         &lt;hr&gt;
         &lt;&lt;set _added = 0&gt;&gt;
@@ -24365,7 +24512,7 @@ of completing them (unless it is a direct request from another character).
         &lt;/div&gt;
         &lt;hr&gt;
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="78" name="liasTowerActions" tags="" position="975,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="81" name="liasTowerActions" tags="" position="100,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;actions&quot; class=&quot;action container row col longbutton fiveQuarters&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
     &lt;&lt;set _queue_talk = false&gt;&gt;
@@ -24410,7 +24557,7 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="79" name="liasTower" tags="black" position="1100,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="82" name="liasTower" tags="black" position="225,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;set _lia = $characters.lia_hiroyuki&gt;&gt;
 
@@ -24481,7 +24628,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;updatetime&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="80" name="liasTowerTalkOptions" tags="" position="1225,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="83" name="liasTowerTalkOptions" tags="" position="350,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;div id=&quot;events_actions&quot; class=&quot;action container row col hidden&quot;
          style=&quot;--rows: 4; --cols: 5&quot;&gt;
@@ -24746,7 +24893,7 @@ of completing them (unless it is a direct request from another character).
 
 
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="81" name="niponBarracksActions" tags="" position="100,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="84" name="niponBarracksActions" tags="" position="475,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;actions&quot; class=&quot;action container row col longbutton fiveQuarters&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -24779,7 +24926,7 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="82" name="niponBarracksEmilyActions" tags="" position="225,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="85" name="niponBarracksEmilyActions" tags="" position="600,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;emily_actions&quot; class=&quot;action container row col longbutton fiveQuarters hidden&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -24883,7 +25030,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="83" name="niponBarracks" tags="black" position="350,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="86" name="niponBarracks" tags="black" position="725,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;set _emily = $characters.emily_namm&gt;&gt;
 
@@ -24952,7 +25099,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;updatetime&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="84" name="niponBarracksTalkOptions" tags="" position="475,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="87" name="niponBarracksTalkOptions" tags="" position="850,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* For ease */
 &lt;&lt;set _emily = $characters.emily_namm&gt;&gt;
@@ -25225,7 +25372,7 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="85" name="niponCentral" tags="paper" position="600,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="88" name="niponCentral" tags="paper" position="975,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* Player is outside */
 &lt;&lt;set $player.is_home = false&gt;&gt;
@@ -25308,7 +25455,7 @@ of completing them (unless it is a direct request from another character).
     }, 10);
 &lt;&lt;/script&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="86" name="shintaniHomeActions" tags="" position="725,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="89" name="shintaniHomeActions" tags="" position="1100,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
     &lt;div id=&quot;actions&quot; class=&quot;action container row col&quot; 
          style=&quot;--rows: 4; --cols: 5&quot;&gt;
         &lt;div style=&quot;grid-row: 1; grid-column: 1&quot;&gt;
@@ -25365,7 +25512,7 @@ of completing them (unless it is a direct request from another character).
         &lt;/div&gt;
 
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="87" name="shintaniHomeEventsActions" tags="" position="850,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="90" name="shintaniHomeEventsActions" tags="" position="1225,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
     &lt;div id=&quot;events_actions&quot; class=&quot;action container row col hidden&quot;
          style=&quot;--rows: 4; --cols: 5&quot;&gt;
 
@@ -25417,7 +25564,7 @@ of completing them (unless it is a direct request from another character).
         &lt;/div&gt;
 
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="88" name="shintaniHomeEventsInteractHimariAsk" tags="" position="975,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="91" name="shintaniHomeEventsInteractHimariAsk" tags="" position="100,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;set _choices = 5&gt;&gt;
 &lt;&lt;script&gt;&gt;
@@ -25693,7 +25840,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="89" name="shintaniHomeEventsInteractShintaniAsk" tags="" position="1100,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="92" name="shintaniHomeEventsInteractShintaniAsk" tags="" position="225,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* For ease */
 &lt;&lt;set _shintani = $characters.shintani_hiroyuki&gt;&gt;
@@ -26098,9 +26245,9 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="90" name="shintaniHomeEventsWorkDomesticEvents" tags="" position="1225,1100" size="100,100">&lt;&lt;set _events = [
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="93" name="shintaniHomeEventsWorkDomesticEvents" tags="" position="350,1225" size="100,100">&lt;&lt;set _events = [
 
-]&gt;&gt;</tw-passagedata><tw-passagedata pid="91" name="shintaniHomeEventsWorkEconomicCheckMath" tags="" position="100,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+]&gt;&gt;</tw-passagedata><tw-passagedata pid="94" name="shintaniHomeEventsWorkEconomicCheckMath" tags="" position="475,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;script&gt;&gt;
     var div = $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
@@ -26272,7 +26419,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="92" name="shintaniHomeEventsWorkEconomicEvents" tags="" position="225,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="95" name="shintaniHomeEventsWorkEconomicEvents" tags="" position="600,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _prefix = &quot;shintaniHomeEventsWorkEconomic&quot;&gt;&gt;
 &lt;&lt;set _events = [
     &quot;CheckMath&quot;,
@@ -26283,7 +26430,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;include `_prefix + either(_events)`&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="93" name="shintaniHomeEventsWorkEconomicFetchBook" tags="" position="350,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="96" name="shintaniHomeEventsWorkEconomicFetchBook" tags="" position="725,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;script&gt;&gt;
     var div = $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
@@ -26376,7 +26523,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="94" name="shintaniHomeEventsWorkEconomicGetTea" tags="" position="475,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="97" name="shintaniHomeEventsWorkEconomicGetTea" tags="" position="850,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* For ease */
 &lt;&lt;set _char = $characters[either($characters.shintani_hiroyuki.slaves)]&gt;&gt;
@@ -26786,7 +26933,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="95" name="shintaniHomeEventsWorkEconomicInformShintani" tags="" position="600,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="98" name="shintaniHomeEventsWorkEconomicInformShintani" tags="" position="975,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* For ease */
 &lt;&lt;set _himari = $characters.himari_hironaka&gt;&gt;
@@ -26872,9 +27019,9 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/repeat&gt;&gt;&lt;&lt;/silently&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="96" name="shintaniHomeEventsWorkSexualEvents" tags="" position="725,1225" size="100,100">&lt;&lt;set _events = [
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="99" name="shintaniHomeEventsWorkSexualEvents" tags="" position="1100,1225" size="100,100">&lt;&lt;set _events = [
 
-]&gt;&gt;</tw-passagedata><tw-passagedata pid="97" name="shintaniHomeInteractActions" tags="" position="850,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+]&gt;&gt;</tw-passagedata><tw-passagedata pid="100" name="shintaniHomeInteractActions" tags="" position="1225,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;interact_actions&quot; class=&quot;action container row col hidden&quot; 
         style=&quot;--rows: 4; --cols: 5&quot;&gt;
 
@@ -26984,7 +27131,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/button&gt;&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="98" name="shintaniHomeInteractAsleepActions" tags="" position="975,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="101" name="shintaniHomeInteractAsleepActions" tags="" position="100,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
 /* For engines */
 &lt;div id=&quot;interact_asleep_actions&quot; class=&quot;action container row col hidden&quot; 
         style=&quot;--rows: 4; --cols: 5&quot;&gt;
@@ -27050,7 +27197,7 @@ of completing them (unless it is a direct request from another character).
         &lt;&lt;unset _modifier&gt;&gt;
     &lt;&lt;/button&gt;&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="99" name="shintaniHomeInteractOptions" tags="" position="1100,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="102" name="shintaniHomeInteractOptions" tags="" position="225,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;interact_options&quot; class=&quot;action container row col hidden&quot; 
         style=&quot;--rows: 4; --cols: 5&quot;&gt;
 
@@ -27179,7 +27326,7 @@ of completing them (unless it is a direct request from another character).
         &lt;/div&gt;
     &lt;&lt;/for&gt;&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="100" name="shintaniHomeLibraryActions" tags="" position="1225,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="103" name="shintaniHomeLibraryActions" tags="" position="350,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
     &lt;div id=&quot;actions&quot; class=&quot;action container row col&quot; 
          style=&quot;--rows: 4; --cols: 5&quot;&gt;
 
@@ -27261,7 +27408,7 @@ of completing them (unless it is a direct request from another character).
             &lt;&lt;include locationButton&gt;&gt;
         &lt;/div&gt;
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="101" name="shintaniHomeLibrary" tags="black" position="100,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="104" name="shintaniHomeLibrary" tags="black" position="475,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
 /* Add tutorial for shintaniHome as well as trigger on first enterance */
 &lt;&lt;if !(passage() in $tutorials)&gt;&gt;
     &lt;&lt;set $tutorials[passage()] = passage() + &quot;Tutorial&quot;&gt;&gt;
@@ -27302,7 +27449,7 @@ of completing them (unless it is a direct request from another character).
 &lt;&lt;updatetime&gt;&gt;
 
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="102" name="shintaniHomeLibraryStudyActions" tags="" position="225,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="105" name="shintaniHomeLibraryStudyActions" tags="" position="600,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;study_actions&quot; class=&quot;action container row col fiveQuarters smalltext longbutton hidden&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -27419,7 +27566,7 @@ of completing them (unless it is a direct request from another character).
 &lt;&lt;/script&gt;&gt;&lt;&lt;/silently&gt;&gt;&lt;&lt;/timed&gt;&gt;
 
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="103" name="shintaniHomeLibraryStudyEngine" tags="" position="350,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="106" name="shintaniHomeLibraryStudyEngine" tags="" position="725,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* Information about work */
 &lt;&lt;set $_temp_to_log = &quot;\
@@ -27500,7 +27647,7 @@ of completing them (unless it is a direct request from another character).
 &lt;&lt;set $enable_menu = true&gt;&gt;
 
 &lt;&lt;goto `passage()`&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="104" name="shintaniHome" tags="black" position="475,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="107" name="shintaniHome" tags="black" position="850,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
 /* Add tutorial for shintaniHome as well as trigger on first enterance */
 &lt;&lt;if !(passage() in $tutorials)&gt;&gt;
     /* Enable menu keybinds */
@@ -27577,7 +27724,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;updatetime&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="105" name="shintaniHomeSleep" tags="black" position="600,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="108" name="shintaniHomeSleep" tags="black" position="975,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* Check for fill or emptied slave_traits */
 &lt;&lt;set _player_extra_changes = &quot;&quot;&gt;&gt;
@@ -27830,9 +27977,12 @@ of completing them (unless it is a direct request from another character).
 /* Reset awake counter */
 &lt;&lt;set $time_awake = 0&gt;&gt;
 
+/* Reset work status */
+&lt;&lt;set $player.hours_worked = 0&gt;&gt;
+
 &lt;&lt;include round&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="106" name="shintaniHomeWorkActions" tags="" position="725,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="109" name="shintaniHomeWorkActions" tags="" position="1100,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;work_actions&quot; class=&quot;action container row col hidden&quot; 
         style=&quot;--rows: 4; --cols: 5&quot;&gt;
 
@@ -27939,7 +28089,7 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="107" name="shintaniHomeWorkEngine" tags="" position="850,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="110" name="shintaniHomeWorkEngine" tags="" position="1225,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* Information about work */
 &lt;&lt;set $_temp_to_log = &quot;\
@@ -27952,6 +28102,7 @@ of completing them (unless it is a direct request from another character).
 /* Forward time along with dynamics */
 &lt;&lt;set $player.is_slaving = true&gt;&gt;
 &lt;&lt;addhours _to_advance_hr&gt;&gt;
+&lt;&lt;set $player.hours_worked += _to_advance_hr&gt;&gt;
 &lt;&lt;include round&gt;&gt;
 &lt;&lt;set $player.is_slaving = false&gt;&gt;
 
@@ -27986,7 +28137,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;include shintaniHomeWorkEngineAfter&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="108" name="shintaniHomeWorkEngineAfter" tags="" position="975,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="111" name="shintaniHomeWorkEngineAfter" tags="" position="100,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;include round&gt;&gt;
 
@@ -28038,7 +28189,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;script&gt;&gt;Engine.play(&quot;shintaniHome&quot;);&lt;&lt;/script&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="109" name="niponMarket" tags="paper" position="1100,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="112" name="niponMarket" tags="paper" position="225,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;if setup.is_day($gameDate)&gt;&gt;
     &lt;&lt;set $_to_log += &quot;
@@ -28131,7 +28282,7 @@ of completing them (unless it is a direct request from another character).
     }, 10);
 &lt;&lt;/script&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="110" name="niponMinesActions" tags="" position="1225,1350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="113" name="niponMinesActions" tags="" position="350,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;actions&quot; class=&quot;action container row col longbutton fiveQuarters&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -28186,7 +28337,7 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="111" name="niponMines" tags="black" position="100,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="114" name="niponMines" tags="black" position="475,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;if $quests.the_nipon_economy.stage == 0&gt;&gt;
     /* Add tutorial */
     &lt;&lt;if tale.has(passage() + &quot;Tutorial&quot;)&gt;&gt;
@@ -28228,7 +28379,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;updatetime&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="112" name="niponMinesWorkActions" tags="" position="225,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="115" name="niponMinesWorkActions" tags="" position="600,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;work_actions&quot; class=&quot;action container row col fiveQuarters smalltext longbutton hidden&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -28352,7 +28503,7 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="113" name="niponMinesWorkEngine" tags="" position="350,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="116" name="niponMinesWorkEngine" tags="" position="725,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* Information about work */
 &lt;&lt;set $_temp_to_log = &quot;\
@@ -28488,7 +28639,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;goto &quot;niponMines&quot;&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="114" name="niponStallsActions" tags="" position="475,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="117" name="niponStallsActions" tags="" position="850,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;actions&quot; class=&quot;action container row col longbutton fiveQuarters&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -28518,7 +28669,7 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="115" name="niponStalls" tags="black" position="600,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="118" name="niponStalls" tags="black" position="975,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;if $quests.the_nipon_economy.stage lte 1&gt;&gt;
     /* Add tutorial */
     &lt;&lt;if tale.has(passage() + &quot;Tutorial&quot;)&gt;&gt;
@@ -28653,7 +28804,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;updatetime&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="116" name="niponStallsTradeOptions" tags="" position="725,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="119" name="niponStallsTradeOptions" tags="" position="1100,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;trade_options&quot; class=&quot;action container row col longbutton fiveQuarters hidden&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -28700,7 +28851,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/for&gt;&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="117" name="niponTradeUnionActions" tags="" position="850,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="120" name="niponTradeUnionActions" tags="" position="1225,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;actions&quot; class=&quot;action container row col longbutton fiveQuarters&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -28751,7 +28902,7 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="118" name="niponTradeUnion" tags="black" position="975,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="121" name="niponTradeUnion" tags="black" position="100,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;if $quests.the_nipon_economy.stage lte 2&gt;&gt;
     /* Add tutorial */
     &lt;&lt;if tale.has(passage() + &quot;Tutorial&quot;)&gt;&gt;
@@ -28896,7 +29047,7 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;updatetime&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="119" name="niponTradeUnionTalkOptions" tags="" position="1100,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="122" name="niponTradeUnionTalkOptions" tags="" position="225,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;div id=&quot;events_actions&quot; class=&quot;action container row col hidden&quot;
          style=&quot;--rows: 4; --cols: 5&quot;&gt;
@@ -29406,7 +29557,7 @@ of completing them (unless it is a direct request from another character).
     &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="120" name="niponTradeUnionTradeOptions" tags="" position="1225,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="123" name="niponTradeUnionTradeOptions" tags="" position="350,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;trade_options&quot; class=&quot;action container row col longbutton fiveQuarters hidden&quot; 
         style=&quot;--rows: 4; --cols: 4&quot;&gt;
 
@@ -29448,7 +29599,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/for&gt;&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="121" name="niponSlums" tags="paper" position="100,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="124" name="niponSlums" tags="paper" position="475,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;if setup.is_day($gameDate)&gt;&gt;
     &lt;&lt;set $_to_log += &quot;
@@ -29537,7 +29688,7 @@ of completing them (unless it is a direct request from another character).
     }, 10);
 &lt;&lt;/script&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="122" name="PassageHeader" tags="" position="225,1600" size="100,100">&lt;&lt;include audioEngine&gt;&gt;</tw-passagedata><tw-passagedata pid="123" name="Start" tags="black, pausetimer" position="350,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="125" name="PassageHeader" tags="" position="600,1600" size="100,100">&lt;&lt;include audioEngine&gt;&gt;</tw-passagedata><tw-passagedata pid="126" name="Start" tags="black, pausetimer" position="725,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;div id=&quot;background&quot; class=&quot;city_border&quot; style=&quot;position: relative; padding: 80px&quot;&gt;&lt;center&gt;
     &lt;div id=&quot;banner&quot;&gt;&lt;/div&gt;
@@ -29607,7 +29758,7 @@ of completing them (unless it is a direct request from another character).
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/timed&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="124" name="controls" tags="" position="475,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="127" name="controls" tags="" position="850,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h3&gt;Controls&lt;/h3&gt;
 There are many convenient keybinds that may help you out throughout your journey.
@@ -29622,35 +29773,35 @@ There are many convenient keybinds that may help you out throughout your journey
     &lt;li&gt;&#39;&#39;X / ESC&#39;&#39;: Settings menu&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="125" name="niponCentralTutorial" tags="" position="600,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="128" name="niponCentralTutorial" tags="" position="975,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;Nipon&#39;s Central District&lt;/h2&gt;
 &lt;div&gt;
     
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="126" name="niponMarketTutorial" tags="" position="725,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="129" name="niponMarketTutorial" tags="" position="1100,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;Nipon&#39;s Market District&lt;/h2&gt;
 &lt;div&gt;
     
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="127" name="niponSlumsTutorial" tags="" position="850,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="130" name="niponSlumsTutorial" tags="" position="1225,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;Nipon Slums&lt;/h2&gt;
 &lt;div&gt;
     
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="128" name="shintaniHomeLibraryTutorial" tags="" position="975,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="131" name="shintaniHomeLibraryTutorial" tags="" position="100,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;Shintani&#39;s Library&lt;/h2&gt;
 &lt;div&gt;
     This is Shintani&#39;s Library and the central location you gain intelligence.
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="129" name="shintaniHomeTutorial" tags="" position="1100,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="132" name="shintaniHomeTutorial" tags="" position="225,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;Shintani&#39;s Home&lt;/h2&gt;
 &lt;div&gt;
@@ -29701,7 +29852,7 @@ orders; Not working (slacking off).
 &lt;&lt;/message&gt;&gt;
 
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="130" name="statusTutorial" tags="" position="1225,1600" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="133" name="statusTutorial" tags="" position="350,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;&lt;&lt;= setup.titleCase(_selected_status)&gt;&gt;&lt;/h2&gt;
 As &lt;&lt;= setup.statuses[_selected_status].article&gt;&gt; &lt;b&gt;&lt;&lt;= setup.titleCase(_selected_status)&gt;&gt;&lt;/b&gt;, 
@@ -29725,7 +29876,7 @@ As &lt;&lt;= setup.statuses[_selected_status].article&gt;&gt; &lt;b&gt;&lt;&lt;=
 &lt;/ul&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="131" name="titleTutorial" tags="" position="100,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="134" name="titleTutorial" tags="" position="475,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;&lt;&lt;= setup.titleCase($selected_title)&gt;&gt;&lt;/h2&gt;
 &lt;&lt;if setup.titles[$selected_title].custom_intro&gt;&gt;
@@ -29759,7 +29910,7 @@ As &lt;&lt;= setup.statuses[_selected_status].article&gt;&gt; &lt;b&gt;&lt;&lt;=
     &lt;/ul&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="132" name="welcome" tags="" position="225,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="135" name="welcome" tags="" position="600,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;popuptext&quot;&gt;
 &lt;h2&gt;Welcome to Free Cities: Origins&lt;/h2&gt;
 Thank you for choosing to play Free Cities: Origins, a prequal to the famous 
@@ -29782,11 +29933,11 @@ There are many convenient keybinds that may help you out throughout your journey
     &lt;li&gt;&#39;&#39;X / ESC&#39;&#39;: Settings menu&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="133" name="info" tags="" position="350,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="136" name="info" tags="" position="725,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;info&quot; class=&quot;subbackground&quot; style=&quot;grid-row: 1 / span 3; grid-column: 4 / span 1&quot;&gt;
     &lt;&lt;include infoNoSubbackground&gt;&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="134" name="infoLog" tags="" position="475,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="137" name="infoLog" tags="" position="850,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div id=&quot;infoLog&quot; class=&quot;mainLog hidden&quot;&gt;
     &lt;center&gt;
         &lt;div style=&quot;margin: 20px&quot;&gt;
@@ -29796,7 +29947,7 @@ There are many convenient keybinds that may help you out throughout your journey
     &lt;p id=&quot;infoLogBody&quot;&gt;
     &lt;/p&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="135" name="infoNoSubbackground" tags="" position="600,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="138" name="infoNoSubbackground" tags="" position="975,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;container threeRow&quot; style=&quot;font-weight: normal; height: 100%; width: 100%&quot;&gt;
     &lt;center&gt;
         &lt;h3 style=&quot;margin-bottom:0&quot;&gt;&lt;&lt;= setup.locations.get(passage()).name&gt;&gt;&lt;/h3&gt;
@@ -29904,7 +30055,7 @@ There are many convenient keybinds that may help you out throughout your journey
 
     &lt;/center&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="136" name="locationButton" tags="" position="725,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="139" name="locationButton" tags="" position="1100,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;if ndef _location_button_text&gt;&gt;
     &lt;&lt;set _location_button_text = setup.locations.get(_location_button_dest).name&gt;&gt;
 &lt;&lt;/if&gt;&gt;
@@ -29943,7 +30094,7 @@ There are many convenient keybinds that may help you out throughout your journey
 &lt;&lt;unset _location_button_dest&gt;&gt;
 &lt;&lt;unset _location_button_sound&gt;&gt;
 &lt;&lt;unset _location_button_dur&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="137" name="mainLog" tags="" position="850,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="140" name="mainLog" tags="" position="1225,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
     &lt;div id=&quot;mainLogImageContainer&quot; class=&quot;mainLogImageContainer&quot;&gt;
         &lt;div id=&quot;mainLogImage&quot; class=&quot;mainLogImage&quot;&gt;&lt;/div&gt;
         &lt;div id=&quot;mainLogCharacterImage&quot; class=&quot;mainLogCharacterImage&quot;&gt;&lt;/div&gt;
@@ -29965,7 +30116,7 @@ There are many convenient keybinds that may help you out throughout your journey
                 passage() + time + &quot;Image.png\&quot;)&quot;);
         }, 10);
     &lt;&lt;/script&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="138" name="disableActions" tags="widget" position="975,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="141" name="disableActions" tags="widget" position="100,1850" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;widget &quot;disableactions&quot;&gt;&gt;
     /* Hide back and leave buttons */
@@ -30008,7 +30159,7 @@ There are many convenient keybinds that may help you out throughout your journey
     &lt;&lt;unset _disable_buttons&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="139" name="money" tags="widget" position="1100,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="142" name="money" tags="widget" position="225,1850" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* Gets money that player has */
 &lt;&lt;widget &quot;money&quot;&gt;&gt;&lt;&lt;= setup.round2(UInv.BagHasItem(&quot;inventory&quot;, &quot;lari&quot;) + UInv.BagHasItem(&quot;inventory&quot;, &quot;tetri&quot;) / 100)&gt;&gt;&lt;&lt;/widget&gt;&gt;
@@ -30032,6 +30183,7 @@ There are many convenient keybinds that may help you out throughout your journey
 /* Adds money to player inventory */
 &lt;&lt;widget &quot;addmoney&quot;&gt;&gt;
     &lt;&lt;run UInv.AddItem(&quot;inventory&quot;, &quot;tetri&quot;, parseInt($args[0] * 100))&gt;&gt;
+    &lt;&lt;set $player.finances.total_earned += parseFloat($args[0])&gt;&gt;
     &lt;&lt;simplifymoney&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
 
@@ -30043,7 +30195,7 @@ There are many convenient keybinds that may help you out throughout your journey
 &lt;&lt;/widget&gt;&gt;
 
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="140" name="round" tags="" position="1225,1725" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="143" name="round" tags="" position="350,1850" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;set $player.round = {}&gt;&gt;
 &lt;&lt;set $player.round.stats = {}&gt;&gt;
@@ -30112,7 +30264,7 @@ There are many convenient keybinds that may help you out throughout your journey
 /* Update max carry weight */
 &lt;&lt;run UInv.SetBagPropertyValue(&quot;inventory&quot;, &quot;maxCarryWeight&quot;, $player.stats.strength)&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="141" name="saveVars" tags="widget" position="100,1850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="144" name="saveVars" tags="widget" position="475,1850" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* Saves some variables if they exist */
 &lt;&lt;widget &quot;saveVars&quot;&gt;&gt;
@@ -30128,7 +30280,7 @@ There are many convenient keybinds that may help you out throughout your journey
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="142" name="updateBars" tags="" position="225,1850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="145" name="updateBars" tags="" position="600,1850" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;updatemeter &quot;player_health_bar&quot; `$player.conditions.health / $player.conditions.max_health`&gt;&gt;
 &lt;&lt;updatemeter &quot;player_stamina_bar&quot; `$player.conditions.stamina / $player.conditions.max_stamina`&gt;&gt;
@@ -30154,7 +30306,7 @@ There are many convenient keybinds that may help you out throughout your journey
     &lt;&lt;updatemeter &quot;char_willpower_bar&quot; `_char.slave_traits.willpower / 100`&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="143" name="updateCommodities" tags="widget" position="350,1850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="146" name="updateCommodities" tags="widget" position="725,1850" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;widget &quot;updatecommodities&quot;&gt;&gt;
     &lt;&lt;set _year_start = new Date($gameDate.getFullYear(), 0, 0)&gt;&gt;
@@ -30288,7 +30440,7 @@ There are many convenient keybinds that may help you out throughout your journey
     &lt;&lt;unset _mu&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="144" name="updateQuests" tags="widget" position="475,1850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="147" name="updateQuests" tags="widget" position="850,1850" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 &lt;&lt;widget &quot;updatequests&quot;&gt;&gt;
     &lt;&lt;if !$quest_journal.completed.includes(&quot;life_of_a_slave&quot;)&gt;&gt;
@@ -30315,7 +30467,7 @@ There are many convenient keybinds that may help you out throughout your journey
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="145" name="updateStatus" tags="widget" position="600,1850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="148" name="updateStatus" tags="widget" position="975,1850" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 /* Gives knowledge of all slaves of lower status */
 
