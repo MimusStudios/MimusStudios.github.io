@@ -17919,7 +17919,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You try to hug &quot; + setup.titleCase(_char.first_name) + &quot; but &quot; + setup.PRONOUNS[_char.gender][&quot;?he&quot;] + 
                 &quot; recoils, shaking &quot; + setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; head.&quot;&gt;&gt;
@@ -17971,7 +17971,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You try to kiss &quot; + setup.titleCase(_char.first_name) + &quot; but &quot; + setup.PRONOUNS[_char.gender][&quot;?he&quot;] + 
                 &quot; recoils, pulling back in shock.&quot;&gt;&gt;
@@ -18029,7 +18029,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You start taking off &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s clothes but &quot; + setup.PRONOUNS[_char.gender][&quot;?he&quot;] + 
                 &quot; pulls away, clearly not comfortable being completely naked in front of you.&quot;&gt;&gt;
@@ -18091,7 +18091,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You start slowly taking off &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s top but &quot; + setup.PRONOUNS[_char.gender][&quot;?he&quot;] + 
                 &quot; pulls away, clearly not comfortable bearing their chest in front of you.&quot;&gt;&gt;
@@ -18159,7 +18159,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You start slowly taking off &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s bottoms but &quot; + setup.PRONOUNS[_char.gender][&quot;?he&quot;] + 
                 &quot; pulls away, clearly not comfortable bearing their genitals in front of you.&quot;&gt;&gt;
@@ -18228,7 +18228,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You reach for &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s &quot; +
                 _char_chest + &quot;, but &quot; + setup.PRONOUNS[_char.gender][&quot;?he&quot;] + &quot; pulls away in reflex, clearly uncomfortable with being groped.&quot;&gt;&gt;
@@ -18281,7 +18281,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You slide your hand down &quot; + setup.titleCase(_char.first_name) + &quot; body then back up &quot; + 
                 setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; leg, approaching &quot; + setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; &quot;&gt;&gt;
@@ -18384,7 +18384,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You lower your head down inbetween &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s legs but&quot; + 
                 setup.PRONOUNS[_char.gender][&quot;?he&quot;] + &quot; quickly closes them, weary of your attempt at licking &quot; + setup.PRONOUNS[_char.gender][&quot;?his&quot;]&gt;&gt;
@@ -18482,7 +18482,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You grab &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s &quot; + _char.physical_traits.skin_color + 
                 &quot;feet and position your &quot; + _cock + &quot; between them, but &quot; + setup.PRONOUNS[_char.gender][&quot;?he&quot;] + &quot; pulls back, \
@@ -18561,7 +18561,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You grab your &quot; + _cock + &quot; out of your pants and pull &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s &quot; + 
                 _char.physical_traits.hair_color + &quot; hair to line up &quot; + setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; head, but &quot; + setup.PRONOUNS[_char.gender][&quot;?he&quot;] + 
@@ -18669,7 +18669,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You grab your &quot; + _cock + &quot; out of your pants and line it up with &quot; + setup.titleCase(_char.first_name) +
                 &quot;\&#39;s vagina.&quot;&gt;&gt;
@@ -18746,7 +18746,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You grab your &quot; + _cock + &quot; out of your pants and line it up with &quot; + setup.titleCase(_char.first_name) + 
                 &quot;\&#39;s asshole.&quot;&gt;&gt;
@@ -19009,7 +19009,7 @@ as changing the images based on the state
             _t.responses.push(&quot;Where do you cum?&quot;);
             _t.sex_state.orgasm = true;
             char.mental_conditions.arousal = 0;
-            char.conditions.stamina -= 20;
+            char.conditions.stamina -= 30;
             let loop = () =&gt; {
                 setTimeout(() =&gt; {
                     if (_t.done_appending !== &quot;undefined&quot; &amp;&amp; _t.done_appending) {
@@ -19151,7 +19151,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _thresh = _calc_thresh(&quot;anal&quot;, 65)&gt;&gt;
             &lt;&lt;set _responses = [
@@ -19187,7 +19187,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _thresh = _calc_thresh(&quot;anal&quot;, 70)&gt;&gt;
             &lt;&lt;set _responses = [
@@ -19227,7 +19227,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _thresh = _calc_thresh(&quot;anal&quot;, 75)&gt;&gt;
             &lt;&lt;set _responses = [
@@ -19262,7 +19262,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _thresh = _calc_thresh(&quot;anal&quot;, 80)&gt;&gt;
             &lt;&lt;set _responses = [
@@ -19296,7 +19296,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _thresh = _calc_thresh(&quot;anal&quot;, 85)&gt;&gt;
             &lt;&lt;set _responses = [
@@ -19321,7 +19321,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _thresh = _calc_thresh(&quot;anal&quot;, 70)&gt;&gt;
             &lt;&lt;set _responses = [$player.dialogue(either([
@@ -19349,7 +19349,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You take your &quot; + _cock + &quot; out of &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s asshole and pull &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s &quot; + 
                 _char.physical_traits.hair_color + &quot; hair to line up &quot; + setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; head, but &quot; + setup.PRONOUNS[_char.gender][&quot;?he&quot;] + 
@@ -19448,7 +19448,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You pull your &quot; + _cock + &quot; out of &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s asshole and line it up with &quot;&gt;&gt;
             &lt;&lt;if _query_action(&quot;vaginal&quot;, 50, _query_str)&gt;&gt;
@@ -19643,6 +19643,7 @@ as changing the images based on the state
                 let _v = State.variables;
                 let char = _t.char;
                 let sex_state = _t.sex_state;
+                let player = _v.player;
                 if (sex_state.orgasm) {
                     _v._temp_to_log += &quot;You leave &quot; + setup.titleCase(char.first_name) + &quot; to &quot; + 
                         setup.PRONOUNS[char.gender][&quot;?his&quot;] + &quot; duties.&lt;br&gt;&quot; + char.dialogue(&quot;That was great, let\&#39;s do that again sometime...&quot;) + 
@@ -19664,6 +19665,7 @@ as changing the images based on the state
                     _v._temp_to_log += &quot;You leave &quot; + setup.titleCase(char.first_name) + &quot; to &quot; + 
                         setup.PRONOUNS[char.gender][&quot;?his&quot;] + &quot; duties.&quot;;
                 }
+                player.mental_conditions.arousal = 0;
                 _v.enable_menu = true;
                 _v.to_simulate.add(char.key);
                 _t.to_round = char.key;
@@ -19708,7 +19710,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _thresh = _calc_thresh(&quot;oral&quot;, 40)&gt;&gt;
             &lt;&lt;set _responses = [
@@ -19742,7 +19744,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _thresh = _calc_thresh(&quot;oral&quot;, 75)&gt;&gt;
             &lt;&lt;set _responses = [
@@ -19777,7 +19779,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _thresh = _calc_thresh(&quot;oral&quot;, 45)&gt;&gt;
             &lt;&lt;set _responses = [
@@ -19812,7 +19814,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _thresh = _calc_thresh(&quot;oral&quot;, 50)&gt;&gt;
             &lt;&lt;set _responses = [
@@ -19845,7 +19847,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _thresh = _calc_thresh(&quot;oral&quot;, 55)&gt;&gt;
             &lt;&lt;set _responses = [
@@ -19896,7 +19898,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You pull your &quot; + _cock + &quot; out of &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s mouth and line it up with &quot;&gt;&gt;
             &lt;&lt;if _query_action(&quot;vaginal&quot;, 50, _query_str)&gt;&gt;
@@ -19969,7 +19971,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 5&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 5&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You grab your &quot; + _cock + &quot; out of &quot; + setup.titleCase(_char.first_name) + 
                 &quot;\&#39;s mouth and line it up with &quot; + setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; asshole.&quot;&gt;&gt;
@@ -20523,7 +20525,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 10&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 10&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You take your &quot; + _cock + &quot; out of &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s wet pussy and pull &quot; + setup.titleCase(_char.first_name) + &quot;\&#39;s &quot; + 
                 _char.physical_traits.hair_color + &quot; hair to line up &quot; + setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; head, but &quot; + setup.PRONOUNS[_char.gender][&quot;?he&quot;] + 
@@ -20626,7 +20628,7 @@ as changing the images based on the state
         &lt;&lt;if $player.conditions.stamina lt 10&gt;&gt;
             &lt;&lt;notify&gt;&gt;You are too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;elseif _char.conditions.stamina lt 10&gt;&gt;
-            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
+            &lt;&lt;notify&gt;&gt;&lt;&lt;= setup.titleCase(_char.first_name)&gt;&gt; is too tired!&lt;&lt;/notify&gt;&gt;
         &lt;&lt;else&gt;&gt;
             &lt;&lt;set _query_str = &quot;You grab your &quot; + _cock + &quot; out of &quot; + setup.titleCase(_char.first_name) + 
                 &quot;\&#39;s wet pussy and line it up with &quot; + setup.PRONOUNS[_char.gender][&quot;?his&quot;] + &quot; asshole.&quot;&gt;&gt;
@@ -21045,6 +21047,7 @@ as changing the images based on the state
 &lt;&lt;set _temp.setMinutes(_temp.getMinutes() - $_to_advance)&gt;&gt;
 &lt;&lt;if (_temp.getDay() != $gameDate.getDay() &amp;&amp; $gameDate.getHours() gte 7) ||
      (_temp.getDay() == $gameDate.getDay() &amp;&amp; $gameDate.getHours() gte 7 &amp;&amp; _temp.getHours() lt 7)&gt;&gt;
+    &lt;&lt;set $player.mental_conditions.arousal = 0&gt;&gt;
     &lt;&lt;for _key, _val range $characters&gt;&gt;
         &lt;&lt;run _val.reset_limits()&gt;&gt;
         &lt;&lt;set _val.conditions.stamina += 50 + _val.stats.strength&gt;&gt;
@@ -27534,6 +27537,7 @@ of completing them (unless it is a direct request from another character).
             } else {
                 str += &quot;hours.&quot;;
             }
+            str += &quot;&lt;&lt;/popover&gt;&gt;&quot;;
             $.wiki(str);
             $(&quot;.study_option button&quot;).addClass(&quot;disabled&quot;);
             $(&quot;.study_option button&quot;).prop(&quot;disabled&quot;, true);
@@ -29740,14 +29744,14 @@ of completing them (unless it is a direct request from another character).
         $.wiki(&quot;\
             &lt;&lt;popover&gt;&gt;&lt;center&gt;\
                 It seems your screensize is not properly configured for this game. Please zoom out \
-                your screen (CTRL + -) until it looks similar to this.\
+                your screen (CTRL -) until it looks similar to this.\
                 &lt;hr&gt;\
                 &lt;div id=\&quot;sample\&quot;&gt;&lt;/div&gt;\
                 &lt;hr&gt;\
                 Current Screen Height: &lt;&lt;= $(\&quot;html\&quot;).css(\&quot;height\&quot;)&gt;&gt;\
-                | Required Screen Height: 920px&lt;br&gt;\
+                | Minimum Required Screen Height: 920px&lt;br&gt;\
                 Current Screen Width: &lt;&lt;= $(\&quot;html\&quot;).css(\&quot;width\&quot;)&gt;&gt;\
-                | Required Screen Width: 1850px\
+                | Minimum Required Screen Width: 1850px\
             &lt;/center&gt;&lt;&lt;/popover&gt;&gt;&quot;);
     }
 }&gt;&gt;
