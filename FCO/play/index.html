@@ -29099,11 +29099,10 @@ of completing them (unless it is a direct request from another character).
 
 &lt;&lt;timed 50ms&gt;&gt;&lt;&lt;silently&gt;&gt;&lt;&lt;script&gt;&gt;
     $(&quot;.study button&quot;).on(&quot;click&quot;, (event) =&gt; {
-        let _v = State.variables
+        let _v = State.variables;
         let player = _v.player;
         $(&quot;.study button&quot;).removeClass(&quot;disabled&quot;);
         $(&quot;.study button&quot;).prop(&quot;disabled&quot;, false);
-        
         let self = $(event.currentTarget);
         let study_time = parseInt(self.html().replace(/\D/g,&#39;&#39;));
         State.temporary.to_advance_hr = study_time;
