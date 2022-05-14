@@ -21017,7 +21017,7 @@ as changing the images based on the state
             $.wiki(&quot;&lt;&lt;include round&gt;&gt;&quot;);
             $.wiki(&quot;&lt;&lt;include updateBars&gt;&gt;&quot;);
             if (self.html() != &quot;Oral sex&quot; &amp;&amp; self.html() != &quot;Vaginal sex&quot; &amp;&amp; self.html() != &quot;Anal sex&quot;) {
-                let thresh = setup.progressive_gain_chance(player.sex_skills.anal, 100);
+                let thresh = setup.progressive_gain_chance(player.sex_skills.anal, 100, &quot;root_inverse&quot;);
                 let roll = randomFloat(1.0);
                 if (roll &lt; thresh) {
                     player.sex_skills.anal += 1
@@ -21558,7 +21558,7 @@ as changing the images based on the state
             $.wiki(&quot;&lt;&lt;include round&gt;&gt;&quot;);
             $.wiki(&quot;&lt;&lt;include updateBars&gt;&gt;&quot;);
             if (self.html() != &quot;Oral sex&quot; &amp;&amp; self.html() != &quot;Vaginal sex&quot; &amp;&amp; self.html() != &quot;Anal sex&quot;) {
-                let thresh = setup.progressive_gain_chance(player.sex_skills.oral, 100);
+                let thresh = setup.progressive_gain_chance(player.sex_skills.oral, 100, &quot;root_inverse&quot;);
                 let roll = randomFloat(1.0);
                 if (roll &lt; thresh) {
                     player.sex_skills.oral += 1
@@ -22224,7 +22224,7 @@ as changing the images based on the state
             $.wiki(&quot;&lt;&lt;include round&gt;&gt;&quot;);
             $.wiki(&quot;&lt;&lt;include updateBars&gt;&gt;&quot;);
             if (self.html() != &quot;Oral sex&quot; &amp;&amp; self.html() != &quot;Vaginal sex&quot; &amp;&amp; self.html() != &quot;Anal sex&quot;) {
-                let thresh = setup.progressive_gain_chance(player.sex_skills.vaginal, 100);
+                let thresh = setup.progressive_gain_chance(player.sex_skills.vaginal, 100, &quot;root_inverse&quot;);
                 let roll = randomFloat(1.0);
                 if (roll &lt; thresh) {
                     player.sex_skills.vaginal += 1
